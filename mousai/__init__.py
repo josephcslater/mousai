@@ -7,17 +7,17 @@ Harmonic Balance is a set of implementations of the Harmonic Balance Method
 that can be coupled with external codes through connectivity modules.
 
 Documentation is available in the docstrings and online at
-https://github.com/josephcslater/harmonic_balance.
+https://github.com/josephcslater/mousai.
 Joseph C. Slater
 
 .. code-block:: python
 
-    >>> import harmonic_balance as hb
+    >>> import mousai as hb
 """
 
 from .har_bal import *
 
-__title__ = 'harmonic_balance'
+__title__ = 'mousai'
 __version__ = '0.1a'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'

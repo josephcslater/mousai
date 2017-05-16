@@ -24,7 +24,7 @@ from docutils.utils import get_source_line
 
 # Find modules and their help for inclusion in documentation
 sys.path.insert(0, os.path.abspath('.'))
-sys.path.append('../harmonic_balance')
+sys.path.append('../mousai')
 #sys.path.append('../JupyterNotebooks')
 sys.path.append('..')
 

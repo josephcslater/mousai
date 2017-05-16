@@ -18,7 +18,7 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 
-with open('harmonic_balance/__init__.py', 'rb') as fid:
+with open('mousai/__init__.py', 'rb') as fid:
     for line in fid:
         line = line.decode('utf-8')
         if line.startswith('__version__'):
@@ -26,15 +26,15 @@ with open('harmonic_balance/__init__.py', 'rb') as fid:
             break
 
 
-setup(name='harmonic_balance',
+setup(name='mousai',
       version=version,
       description='Harmonic Balance solvers.',
       author='Joseph C. Slater',
       author_email='joseph.c.slater@gmail.com',
-      url='https://github.com/josephcslater/harmonic_balance',
-      download_url='https://github.com/josephcslater/harmonic_balance',
-      packages=['harmonic_balance'],
-      package_data={'harmonic_balance': ['../README.md'], '': ['README.md']},
+      url='https://github.com/josephcslater/mousai',
+      download_url='https://github.com/josephcslater/mousai',
+      packages=['mousai'],
+      package_data={'mousai': ['../README.md'], '': ['README.md']},
       long_description=read('README.md'),
       keywords=['harmonic balance', 'numerical solvers',
                 'vibration', 'oscillation'],

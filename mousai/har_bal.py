@@ -4,12 +4,12 @@ import scipy.linalg as la
 # from scipy import pi, sin,cos
 # import matplotlib.pyplot as plt
 
-__all__ = ["harmonic_balance_so",
+__all__ = ["mousai_so",
            "harmonic_deriv",
            "somf"]
 
 
-def harmonic_balance_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
+def mousai_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second order differential equation under the

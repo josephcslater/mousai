@@ -8,14 +8,14 @@ Harmonic Balance Solver Package
 =============================================
 
 .. .. include:: <isonum.txt>
-.. image:: https://badge.fury.io/py/harmonic_balance.png/
-   :target: http://badge.fury.io/py/harmonic_balance
+.. image:: https://badge.fury.io/py/mousai.png/
+   :target: http://badge.fury.io/py/mousai
 
-.. image:: https://travis-ci.org/josephcslater/harmonic_balance.svg?branch=master
-   :target: https://travis-ci.org/josephcslater/harmonic_balance
+.. image:: https://travis-ci.org/josephcslater/mousai.svg?branch=master
+   :target: https://travis-ci.org/josephcslater/mousai
 
-.. image:: https://img.shields.io/pypi/v/harmonic_balance.svg
-   :target: https://img.shields.io/pypi/v/harmonic_balance
+.. image:: https://img.shields.io/pypi/v/mousai.svg
+   :target: https://img.shields.io/pypi/v/mousai
 
 
 Joseph C. Slater

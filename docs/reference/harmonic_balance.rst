@@ -1,4 +1,4 @@
-Harmonic Balance Tools (:mod:`harmonic_balance.har_bal`)
+Harmonic Balance Tools (:mod:`mousai.har_bal`)
 ------------------------------------------------------------------
 
 .. sectionauthor:: Joseph C. Slater
