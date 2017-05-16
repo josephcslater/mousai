@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Vibration Toolbox documentation build configuration file, created by
+# Mousai documentation build configuration file, created by
 # sphinx-quickstart on Sun Apr  9 10:02:35 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -30,10 +30,10 @@ sys.path.append('..')
 
 
 # Avoid needin to update version here for release
-from vibration_toolbox import __version__, __title__, __author__, __license__,\
+from mousai import __version__, __title__, __author__, __license__,\
     __copyright__
 
-# print("license is", __version__)
+# print("license is ", __version__)
 
 
 # -- General configuration ------------------------------------------------
@@ -81,7 +81,7 @@ numpydoc_use_plots = True
 
 
 # General information about the project.
-project = 'Harmonic Balance Solvers'
+project = 'Mousai'
 copyright = u'2017, Joseph C. Slater'
 author = u'Joseph C. Slater'
 
@@ -155,11 +155,11 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'HarmonicBalancedoc'
+htmlhelp_basename = 'Mousai'
 
 html_theme_options = {
 #    'logo': 'js.jpg',
-    'logo_name': 'Har Bal',
+    'logo_name': 'Mousai',
     'description': 'Harmonic Balance Solvers',
     'github_button': 'True',
     'github_user': 'josephcslater',
@@ -191,7 +191,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'HarmonicBalance.tex', 'Harmonic Balance Documentation',
+    (master_doc, 'Mousai.tex', 'Mousai Documentation',
      'Joseph C. Slater', 'manual'),
 ]
 
@@ -201,7 +201,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'harmonicbalance', 'Harmonic Balance Documentation',
+    (master_doc, 'Mousai', 'Mousai Documentation',
      [author], 1)
 ]
 
@@ -212,7 +212,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'HarmonicBalance', 'Harmonic Balance Documentation',
-     author, 'HarmonicBalance', 'One line description of project.',
+    (master_doc, 'Mousai', 'Mousai Documentation',
+     author, 'Mousai', 'One line description of project.',
      'Miscellaneous'),
 ]

@@ -1,10 +1,10 @@
-.. Vibration Toolbox documentation master file, created by
+.. Mousai documentation master file, created by
    sphinx-quickstart on Sun Apr  9 10:02:35 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 =============================================
-Harmonic Balance Solver Package
+Mousai: A Set of Harmonic Balance Solvers
 =============================================
 
 .. .. include:: <isonum.txt>
@@ -20,7 +20,7 @@ Harmonic Balance Solver Package
 
 Joseph C. Slater
 
-Harmonic Balance Solvers.
+Mousai
 
 Table of Contents
 -----------------

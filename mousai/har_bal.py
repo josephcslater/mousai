@@ -227,7 +227,7 @@ if __name__ == "__main__":
     https://docs.python.org/3.5/library/doctest.html
     """
 
-    # import vibration_toolbox as vtb
+    # import mousai as ms
 
     # doctest.run_docstring_examples(frfest,globals(),optionflags=doctest.ELLIPSIS)
     # doctest.run_docstring_examples(asd,globals(),optionflags=doctest.ELLIPSIS)

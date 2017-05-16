@@ -1,4 +1,4 @@
-This is the folder for building the complete documentation for the Vibration Toolbox. The actual documentation is hosted via `githubpages <http://vibrationtoolbox.github.io/vibration_toolbox/>`_.
+This is the folder for building the complete documentation for Mousai. The actual documentation is hosted elsewhere.
 
 The remainder of this document contains notes for developers.
 
