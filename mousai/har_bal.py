@@ -1,7 +1,8 @@
 import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
-from scipy import pi, sin,cos
+from scipy import pi, sin, cos
+from scipy.optimize import *
 # import matplotlib.pyplot as plt
 
 __all__ = ["hb_so",
@@ -71,16 +72,17 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
 
     """
 
-    import scipy.optimize as spo
     kwargs['function'] = sdfunc  # function that returns SO derivative
 
     # this is the format of the call.
     # optimize
-    t = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
+    time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
+    kwargs['time'] = time
+    kwargs['omega'] = omega
     x = globals()[method](hb_so_err, x0, f_tol=1e-14, kwargs=kwargs)
     v = harmonic_deriv(omega, x)
     a = harmonic_deriv(omega, v)
-    amps = sp.absolute(fftp.fft(x)*2/len(t))[:, 1]
+    amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
 
     '''
     a) define a function that returns errors in time domain as vector
@@ -89,7 +91,7 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     c)
     '''
 
-    return t, x, v, a, amps
+    return time, x, v, a, amps
 
 
 def harmonic_deriv(omega, r):
@@ -184,11 +186,10 @@ def hb_so_err(x, **kwargs):
     algebraic solver functions to call `hb_so_err` cleanly.
 
     The algorithm is as follows:
-        1. The vector `x` is reshaped into an :math:`n` by :math:`m` array
-        2. The velocity and accelerations are calculated in the same shape as
+        1. The velocity and accelerations are calculated in the same shape as
            `x` as `vel` and `accel`.
         3. Each column of `x` and `v` are sent with `t`, `omega`, and other
-           `**kwargs** are sent to `function` one at a time with the results
+           `**kwargs** to `function` one at a time with the results
            agregated into the columns of `accel_num`.
         4. The difference between `accel_num` and `accel` is reshaped to be
            :math:`n \\times m` by 1 and returned as the vector error used by
@@ -198,13 +199,17 @@ def hb_so_err(x, **kwargs):
     n_har = kwargs['n_har']
     omega = kwargs['omega']
     function = kwargs['function']
+    time = kwargs['time']
+    reduced_kwargs = kwargs
+    del reduced_kwargs['time']
     m = 1 + 2 * n_har
     vel = harmonic_deriv(omega, x)
     accel = harmonic_deriv(omega, vel)
     accel_num = sp.zeros_like(accel)
 
     for i in sp.arange(m):
-        accel_num[:, i] = globals()[function](x[:, i], vel[:, i], kwargs)
+        accel_num[:, i] = globals()[function](x[:, i], vel[:, i], time[i],
+                                              reduced_kwargs)
 
     e = accel_num - accel
 
@@ -244,6 +249,12 @@ def solmf(x, v, M, C, K, F):
     return -la.solve(M, C @ v + K @ x - F)
 
 
+def duff_osc(x, v, t, **kwargs):
+    omega = kwargs['omega']
+    t = kwargs['t']
+    return -x-.2*x**2-.02*v+sin(omega*t)
+
+'''
 if __name__ == "__main__":
     """Run doctests.
 
@@ -264,3 +275,4 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod(optionflags=doctest.ELLIPSIS |
                     doctest.NORMALIZE_WHITESPACE)
+'''
