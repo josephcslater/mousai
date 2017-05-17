@@ -2,12 +2,15 @@ import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
 from scipy import pi, sin, cos
-from scipy.optimize import *
+from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
+                           excitingmixing, linearmixing, diagbroyden
 # import matplotlib.pyplot as plt
 
 __all__ = ["hb_so",
            "harmonic_deriv",
-           "solmf"]
+           "solmf",
+           "duff_osc",
+           "hb_so_err"]
 
 
 def hb_so(sdfunc, x0, omega, method='newton_krylov',
