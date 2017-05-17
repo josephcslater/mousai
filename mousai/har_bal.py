@@ -9,7 +9,8 @@ __all__ = ["hb_so",
            "solmf"]
 
 
-def hb_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
+def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
+          num_harmonics=1):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second order differential equation under the
@@ -23,8 +24,10 @@ def hb_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
     Parameters
     ----------
     sdfunc: str
-        name of function that returns second derivative given omega and
+        name of function that returns **column vector** second derivative
+        given omega and
         \*kwargs
+
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
     omega:  float
         assumed fundamental response frequency.
@@ -33,13 +36,38 @@ def hb_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
     x0: ndarray
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
-        It is required that :math:`m = 1 + 2  num_{harmonics}`.
+        It is required that :math:`m = 1 + 2 num_{harmonics}`.
     method: str
         Name of optimization method to be used.
 
     Returns
     -------
     t, x, v, a : ndarrays
+        time, displacement history (time steps along columns), velocity and
+        acceleration
+    amp : float
+        amplitude of displacement
+
+    Notes:
+    ------
+    Calls a linear algebra function from
+    `scipy.optimize.nonlin
+    <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
+    newton_krylov as the default.
+
+    Algorithm:
+        1. calls `hb_so_err` with x as the variable to solve for.
+        2. `hb_so_err` uses a Fourier representation of x to obtain velocities
+           (after an inverse fft) then calls `sdfunc` to determine
+           accelerations.
+        3. Accelerations are also obtained using a Fourier representation of x
+        4. Error in the accelerations are the functional error used by the
+           nonlinear algebraic solver (default `newton_krylov`) to be minimized
+           by the solver.
+
+    Options can be passed in by \*kwargs. Defaults are not yet well defined nor
+    easily modified yet.
+
     """
 
     '''
@@ -50,6 +78,16 @@ def hb_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
     '''
 
     return
+
+"""
+optimizer will actually be solver from scipy.optimize
+from scipy.optimize
+Say:
+newton_krylov
+broyden1
+https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html
+
+"""
 
 
 def harmonic_deriv(omega, r):
@@ -203,15 +241,7 @@ def hb_so_err(x, **kwargs):
 
     return e
 
-"""
-optimizer will actually be solver from scipy.optimize
-from scipy.optimize
-Say:
-newton_krylov
-broyden1
-https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html
 
-"""
 
 
 if __name__ == "__main__":
