@@ -3,7 +3,7 @@
 # Distributed under the terms of the BSD-3-Clause License.
 
 """
-Harmonic Balance is a set of implementations of the Harmonic Balance Method
+Mousai is a set of implementations of the Harmonic Balance Method
 that can be coupled with external codes through connectivity modules.
 
 Documentation is available in the docstrings and online at
@@ -12,8 +12,9 @@ Joseph C. Slater
 
 .. code-block:: python
 
-    >>> import mousai as hb
+    >>> import mousai as ms
 """
+# import sys
 
 from .har_bal import *
 
