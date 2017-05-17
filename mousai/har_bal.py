@@ -4,18 +4,18 @@ import scipy.linalg as la
 # from scipy import pi, sin,cos
 # import matplotlib.pyplot as plt
 
-__all__ = ["mousai_so",
+__all__ = ["hb_so",
            "harmonic_deriv",
-           "somf"]
+           "solmf"]
 
 
-def mousai_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
+def hb_so(sdfunc, x0, omega, method, *kwargs, num_harmonics=1):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second order differential equation under the
     presumption that the solution is harmonic.
 
-    Returns t (time), x (displacement), v (velocity), and a (acceletation)
+    Returns t (time), x (displacement), v (velocity), and a (acceleration)
     response of a second order linear ordinary differential
     equation defined by
     :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`.
@@ -79,7 +79,7 @@ def harmonic_deriv(omega, r):
     Examples
     --------
     >>> import matplotlib.pyplot as plt
-    >>> from har_bal import *
+    >>> from mousai import *
     >>> import scipy as sp
     >>> from scipy import pi,sin,cos
     >>> f = 2
@@ -103,7 +103,7 @@ def harmonic_deriv(omega, r):
     return sp.real(s)
 
 
-def somf(x, v, M, C, K, F):
+def solmf(x, v, M, C, K, F):
     """Acceleration of second order linear matrix system.
 
     Parameters
@@ -127,7 +127,7 @@ def somf(x, v, M, C, K, F):
     >>> x = sp.array([[1],[0]])
     >>> v = sp.array([[0],[10]])
     >>> F = v * 0.1
-    >>> a = somf(x, v, M, C, K, F)
+    >>> a = solmf(x, v, M, C, K, F)
     >>> print(a)
         [[-0.95]
          [ 1.6 ]]
