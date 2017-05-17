@@ -30,6 +30,7 @@ help:
 	@echo "  gh-pages   build and release docs"
 
 clean:
+  make -C docs clean
 	rm -rf build
 	rm -rf dist
 	find . -name "*.pyc" -o -name "*.py,cover"| xargs rm -f
