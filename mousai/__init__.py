@@ -25,10 +25,12 @@ __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
 __name__ = 'mousai'
 __package__ = 'mousai'
-__all__ = ['har_bal', '__version__']
+#__all__ = ['har_bal', '__version__']
 
-__all__ += ["hb_so",
+# When everything is imported from mousai, define "everything below"
+'''__all__ += ["hb_so",
             "harmonic_deriv",
             "solmf",
             "duff_osc",
             "hb_so_err"]
+'''
