@@ -1,7 +1,7 @@
 import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
-# from scipy import pi, sin,cos
+from scipy import pi, sin,cos
 # import matplotlib.pyplot as plt
 
 __all__ = ["hb_so",
@@ -9,8 +9,8 @@ __all__ = ["hb_so",
            "solmf"]
 
 
-def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
-          num_harmonics=1):
+def hb_so(sdfunc, x0, omega, method='newton_krylov',
+          num_harmonics=1, **kwargs):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second order differential equation under the
@@ -26,11 +26,11 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
     sdfunc: str
         name of function that returns **column vector** second derivative
         given omega and
-        \*kwargs
+        \*\*kwargs
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
     omega:  float
-        assumed fundamental response frequency.
+        assumed fundamental response frequency in radians per second.
     num_harmonics: int
         number of harmonics to presume. Constant term is always presumed.
     x0: ndarray
@@ -39,14 +39,16 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
         It is required that :math:`m = 1 + 2 num_{harmonics}`.
     method: str
         Name of optimization method to be used.
+    other: any
+        Other keywoard arguments available to nonlinear solvers.
 
     Returns
     -------
     t, x, v, a : ndarrays
         time, displacement history (time steps along columns), velocity and
         acceleration
-    amp : float
-        amplitude of displacement
+    amps : float array
+        amplitudes of displacement in column vector format.
 
     Notes:
     ------
@@ -65,10 +67,20 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
            nonlinear algebraic solver (default `newton_krylov`) to be minimized
            by the solver.
 
-    Options can be passed in by \*kwargs. Defaults are not yet well defined nor
-    easily modified yet.
+    Options can be passed in by \*\*kwargs.
 
     """
+
+    import scipy.optimize as spo
+    kwargs['function'] = sdfunc  # function that returns SO derivative
+
+    # this is the format of the call.
+    # optimize
+    t = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
+    x = globals()[method](hb_so_err, x0, f_tol=1e-14, kwargs=kwargs)
+    v = harmonic_deriv(omega, x)
+    a = harmonic_deriv(omega, v)
+    amps = sp.absolute(fftp.fft(x)*2/len(t))[:, 1]
 
     '''
     a) define a function that returns errors in time domain as vector
@@ -77,17 +89,7 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov', *kwargs,
     c)
     '''
 
-    return
-
-"""
-optimizer will actually be solver from scipy.optimize
-from scipy.optimize
-Say:
-newton_krylov
-broyden1
-https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html
-
-"""
+    return t, x, v, a, amps
 
 
 def harmonic_deriv(omega, r):
@@ -139,39 +141,6 @@ def harmonic_deriv(omega, r):
     s_freq = r_freq * omega_whole
     s = fftp.ifft(s_freq)
     return sp.real(s)
-
-
-def solmf(x, v, M, C, K, F):
-    """Acceleration of second order linear matrix system.
-
-    Parameters
-    ----------
-    x, v, F : arrays
-        :math:`n\\times 1` arrays of current displacement, velocity, and Force.
-    M, C, K : arrays
-        Mass, damping, and stiffness matrices.
-
-    Returns
-    -------
-    a : array
-        :math:`n\\times 1` acceleration vector
-
-    Examples
-    --------
-    >>> import scipy as sp
-    >>> M = sp.array([[2,0],[0,1]])
-    >>> K = sp.array([[2,-1],[-1,3]])
-    >>> C = 0.01 * M + 0.01 * K
-    >>> x = sp.array([[1],[0]])
-    >>> v = sp.array([[0],[10]])
-    >>> F = v * 0.1
-    >>> a = solmf(x, v, M, C, K, F)
-    >>> print(a)
-        [[-0.95]
-         [ 1.6 ]]
-    """
-
-    return -la.solve(M, C @ v + K @ x - F)
 
 
 def hb_so_err(x, **kwargs):
@@ -242,6 +211,37 @@ def hb_so_err(x, **kwargs):
     return e
 
 
+def solmf(x, v, M, C, K, F):
+    """Acceleration of second order linear matrix system.
+
+    Parameters
+    ----------
+    x, v, F : arrays
+        :math:`n\\times 1` arrays of current displacement, velocity, and Force.
+    M, C, K : arrays
+        Mass, damping, and stiffness matrices.
+
+    Returns
+    -------
+    a : array
+        :math:`n\\times 1` acceleration vector
+
+    Examples
+    --------
+    >>> import scipy as sp
+    >>> M = sp.array([[2,0],[0,1]])
+    >>> K = sp.array([[2,-1],[-1,3]])
+    >>> C = 0.01 * M + 0.01 * K
+    >>> x = sp.array([[1],[0]])
+    >>> v = sp.array([[0],[10]])
+    >>> F = v * 0.1
+    >>> a = solmf(x, v, M, C, K, F)
+    >>> print(a)
+        [[-0.95]
+         [ 1.6 ]]
+    """
+
+    return -la.solve(M, C @ v + K @ x - F)
 
 
 if __name__ == "__main__":
