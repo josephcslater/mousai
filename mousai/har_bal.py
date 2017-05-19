@@ -88,8 +88,8 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     kwargs['omega'] = omega
     kwargs['method'] = method
     kwargs['n_har'] = num_harmonics
-    print(kwargs)
-    x = globals()['hb_so_err'](x0, **kwargs, f_tol=1e-14)
+    # print(kwargs)
+    x = globals()[method](hb_so_err, x0, kw = kwargs)
     v = harmonic_deriv(omega, x)
     a = harmonic_deriv(omega, v)
     amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
@@ -145,7 +145,7 @@ def harmonic_deriv(omega, r):
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
     """
-    print(r)
+    # print(r)
     n = r.shape[1]
     omega_half = -sp.arange((n-1)/2+1) * omega * 2j/(n-2)
     omega_whole = sp.append(sp.conj(omega_half[-1:0:-1]), omega_half)
@@ -205,7 +205,9 @@ def hb_so_err(x, **kwargs):
            :math:`n \\times m` by 1 and returned as the vector error used by
            the numerical algebraic equation solver.
     """
-    print('hello')
+    # print('hello')
+    # print(kwargs)
+    print('Harmonic Balance Error Function')
     print(kwargs)
     n_har = kwargs['n_har']
     omega = kwargs['omega']
@@ -224,7 +226,7 @@ def hb_so_err(x, **kwargs):
                                               reduced_kwargs)
 
     e = accel_num - accel
-
+    print(e)
     return e
 
 
