@@ -54,7 +54,12 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     amps : float array
         amplitudes of displacement in column vector format.
 
-    Notes:
+    Examples
+    --------
+    >>> import mousai as ms
+    >>> x = ms.hb_so('duff_osc', sp.array([0,1,-1]), .9)
+
+    Notes
     ------
     Calls a linear algebra function from
     `scipy.optimize.nonlin
@@ -72,7 +77,6 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
            by the solver.
 
     Options can be passed in by \*\*kwargs.
-
     """
 
     kwargs['function'] = sdfunc  # function that returns SO derivative
@@ -82,7 +86,10 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
     kwargs['time'] = time
     kwargs['omega'] = omega
-    x = globals()[method](hb_so_err, x0, f_tol=1e-14, kwargs=kwargs)
+    kwargs['method'] = method
+    kwargs['n_har'] = num_harmonics
+    print(kwargs)
+    x = globals()['hb_so_err'](x0, **kwargs, f_tol=1e-14)
     v = harmonic_deriv(omega, x)
     a = harmonic_deriv(omega, v)
     amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
@@ -138,7 +145,7 @@ def harmonic_deriv(omega, r):
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
     """
-
+    print(r)
     n = r.shape[1]
     omega_half = -sp.arange((n-1)/2+1) * omega * 2j/(n-2)
     omega_whole = sp.append(sp.conj(omega_half[-1:0:-1]), omega_half)
@@ -198,7 +205,8 @@ def hb_so_err(x, **kwargs):
            :math:`n \\times m` by 1 and returned as the vector error used by
            the numerical algebraic equation solver.
     """
-
+    print('hello')
+    print(kwargs)
     n_har = kwargs['n_har']
     omega = kwargs['omega']
     function = kwargs['function']
@@ -211,7 +219,8 @@ def hb_so_err(x, **kwargs):
     accel_num = sp.zeros_like(accel)
 
     for i in sp.arange(m):
-        accel_num[:, i] = globals()[function](x[:, i], vel[:, i], time[i],
+        reduced_kwargs['time'] = time[i]
+        accel_num[:, i] = globals()[function](x[:, i], vel[:, i],
                                               reduced_kwargs)
 
     e = accel_num - accel
@@ -252,9 +261,11 @@ def solmf(x, v, M, C, K, F):
     return -la.solve(M, C @ v + K @ x - F)
 
 
-def duff_osc(x, v, t, **kwargs):
-    omega = kwargs['omega']
-    t = kwargs['t']
+def duff_osc(x, v, reduced_kwargs):
+    # print('duff osc')
+    # print(reduced_kwargs)
+    omega = reduced_kwargs['omega']
+    t = reduced_kwargs['time']
     return -x-.2*x**2-.02*v+sin(omega*t)
 
 '''
