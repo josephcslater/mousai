@@ -231,11 +231,12 @@ def hb_so_err(x):
     accel = harmonic_deriv(omega, vel)
     accel_from_deriv = sp.zeros_like(accel)
 
+    #  Should subtract in place below to save memory for large problems
     for i in sp.arange(m):
         t = time[i]  # This should enable t to be used for current time in
         #  loops
         #  Note that everything in params can be accessed within `function`.
-        accel_num[:, i] = globals()[function](x[:, i], vel[:, i])
+        accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i])
 
     e = accel_from_deriv - accel
     print(e)
