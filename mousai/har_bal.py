@@ -13,8 +13,8 @@ __all__ = ["hb_so",
            "hb_so_err"]
 
 
-def hb_so(sdfunc, x0, omega, method='newton_krylov',
-          num_harmonics=1, **kwargs):
+def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
+          params={}, **kwargs):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second order differential equation under the
@@ -36,19 +36,24 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     omega:  float
         assumed fundamental response frequency in radians per second.
     num_harmonics: int
-        number of harmonics to presume. Constant term is always presumed.
+        number of harmonics to presume. omega = 0 constant term is always
+        presumed to exist. Minimum (and default) is 1.
     x0: ndarray
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
-        It is required that :math:`m = 1 + 2 num_{harmonics}`.
+        It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
+        generalize allowable default values later.)
     method: str
         Name of optimization method to be used.
+    params: dict
+        Dictionary of parameters needed by sdfunc.
     other: any
-        Other keywoard arguments available to nonlinear solvers.
+        Other keyword arguments available to nonlinear solvers in
+        ``scipy.optim.nonlin``. See Notes.
 
     Returns
     -------
-    t, x, v, a : ndarrays
+    t, x, v, a: ndarrays
         time, displacement history (time steps along columns), velocity and
         acceleration
     amps : float array
@@ -79,17 +84,17 @@ def hb_so(sdfunc, x0, omega, method='newton_krylov',
     Options can be passed in by \*\*kwargs.
     """
 
-    kwargs['function'] = sdfunc  # function that returns SO derivative
+    params['function'] = sdfunc  # function that returns SO derivative
 
     # this is the format of the call.
     # optimize
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
-    kwargs['time'] = time
-    kwargs['omega'] = omega
-    kwargs['method'] = method
-    kwargs['n_har'] = num_harmonics
+    params['time'] = time
+    params['omega'] = omega
+    params['n_har'] = num_harmonics
     # print(kwargs)
-    x = globals()[method](hb_so_err, x0, kw = kwargs)
+    print('kwargs not being sent to optimizer')
+    x = globals()[method](hb_so_err, x0)  # , kwargs)
     v = harmonic_deriv(omega, x)
     a = harmonic_deriv(omega, v)
     amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
@@ -155,7 +160,7 @@ def harmonic_deriv(omega, r):
     return sp.real(s)
 
 
-def hb_so_err(x, **kwargs):
+def hb_so_err(x):
     """Array (vector) of hamonic balance second order algebraic errors.
 
     Given a set of second order equations
@@ -208,24 +213,31 @@ def hb_so_err(x, **kwargs):
     # print('hello')
     # print(kwargs)
     print('Harmonic Balance Error Function')
-    print(kwargs)
-    n_har = kwargs['n_har']
-    omega = kwargs['omega']
-    function = kwargs['function']
-    time = kwargs['time']
-    reduced_kwargs = kwargs
+    #  params is defined in the calling function, so this has an environmental
+    #  scope
+    print(params)
+    #  ------------Not sure any of this has value. Much can be deleted.
+    n_har = params['n_har']
+    omega = params['omega']
+    function = params['function']
+    reduced_kwargs = params
+    #  ------------ May be able to delete all above.
+
+    time = params['time']  # This is indeed used.
+
     del reduced_kwargs['time']
     m = 1 + 2 * n_har
     vel = harmonic_deriv(omega, x)
     accel = harmonic_deriv(omega, vel)
-    accel_num = sp.zeros_like(accel)
+    accel_from_deriv = sp.zeros_like(accel)
 
     for i in sp.arange(m):
-        reduced_kwargs['time'] = time[i]
-        accel_num[:, i] = globals()[function](x[:, i], vel[:, i],
-                                              reduced_kwargs)
+        t = time[i]  # This should enable t to be used for current time in
+        #  loops
+        #  Note that everything in params can be accessed within `function`.
+        accel_num[:, i] = globals()[function](x[:, i], vel[:, i])
 
-    e = accel_num - accel
+    e = accel_from_deriv - accel
     print(e)
     return e
 
