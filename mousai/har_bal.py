@@ -9,8 +9,7 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
 __all__ = ["hb_so",
            "harmonic_deriv",
            "solmf",
-           "duff_osc"]#,
-           #"hb_so_err"]
+           "duff_osc"]
 
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
@@ -62,7 +61,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     Examples
     --------
     >>> import mousai as ms
-    >>> x = ms.hb_so('duff_osc', sp.array([0,1,-1]), .9)
+    >>> t, x, v, a, amp = ms.hb_so('duff_osc', sp.array([[0,1,-1]]), .7)
 
     Notes
     ------
@@ -70,6 +69,10 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     `scipy.optimize.nonlin
     <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
     newton_krylov as the default.
+
+    Needs quasi-linear estimator for starting point.
+
+    Should gently "walk" solution up to get to nonlinearities.
 
     Algorithm:
         1. calls `hb_so_err` with x as the variable to solve for.
@@ -93,7 +96,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
-    #print(params)
+    # print(params)
     # print(kwargs)
 
     def hb_so_err(x):
