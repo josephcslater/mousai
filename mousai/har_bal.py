@@ -9,8 +9,8 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
 __all__ = ["hb_so",
            "harmonic_deriv",
            "solmf",
-           "duff_osc",
-           "hb_so_err"]
+           "duff_osc"]#,
+           #"hb_so_err"]
 
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
@@ -89,12 +89,104 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     # this is the format of the call.
     # optimize
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
+    print(time)
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
+    #print(params)
     # print(kwargs)
+
+    def hb_so_err(x):
+        """Array (vector) of hamonic balance second order algebraic errors.
+
+        Given a set of second order equations
+        :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
+        calculate the error :math:`E = \ddot{x} - f(x, \dot{x}, \omega, t)`
+        presuming that :math:`x` can be represented as a Fourier series, and
+        thus :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the
+        Fourier series representation of :math:`x`.
+
+        Parameters
+        ----------
+        x : array
+            x is an :math:`n \\times m` by 1 array of presumed displacements.
+            It must be a "list" array (not a linear algebra vector). Here
+            :math:`n` is the number of displacements and :math:`m` is the
+            number of times per cycle at which the displacement is guessed
+            (minimum of 3)
+
+        **kwargs : string, float, variable
+            **kwargs is a packed set of keyword arguments with 3 required
+            arguments.
+                1. `function`: a string name of the function which returned
+                the numerically calculated acceleration.
+
+                2. `omega`: which is the defined fundamental harmonic
+                at which the is desired.
+
+                3. `n_har`: an integer representing the number of harmonics.
+                Note that `m` above is equal to 1 + 2 * `n_har`.
+
+        Returns
+        -------
+        e : array
+            2d numpy vector array of numerical error of presumed solution(s)
+            `x`
+
+        Notes
+        -----
+        `function` and `omega` are not separately defined arguments so as to
+        enable algebraic solver functions to call `hb_so_err` cleanly.
+
+        The algorithm is as follows:
+            1. The velocity and accelerations are calculated in the same shape
+               as `x` as `vel` and `accel`.
+            3. Each column of `x` and `v` are sent with `t`, `omega`, and other
+               `**kwargs** to `function` one at a time with the results
+               agregated into the columns of `accel_num`.
+            4. The difference between `accel_num` and `accel` is reshaped to be
+               :math:`n \\times m` by 1 and returned as the vector error used
+               by the numerical algebraic equation solver.
+        """
+        # print('hello')
+        # print(kwargs)
+        nonlocal params  # global? Arghhh
+        print('Harmonic Balance Error Function')
+        #  params is defined in the calling function, so this has an
+        #  environmental
+        #  scope
+        #  print('params inside error', params)
+        #  ------------Not sure any of this has value. Much can be deleted.
+        n_har = params['n_har']
+        omega = params['omega']
+        function = params['function']
+        # reduced_kwargs = params
+        #  ------------ May be able to delete all above.
+
+        time = params['time']  # This is indeed used.
+        #  del reduced_kwargs['time']
+        m = 1 + 2 * n_har
+        print(x)
+        vel = harmonic_deriv(omega, x)
+        print(vel)
+
+        accel = harmonic_deriv(omega, vel)
+        accel_from_deriv = sp.zeros_like(accel)
+
+        # Should subtract in place below to save memory for large problems
+        for i in sp.arange(m):
+            t = time[i]  # This should enable t to be used for current time in
+            params['cur_time'] = time[i]  # loops
+            # Note that everything in params can be accessed within `function`.
+            accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
+                                                         params)
+
+        e = accel_from_deriv - accel
+        print(e)
+        return e
+
     print('kwargs not being sent to optimizer')
-    x = globals()[method](hb_so_err, x0)  # , kwargs)
+    x = globals()[method](hb_so_err, x0, maxiter=5)  # , kwargs)
     v = harmonic_deriv(omega, x)
     a = harmonic_deriv(omega, v)
     amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
@@ -105,92 +197,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     and frequencies.
     c)
     '''
-
     return time, x, v, a, amps
-
-
-def hb_so_err(x):
-    """Array (vector) of hamonic balance second order algebraic errors.
-
-    Given a set of second order equations
-    :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
-    calculate the error :math:`E = \ddot{x} - f(x, \dot{x}, \omega, t)`
-    presuming that :math:`x` can be represented as a Fourier series, and thus
-    :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the Fourier
-    series representation of :math:`x`.
-
-    Parameters
-    ----------
-    x : array
-        x is an :math:`n \\times m` by 1 array of presumed displacements. It
-        must be a "list" array (not a linear algebra vector). Here
-        :math:`n` is the number of displacements and :math:`m` is the number of
-        times per cycle at which the displacement is guessed (minimum of 3)
-
-    **kwargs : string, float, variable
-        **kwargs is a packed set of keyword arguments with 3 required
-        arguments.
-            1. `function`: a string name of the
-            function which returned the numerically calculated acceleration.
-
-            2. `omega`: which is the defined fundamental harmonic
-            at which the is desired.
-
-            3. `n_har`: an integer representing the number of harmonics. Note
-            that `m` above is equal to 1 + 2 * `n_har`.
-
-    Returns
-    -------
-    e : array
-        2d numpy vector array of numerical error of presumed solution(s) `x`
-
-    Notes
-    -----
-    `function` and `omega` are not separately defined arguments so as to enable
-    algebraic solver functions to call `hb_so_err` cleanly.
-
-    The algorithm is as follows:
-        1. The velocity and accelerations are calculated in the same shape as
-           `x` as `vel` and `accel`.
-        3. Each column of `x` and `v` are sent with `t`, `omega`, and other
-           `**kwargs** to `function` one at a time with the results
-           agregated into the columns of `accel_num`.
-        4. The difference between `accel_num` and `accel` is reshaped to be
-           :math:`n \\times m` by 1 and returned as the vector error used by
-           the numerical algebraic equation solver.
-    """
-    # print('hello')
-    # print(kwargs)
-    nonlocal params # global? Arghhh
-    print('Harmonic Balance Error Function')
-    #  params is defined in the calling function, so this has an environmental
-    #  scope
-    print(params)
-    #  ------------Not sure any of this has value. Much can be deleted.
-    n_har = params['n_har']
-    omega = params['omega']
-    function = params['function']
-    reduced_kwargs = params
-    #  ------------ May be able to delete all above.
-
-    time = params['time']  # This is indeed used.
-
-    del reduced_kwargs['time']
-    m = 1 + 2 * n_har
-    vel = harmonic_deriv(omega, x)
-    accel = harmonic_deriv(omega, vel)
-    accel_from_deriv = sp.zeros_like(accel)
-
-    #  Should subtract in place below to save memory for large problems
-    for i in sp.arange(m):
-        t = time[i]  # This should enable t to be used for current time in
-        #  loops
-        #  Note that everything in params can be accessed within `function`.
-        accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i])
-
-    e = accel_from_deriv - accel
-    print(e)
-    return e
 
 
 def harmonic_deriv(omega, r):
@@ -277,12 +284,15 @@ def solmf(x, v, M, C, K, F):
     return -la.solve(M, C @ v + K @ x - F)
 
 
-def duff_osc(x, v, reduced_kwargs):
+def duff_osc(x, v, params):
     # print('duff osc')
     # print(reduced_kwargs)
-    omega = reduced_kwargs['omega']
-    t = reduced_kwargs['time']
-    return -x-.2*x**2-.02*v+sin(omega*t)
+    omega = params['omega']
+    t = params['cur_time']
+    '''print('t=',t)
+    print('x = ', x)
+    print('v = ', v)'''
+    return -x-.1*x**3-.2*v+sin(omega*t)
 
 '''
 if __name__ == "__main__":
