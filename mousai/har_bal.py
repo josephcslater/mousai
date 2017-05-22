@@ -85,7 +85,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     """
 
     params['function'] = sdfunc  # function that returns SO derivative
-
+    print('params: ', params)
     # this is the format of the call.
     # optimize
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
@@ -107,57 +107,6 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     '''
 
     return time, x, v, a, amps
-
-
-def harmonic_deriv(omega, r):
-    """Derivative of a harmonic function using frequency methods.
-
-    Returns the derivatives of a harmonic function
-
-    Parameters
-    ----------
-    omega: float
-        Fundamendal frequency, in rad/sec, of repeating signal
-    r: array
-        | Array of rows of time histories to take the derivative of.
-        | The 1 axis (each row) corresponds to a time history.
-        | The length of the time histories *must be an odd integer*.
-
-    Returns
-    -------
-    s: array
-        array of function derivatives.
-        The 1 axis (each row) corresponds to a time history.
-
-    Notes
-    -----
-    At this time, the length of the time histories *must be an odd integer*.
-
-    Examples
-    --------
-    >>> import matplotlib.pyplot as plt
-    >>> from mousai import *
-    >>> import scipy as sp
-    >>> from scipy import pi,sin,cos
-    >>> f = 2
-    >>> omega = 2.*pi * f
-    >>> numsteps = 11
-    >>> t = sp.arange(0,1/omega*2*pi,1/omega*2*pi/numsteps)
-    >>> x = sp.array([sin(omega*t)])
-    >>> v = sp.array([omega*cos(omega*t)])
-    >>> states = sp.append(x,v,axis = 0)
-    >>> state_derives = harmonic_deriv(omega,states)
-    >>> plt.plot(t,states.T,t,state_derives.T,'x')
-    [<matplotlib.line...]
-    """
-    # print(r)
-    n = r.shape[1]
-    omega_half = -sp.arange((n-1)/2+1) * omega * 2j/(n-2)
-    omega_whole = sp.append(sp.conj(omega_half[-1:0:-1]), omega_half)
-    r_freq = fftp.fft(r)
-    s_freq = r_freq * omega_whole
-    s = fftp.ifft(s_freq)
-    return sp.real(s)
 
 
 def hb_so_err(x):
@@ -212,6 +161,7 @@ def hb_so_err(x):
     """
     # print('hello')
     # print(kwargs)
+    nonlocal params # global? Arghhh
     print('Harmonic Balance Error Function')
     #  params is defined in the calling function, so this has an environmental
     #  scope
@@ -241,6 +191,57 @@ def hb_so_err(x):
     e = accel_from_deriv - accel
     print(e)
     return e
+
+
+def harmonic_deriv(omega, r):
+    """Derivative of a harmonic function using frequency methods.
+
+    Returns the derivatives of a harmonic function
+
+    Parameters
+    ----------
+    omega: float
+        Fundamendal frequency, in rad/sec, of repeating signal
+    r: array
+        | Array of rows of time histories to take the derivative of.
+        | The 1 axis (each row) corresponds to a time history.
+        | The length of the time histories *must be an odd integer*.
+
+    Returns
+    -------
+    s: array
+        array of function derivatives.
+        The 1 axis (each row) corresponds to a time history.
+
+    Notes
+    -----
+    At this time, the length of the time histories *must be an odd integer*.
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> from mousai import *
+    >>> import scipy as sp
+    >>> from scipy import pi,sin,cos
+    >>> f = 2
+    >>> omega = 2.*pi * f
+    >>> numsteps = 11
+    >>> t = sp.arange(0,1/omega*2*pi,1/omega*2*pi/numsteps)
+    >>> x = sp.array([sin(omega*t)])
+    >>> v = sp.array([omega*cos(omega*t)])
+    >>> states = sp.append(x,v,axis = 0)
+    >>> state_derives = harmonic_deriv(omega,states)
+    >>> plt.plot(t,states.T,t,state_derives.T,'x')
+    [<matplotlib.line...]
+    """
+    # print(r)
+    n = r.shape[1]
+    omega_half = -sp.arange((n-1)/2+1) * omega * 2j/(n-2)
+    omega_whole = sp.append(sp.conj(omega_half[-1:0:-1]), omega_half)
+    r_freq = fftp.fft(r)
+    s_freq = r_freq * omega_whole
+    s = fftp.ifft(s_freq)
+    return sp.real(s)
 
 
 def solmf(x, v, M, C, K, F):
