@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.1a0 documentation</title>
+    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.1a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1a0',
+        VERSION:     '0.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,6 +46,47 @@
   <div class="section" id="harmonic-balance-tools-mousai-har-bal">
 <h1>Harmonic Balance Tools (<code class="xref py py-mod docutils literal"><span class="pre">mousai.har_bal</span></code>)<a class="headerlink" href="#harmonic-balance-tools-mousai-har-bal" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-har_bal"></span><dl class="function">
+<dt id="har_bal.harmonic_deriv">
+<code class="descclassname">har_bal.</code><code class="descname">harmonic_deriv</code><span class="sig-paren">(</span><em>omega</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#harmonic_deriv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.harmonic_deriv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Derivative of a harmonic function using frequency methods.</p>
+<p>Returns the derivatives of a harmonic function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>omega: float</strong></p>
+<blockquote>
+<div><p>Fundamendal frequency, in rad/sec, of repeating signal</p>
+</div></blockquote>
+<p><strong>r: array_like</strong></p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Array of rows of time histories to take the derivative of.</div>
+<div class="line">The 1 axis (each row) corresponds to a time history.</div>
+<div class="line">The length of the time histories <em>must be an odd integer</em>.</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">s: array_like</p>
+<blockquote class="last">
+<div><p>Function derivatives.
+The 1 axis (each row) corresponds to a time history.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>At this time, the length of the time histories <em>must be an odd integer</em>.</p>
+<p class="rubric">Examples</p>
+<p>(<a class="reference external" href="../reference/mousai-1.py">Source code</a>, <a class="reference external" href="../reference/mousai-1.png">png</a>, <a class="reference external" href="../reference/mousai-1.hires.png">hires.png</a>, <a class="reference external" href="../reference/mousai-1.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="../_images/mousai-1.png" src="../_images/mousai-1.png" />
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="har_bal.hb_so">
 <code class="descclassname">har_bal.</code><code class="descname">hb_so</code><span class="sig-paren">(</span><em>sdfunc</em>, <em>x0</em>, <em>omega=1</em>, <em>method=’newton_krylov’</em>, <em>num_harmonics=1</em>, <em>params={}</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#hb_so"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.hb_so" title="Permalink to this definition">¶</a></dt>
 <dd><p>Harmonic balance solver for second order ODEs.</p>
@@ -75,7 +116,7 @@ given omega and
 <div><p>number of harmonics to presume. omega = 0 constant term is always
 presumed to exist. Minimum (and default) is 1.</p>
 </div></blockquote>
-<p><strong>x0: ndarray</strong></p>
+<p><strong>x0: array_like</strong></p>
 <blockquote>
 <div><p>n x m array where n is the number of equations and m is the number of
 values representing the repeating solution.
@@ -93,18 +134,22 @@ generalize allowable default values later.)</p>
 <p><strong>other: any</strong></p>
 <blockquote>
 <div><p>Other keyword arguments available to nonlinear solvers in
-<code class="docutils literal"><span class="pre">scipy.optim.nonlin</span></code>. See Notes.</p>
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a>.
+See Notes.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">t, x, v, a: ndarrays</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">t, x, e, amps, phases: array_like</p>
 <blockquote>
-<div><p>time, displacement history (time steps along columns), velocity and
-acceleration</p>
+<div><p>time, displacement history (time steps along columns), errors,</p>
 </div></blockquote>
 <p><strong>amps</strong> : float array</p>
+<blockquote>
+<div><p>amplitudes of displacement (primary harmonic) in column vector format.</p>
+</div></blockquote>
+<p><strong>phases</strong> : float array</p>
 <blockquote class="last">
-<div><p>amplitudes of displacement in column vector format.</p>
+<div><p>amplitudes of displacement (primary harmonic) in column vector format.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -113,7 +158,7 @@ acceleration</p>
 <p class="rubric">Notes</p>
 <p>Calls a linear algebra function from
 <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a> with
-newton_krylov as the default.</p>
+<code class="docutils literal"><span class="pre">newton_krylov</span></code> as the default.</p>
 <p>Needs quasi-linear estimator for starting point.</p>
 <p>Should gently “walk” solution up to get to nonlinearities.</p>
 <dl class="docutils">
@@ -125,57 +170,16 @@ newton_krylov as the default.</p>
 accelerations.</li>
 <li>Accelerations are also obtained using a Fourier representation of x</li>
 <li>Error in the accelerations are the functional error used by the
-nonlinear algebraic solver (default <cite>newton_krylov</cite>) to be minimized
-by the solver.</li>
+nonlinear algebraic solver (default <code class="docutils literal"><span class="pre">newton_krylov</span></code>) to be
+minimized by the solver.</li>
 </ol>
 </dd>
 </dl>
-<p>Options can be passed in by **kwargs.</p>
+<p>Options to the nonlinear solvers can be passed in by **kwargs.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mousai</span> <span class="k">as</span> <span class="nn">ms</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">amp</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="s1">&#39;duff_osc&#39;</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="s1">&#39;duff_osc&#39;</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="har_bal.harmonic_deriv">
-<code class="descclassname">har_bal.</code><code class="descname">harmonic_deriv</code><span class="sig-paren">(</span><em>omega</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#harmonic_deriv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.harmonic_deriv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Derivative of a harmonic function using frequency methods.</p>
-<p>Returns the derivatives of a harmonic function</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>omega: float</strong></p>
-<blockquote>
-<div><p>Fundamendal frequency, in rad/sec, of repeating signal</p>
-</div></blockquote>
-<p><strong>r: array</strong></p>
-<blockquote>
-<div><div class="line-block">
-<div class="line">Array of rows of time histories to take the derivative of.</div>
-<div class="line">The 1 axis (each row) corresponds to a time history.</div>
-<div class="line">The length of the time histories <em>must be an odd integer</em>.</div>
-</div>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">s: array</p>
-<blockquote class="last">
-<div><p>array of function derivatives.
-The 1 axis (each row) corresponds to a time history.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<p>At this time, the length of the time histories <em>must be an odd integer</em>.</p>
-<p class="rubric">Examples</p>
-<p>(<a class="reference external" href="../reference/mousai-1.py">Source code</a>, <a class="reference external" href="../reference/mousai-1.png">png</a>, <a class="reference external" href="../reference/mousai-1.hires.png">hires.png</a>, <a class="reference external" href="../reference/mousai-1.pdf">pdf</a>)</p>
-<div class="figure">
-<img alt="../_images/mousai-1.png" src="../_images/mousai-1.png" />
 </div>
 </dd></dl>
 
@@ -187,17 +191,17 @@ The 1 axis (each row) corresponds to a time history.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, v, F</strong> : arrays</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, v, F</strong> : array_like</p>
 <blockquote>
 <div><p><span class="math">\(n\times 1\)</span> arrays of current displacement, velocity, and Force.</p>
 </div></blockquote>
-<p><strong>M, C, K</strong> : arrays</p>
+<p><strong>M, C, K</strong> : array_like</p>
 <blockquote>
 <div><p>Mass, damping, and stiffness matrices.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>a</strong> : array</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
 <blockquote class="last">
 <div><p><span class="math">\(n\times 1\)</span> acceleration vector</p>
 </div></blockquote>
