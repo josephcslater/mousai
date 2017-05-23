@@ -30,7 +30,7 @@ help:
 	@echo "  gh-pages   build and release docs"
 
 clean:
-  make -C docs clean
+#  make -C docs clean
 	rm -rf build
 	rm -rf dist
 	find . -name "*.pyc" -o -name "*.py,cover"| xargs rm -f
@@ -62,11 +62,11 @@ release: clean
 
 wheel:
 	rm -rf dist
-	python setup.py sdist bdist_wheel
+	python setup.py  bdist_wheel
 
 wheel-dist: gh-pages
 	rm -rf dist
-	python setup.py sdist bdist_wheel
+	python setup.py  bdist_wheel
 
 docs:
 	# Warnings become errors and stop build

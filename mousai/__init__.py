@@ -19,7 +19,7 @@ Joseph C. Slater
 from .har_bal import *
 
 __title__ = 'mousai'
-__version__ = '0.1a'
+__version__ = '0.1a0'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
