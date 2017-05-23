@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from har_bal import *
+from mousai import *
 import scipy as sp
 from scipy import pi,sin,cos
 f = 2

@@ -1,12 +1,12 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>har_bal &#8212; Mousai 0.1a documentation</title>
+    <title>har_bal &#8212; Mousai 0.1a0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1a',
+        VERSION:     '0.1a0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -34,7 +34,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -46,21 +46,25 @@
 <span></span><span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fftp</span>
 <span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
-<span class="c1"># from scipy import pi, sin,cos</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">newton_krylov</span><span class="p">,</span> <span class="n">anderson</span><span class="p">,</span> <span class="n">broyden1</span><span class="p">,</span> <span class="n">broyden2</span><span class="p">,</span>\
+                           <span class="n">excitingmixing</span><span class="p">,</span> <span class="n">linearmixing</span><span class="p">,</span> <span class="n">diagbroyden</span>
 <span class="c1"># import matplotlib.pyplot as plt</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mousai_so&quot;</span><span class="p">,</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hb_so&quot;</span><span class="p">,</span>
            <span class="s2">&quot;harmonic_deriv&quot;</span><span class="p">,</span>
-           <span class="s2">&quot;somf&quot;</span><span class="p">]</span>
+           <span class="s2">&quot;solmf&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;duff_osc&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="mousai_so"><a class="viewcode-back" href="../reference/mousai.html#har_bal.mousai_so">[docs]</a><span class="k">def</span> <span class="nf">mousai_so</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="o">*</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="hb_so"><a class="viewcode-back" href="../reference/mousai.html#har_bal.hb_so">[docs]</a><span class="k">def</span> <span class="nf">hb_so</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;newton_krylov&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+          <span class="n">params</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Harmonic balance solver for second order ODEs.</span>
 
 <span class="sd">    Obtains the solution of a second order differential equation under the</span>
 <span class="sd">    presumption that the solution is harmonic.</span>
 
-<span class="sd">    Returns t (time), x (displacement), v (velocity), and a (acceletation)</span>
+<span class="sd">    Returns t (time), x (displacement), v (velocity), and a (acceleration)</span>
 <span class="sd">    response of a second order linear ordinary differential</span>
 <span class="sd">    equation defined by</span>
 <span class="sd">    :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`.</span>
@@ -68,24 +72,172 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    sdfunc: str</span>
-<span class="sd">        name of function that returns second derivative given omega and</span>
-<span class="sd">        \*kwargs</span>
+<span class="sd">        name of function that returns **column vector** second derivative</span>
+<span class="sd">        given omega and</span>
+<span class="sd">        \*\*kwargs</span>
+
 <span class="sd">        :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`</span>
 <span class="sd">    omega:  float</span>
-<span class="sd">        assumed fundamental response frequency.</span>
+<span class="sd">        assumed fundamental response frequency in radians per second.</span>
 <span class="sd">    num_harmonics: int</span>
-<span class="sd">        number of harmonics to presume. Constant term is always presumed.</span>
+<span class="sd">        number of harmonics to presume. omega = 0 constant term is always</span>
+<span class="sd">        presumed to exist. Minimum (and default) is 1.</span>
 <span class="sd">    x0: ndarray</span>
 <span class="sd">        n x m array where n is the number of equations and m is the number of</span>
 <span class="sd">        values representing the repeating solution.</span>
-<span class="sd">        It is required that :math:`m = 1 + 2  num_{harmonics}`.</span>
+<span class="sd">        It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will</span>
+<span class="sd">        generalize allowable default values later.)</span>
 <span class="sd">    method: str</span>
 <span class="sd">        Name of optimization method to be used.</span>
+<span class="sd">    params: dict</span>
+<span class="sd">        Dictionary of parameters needed by sdfunc.</span>
+<span class="sd">    other: any</span>
+<span class="sd">        Other keyword arguments available to nonlinear solvers in</span>
+<span class="sd">        ``scipy.optim.nonlin``. See Notes.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    t, x, v, a : ndarrays</span>
+<span class="sd">    t, x, v, a: ndarrays</span>
+<span class="sd">        time, displacement history (time steps along columns), velocity and</span>
+<span class="sd">        acceleration</span>
+<span class="sd">    amps : float array</span>
+<span class="sd">        amplitudes of displacement in column vector format.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import mousai as ms</span>
+<span class="sd">    &gt;&gt;&gt; t, x, v, a, amp = ms.hb_so(&#39;duff_osc&#39;, sp.array([[0,1,-1]]), .7)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    ------</span>
+<span class="sd">    Calls a linear algebra function from</span>
+<span class="sd">    `scipy.optimize.nonlin</span>
+<span class="sd">    &lt;https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html&gt;`_ with</span>
+<span class="sd">    newton_krylov as the default.</span>
+
+<span class="sd">    Needs quasi-linear estimator for starting point.</span>
+
+<span class="sd">    Should gently &quot;walk&quot; solution up to get to nonlinearities.</span>
+
+<span class="sd">    Algorithm:</span>
+<span class="sd">        1. calls `hb_so_err` with x as the variable to solve for.</span>
+<span class="sd">        2. `hb_so_err` uses a Fourier representation of x to obtain velocities</span>
+<span class="sd">           (after an inverse fft) then calls `sdfunc` to determine</span>
+<span class="sd">           accelerations.</span>
+<span class="sd">        3. Accelerations are also obtained using a Fourier representation of x</span>
+<span class="sd">        4. Error in the accelerations are the functional error used by the</span>
+<span class="sd">           nonlinear algebraic solver (default `newton_krylov`) to be minimized</span>
+<span class="sd">           by the solver.</span>
+
+<span class="sd">    Options can be passed in by \*\*kwargs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdfunc</span>  <span class="c1"># function that returns SO derivative</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;params: &#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="c1"># this is the format of the call.</span>
+    <span class="c1"># optimize</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">num_harmonics</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega</span>
+    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_har&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_harmonics</span>
+    <span class="c1"># print(params)</span>
+    <span class="c1"># print(kwargs)</span>
+
+    <span class="k">def</span> <span class="nf">hb_so_err</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Array (vector) of hamonic balance second order algebraic errors.</span>
+
+<span class="sd">        Given a set of second order equations</span>
+<span class="sd">        :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`</span>
+<span class="sd">        calculate the error :math:`E = \ddot{x} - f(x, \dot{x}, \omega, t)`</span>
+<span class="sd">        presuming that :math:`x` can be represented as a Fourier series, and</span>
+<span class="sd">        thus :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the</span>
+<span class="sd">        Fourier series representation of :math:`x`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array</span>
+<span class="sd">            x is an :math:`n \\times m` by 1 array of presumed displacements.</span>
+<span class="sd">            It must be a &quot;list&quot; array (not a linear algebra vector). Here</span>
+<span class="sd">            :math:`n` is the number of displacements and :math:`m` is the</span>
+<span class="sd">            number of times per cycle at which the displacement is guessed</span>
+<span class="sd">            (minimum of 3)</span>
+
+<span class="sd">        **kwargs : string, float, variable</span>
+<span class="sd">            **kwargs is a packed set of keyword arguments with 3 required</span>
+<span class="sd">            arguments.</span>
+<span class="sd">                1. `function`: a string name of the function which returned</span>
+<span class="sd">                the numerically calculated acceleration.</span>
+
+<span class="sd">                2. `omega`: which is the defined fundamental harmonic</span>
+<span class="sd">                at which the is desired.</span>
+
+<span class="sd">                3. `n_har`: an integer representing the number of harmonics.</span>
+<span class="sd">                Note that `m` above is equal to 1 + 2 * `n_har`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        e : array</span>
+<span class="sd">            2d numpy vector array of numerical error of presumed solution(s)</span>
+<span class="sd">            `x`</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        `function` and `omega` are not separately defined arguments so as to</span>
+<span class="sd">        enable algebraic solver functions to call `hb_so_err` cleanly.</span>
+
+<span class="sd">        The algorithm is as follows:</span>
+<span class="sd">            1. The velocity and accelerations are calculated in the same shape</span>
+<span class="sd">               as `x` as `vel` and `accel`.</span>
+<span class="sd">            3. Each column of `x` and `v` are sent with `t`, `omega`, and other</span>
+<span class="sd">               `**kwargs** to `function` one at a time with the results</span>
+<span class="sd">               agregated into the columns of `accel_num`.</span>
+<span class="sd">            4. The difference between `accel_num` and `accel` is reshaped to be</span>
+<span class="sd">               :math:`n \\times m` by 1 and returned as the vector error used</span>
+<span class="sd">               by the numerical algebraic equation solver.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># print(&#39;hello&#39;)</span>
+        <span class="c1"># print(kwargs)</span>
+        <span class="k">nonlocal</span> <span class="n">params</span>  <span class="c1"># global? Arghhh</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Harmonic Balance Error Function&#39;</span><span class="p">)</span>
+        <span class="c1">#  params is defined in the calling function, so this has an</span>
+        <span class="c1">#  environmental</span>
+        <span class="c1">#  scope</span>
+        <span class="c1">#  print(&#39;params inside error&#39;, params)</span>
+        <span class="c1">#  ------------Not sure any of this has value. Much can be deleted.</span>
+        <span class="n">n_har</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_har&#39;</span><span class="p">]</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
+        <span class="n">function</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span>
+        <span class="c1"># reduced_kwargs = params</span>
+        <span class="c1">#  ------------ May be able to delete all above.</span>
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span>  <span class="c1"># This is indeed used.</span>
+        <span class="c1">#  del reduced_kwargs[&#39;time&#39;]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_har</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
+
+        <span class="n">accel</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">vel</span><span class="p">)</span>
+        <span class="n">accel_from_deriv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">accel</span><span class="p">)</span>
+
+        <span class="c1"># Should subtract in place below to save memory for large problems</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># This should enable t to be used for current time in</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># loops</span>
+            <span class="c1"># Note that everything in params can be accessed within `function`.</span>
+            <span class="n">accel_from_deriv</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">function</span><span class="p">](</span><span class="n">x</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">vel</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+                                                         <span class="n">params</span><span class="p">)</span>
+
+        <span class="n">e</span> <span class="o">=</span> <span class="n">accel_from_deriv</span> <span class="o">-</span> <span class="n">accel</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">e</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;kwargs not being sent to optimizer&#39;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">method</span><span class="p">](</span><span class="n">hb_so_err</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># , kwargs)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">amps</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">))[:,</span> <span class="mi">1</span><span class="p">]</span>
 
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    a) define a function that returns errors in time domain as vector</span>
@@ -93,8 +245,7 @@
 <span class="sd">    and frequencies.</span>
 <span class="sd">    c)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="k">return</span></div>
+    <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">amps</span></div>
 
 
 <div class="viewcode-block" id="harmonic_deriv"><a class="viewcode-back" href="../reference/mousai.html#har_bal.harmonic_deriv">[docs]</a><span class="k">def</span> <span class="nf">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
@@ -124,7 +275,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
-<span class="sd">    &gt;&gt;&gt; from har_bal import *</span>
+<span class="sd">    &gt;&gt;&gt; from mousai import *</span>
 <span class="sd">    &gt;&gt;&gt; import scipy as sp</span>
 <span class="sd">    &gt;&gt;&gt; from scipy import pi,sin,cos</span>
 <span class="sd">    &gt;&gt;&gt; f = 2</span>
@@ -138,7 +289,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.plot(t,states.T,t,state_derives.T,&#39;x&#39;)</span>
 <span class="sd">    [&lt;matplotlib.line...]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="c1"># print(r)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">omega_half</span> <span class="o">=</span> <span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span> <span class="o">*</span> <span class="mi">2</span><span class="n">j</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">omega_whole</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">omega_half</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">omega_half</span><span class="p">)</span>
@@ -148,7 +299,7 @@
     <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="somf"><a class="viewcode-back" href="../reference/mousai.html#har_bal.somf">[docs]</a><span class="k">def</span> <span class="nf">somf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+<div class="viewcode-block" id="solmf"><a class="viewcode-back" href="../reference/mousai.html#har_bal.solmf">[docs]</a><span class="k">def</span> <span class="nf">solmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Acceleration of second order linear matrix system.</span>
 
 <span class="sd">    Parameters</span>
@@ -172,7 +323,7 @@
 <span class="sd">    &gt;&gt;&gt; x = sp.array([[1],[0]])</span>
 <span class="sd">    &gt;&gt;&gt; v = sp.array([[0],[10]])</span>
 <span class="sd">    &gt;&gt;&gt; F = v * 0.1</span>
-<span class="sd">    &gt;&gt;&gt; a = somf(x, v, M, C, K, F)</span>
+<span class="sd">    &gt;&gt;&gt; a = solmf(x, v, M, C, K, F)</span>
 <span class="sd">    &gt;&gt;&gt; print(a)</span>
 <span class="sd">        [[-0.95]</span>
 <span class="sd">         [ 1.6 ]]</span>
@@ -181,86 +332,19 @@
     <span class="k">return</span> <span class="o">-</span><span class="n">la</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">C</span> <span class="o">@</span> <span class="n">v</span> <span class="o">+</span> <span class="n">K</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">F</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">hb_so_err</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Array (vector) of hamonic balance second order algebraic errors.</span>
+<span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="c1"># print(&#39;duff osc&#39;)</span>
+    <span class="c1"># print(reduced_kwargs)</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
+    <span class="sd">&#39;&#39;&#39;print(&#39;t=&#39;,t)</span>
+<span class="sd">    print(&#39;x = &#39;, x)</span>
+<span class="sd">    print(&#39;v = &#39;, v)&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
 
-<span class="sd">    Given a set of second order equations</span>
-<span class="sd">    :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`</span>
-<span class="sd">    calculate the error :math:`E = \ddot{x} - f(x, \dot{x}, \omega, t)`</span>
-<span class="sd">    presuming that :math:`x` can be represented as a Fourier series, and thus</span>
-<span class="sd">    :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the Fourier</span>
-<span class="sd">    series representation of :math:`x`.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x : array</span>
-<span class="sd">        x is an :math:`n \\times m` by 1 array of presumed displacements. It</span>
-<span class="sd">        must be a &quot;list&quot; array (not a linear algebra vector). Here</span>
-<span class="sd">        :math:`n` is the number of displacements and :math:`m` is the number of</span>
-<span class="sd">        times per cycle at which the displacement is guessed (minimum of 3)</span>
-
-<span class="sd">    **kwargs : string, float, variable</span>
-<span class="sd">        **kwargs is a packed set of keyword arguments with 3 required</span>
-<span class="sd">        arguments.</span>
-<span class="sd">            1. `function`: a string name of the</span>
-<span class="sd">            function which returned the numerically calculated acceleration.</span>
-
-<span class="sd">            2. `omega`: which is the defined fundamental harmonic</span>
-<span class="sd">            at which the is desired.</span>
-
-<span class="sd">            3. `n_har`: an integer representing the number of harmonics. Note</span>
-<span class="sd">            that `m` above is equal to 1 + 2 * `n_har`.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    e : array</span>
-<span class="sd">        2d numpy vector array of numerical error of presumed solution(s) `x`</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    `function` and `omega` are not separately defined arguments so as to enable</span>
-<span class="sd">    algebraic solver functions to call `hb_so_err` cleanly.</span>
-
-<span class="sd">    The algorithm is as follows:</span>
-<span class="sd">        1. The vector `x` is reshaped into an :math:`n` by :math:`m` array</span>
-<span class="sd">        2. The velocity and accelerations are calculated in the same shape as</span>
-<span class="sd">           `x` as `vel` and `accel`.</span>
-<span class="sd">        3. Each column of `x` and `v` are sent with `t`, `omega`, and other</span>
-<span class="sd">           `**kwargs** are sent to `function` one at a time with the results</span>
-<span class="sd">           agregated into the columns of `accel_num`.</span>
-<span class="sd">        4. The difference between `accel_num` and `accel` is reshaped to be</span>
-<span class="sd">           :math:`n \\times m` by 1 and returned as the vector error used by</span>
-<span class="sd">           the numerical algebraic equation solver.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">n_har</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;n_har&#39;</span><span class="p">]</span>
-    <span class="n">omega</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
-    <span class="n">function</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_har</span>
-    <span class="n">vel</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-    <span class="n">accel</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">vel</span><span class="p">)</span>
-    <span class="n">accel_num</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">accel</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-        <span class="n">accel_num</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">function</span><span class="p">](</span><span class="n">x</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">vel</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="n">e</span> <span class="o">=</span> <span class="n">accel_num</span> <span class="o">-</span> <span class="n">accel</span>
-
-    <span class="k">return</span> <span class="n">e</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">optimizer will actually be solver from scipy.optimize</span>
-<span class="sd">from scipy.optimize</span>
-<span class="sd">Say:</span>
-<span class="sd">newton_krylov</span>
-<span class="sd">broyden1</span>
-<span class="sd">https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Run doctests.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">if __name__ == &quot;__main__&quot;:</span>
+<span class="sd">    &quot;&quot;&quot;Run doctests.</span>
 
 <span class="sd">    python (name of this file)  -v</span>
 <span class="sd">    will test all of the examples in the help.</span>
@@ -272,13 +356,14 @@
 <span class="sd">    https://docs.python.org/3.5/library/doctest.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># import mousai as ms</span>
+<span class="sd">    # import mousai as ms</span>
 
-    <span class="c1"># doctest.run_docstring_examples(frfest,globals(),optionflags=doctest.ELLIPSIS)</span>
-    <span class="c1"># doctest.run_docstring_examples(asd,globals(),optionflags=doctest.ELLIPSIS)</span>
-    <span class="kn">import</span> <span class="nn">doctest</span>
-    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span><span class="o">=</span><span class="n">doctest</span><span class="o">.</span><span class="n">ELLIPSIS</span> <span class="o">|</span>
-                    <span class="n">doctest</span><span class="o">.</span><span class="n">NORMALIZE_WHITESPACE</span><span class="p">)</span>
+<span class="sd">    # doctest.run_docstring_examples(frfest,globals(),optionflags=doctest.ELLIPSIS)</span>
+<span class="sd">    # doctest.run_docstring_examples(asd,globals(),optionflags=doctest.ELLIPSIS)</span>
+<span class="sd">    import doctest</span>
+<span class="sd">    doctest.testmod(optionflags=doctest.ELLIPSIS |</span>
+<span class="sd">                    doctest.NORMALIZE_WHITESPACE)</span>
+<span class="sd">&#39;&#39;&#39;</span>
 </pre></div>
 
           </div>
@@ -300,7 +385,6 @@
 <h3>Navigation</h3>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
 </ul>
 
@@ -323,7 +407,7 @@
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

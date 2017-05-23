@@ -29,8 +29,10 @@ Table of Contents
    :maxdepth: 3
 
    installation
-   tutorial/index
    reference/index
+
+..    tutorial/index
+
 
 .. .. include:: ../readme.rst
 
