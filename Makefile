@@ -12,6 +12,8 @@ export NAME=mousai
 export GHP_MSG="Generated gh-pages for `git log master -1 --pretty=short --abbrev-commit`"
 export VERSION=`python -c "import $(NAME); print($(NAME).__version__)"`
 
+# echo VERSION
+
 #all: clean
 #	python setup.py install
 
@@ -50,15 +52,16 @@ release: clean
 	pytest
 	#python setup.py register
 	rm -rf dist
-	python setup.py sdist bdist_wheel
+	python setup.py bdist_wheel
 	# python setup.py sdist
+	@echo v$(VERSION)
 	git tag v$(VERSION)
 	git push origin --all
 	git push origin --tags
 	printf '\nUpgrade mousai with release and sha256 sum:'
 	printf '\nOK, no sha256 sum yet:'
 	twine upload dist/*
-	shasum -a 256 dist/*.tar.gz
+	# shasum -a 256 dist/*.tar.gz
 
 wheel:
 	rm -rf dist

@@ -11,6 +11,8 @@ __all__ = ["hb_so",
            "solmf",
            "duff_osc"]
 
+#print('kwargs not being sent to optimizer')
+
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
           params={}, **kwargs):
@@ -52,16 +54,17 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
     Returns
     -------
-    t, x, v, a: ndarrays
-        time, displacement history (time steps along columns), velocity and
-        acceleration
+    t, x, e, amps, phases: ndarrays
+        time, displacement history (time steps along columns), errors,
     amps : float array
-        amplitudes of displacement in column vector format.
+        amplitudes of displacement (primary harmonic) in column vector format.
+    phases : float array
+        amplitudes of displacement (primary harmonic) in column vector format.
 
     Examples
     --------
     >>> import mousai as ms
-    >>> t, x, v, a, amp = ms.hb_so('duff_osc', sp.array([[0,1,-1]]), .7)
+    >>> t, x, e, amps, phases = ms.hb_so('duff_osc', sp.array([[0,1,-1]]), .7)
 
     Notes
     ------
@@ -88,11 +91,11 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     """
 
     params['function'] = sdfunc  # function that returns SO derivative
-    print('params: ', params)
+    #print('params: ', params)
     # this is the format of the call.
     # optimize
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
-    print(time)
+    #print(time)
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
@@ -154,7 +157,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         # print('hello')
         # print(kwargs)
         nonlocal params  # global? Arghhh
-        print('Harmonic Balance Error Function')
+        #print('Harmonic Balance Error Function')
         #  params is defined in the calling function, so this has an
         #  environmental
         #  scope
@@ -169,9 +172,9 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         time = params['time']  # This is indeed used.
         #  del reduced_kwargs['time']
         m = 1 + 2 * n_har
-        print(x)
+        #print(x)
         vel = harmonic_deriv(omega, x)
-        print(vel)
+        #print(vel)
 
         accel = harmonic_deriv(omega, vel)
         accel_from_deriv = sp.zeros_like(accel)
@@ -185,14 +188,17 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
                                                          params)
 
         e = accel_from_deriv - accel
-        print(e)
+        #print(e)
         return e
 
-    print('kwargs not being sent to optimizer')
+
     x = globals()[method](hb_so_err, x0, maxiter=5)  # , kwargs)
-    v = harmonic_deriv(omega, x)
-    a = harmonic_deriv(omega, v)
-    amps = sp.absolute(fftp.fft(x)*2/len(time))[:, 1]
+    # v = harmonic_deriv(omega, x)
+    # a = harmonic_deriv(omega, v)
+    xhar = fftp.fft(x)*2/len(time)
+    amps = sp.absolute(xhar[:, 1])
+    phases = sp.angle(xhar[:, 1])
+    e = hb_so_err(x)
 
     '''
     a) define a function that returns errors in time domain as vector
@@ -200,7 +206,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     and frequencies.
     c)
     '''
-    return time, x, v, a, amps
+    return time, x, e, amps, phases
 
 
 def harmonic_deriv(omega, r):
