@@ -1,0 +1,18 @@
+Metadata-Version: 1.1
+Name: mousai
+Version: 0.1a1
+Summary: Harmonic Balance solvers.
+Home-page: https://github.com/josephcslater/mousai
+Author: Joseph C. Slater
+Author-email: joseph.c.slater@gmail.com
+License: UNKNOWN
+Download-URL: https://github.com/josephcslater/mousai
+Description: mousai
+        ======
+        
+        A set of Python-based Harmonic Balance solvers.
+        
+        Please see the `manual <https://josephcslater.github.io/mousai/>`__
+        
+Keywords: harmonic balance,numerical solvers,vibration,oscillation
+Platform: UNKNOWN
