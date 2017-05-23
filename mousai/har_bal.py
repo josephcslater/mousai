@@ -6,12 +6,12 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
                            excitingmixing, linearmixing, diagbroyden
 # import matplotlib.pyplot as plt
 
-__all__ = ["hb_so",
+"""__all__ = ["hb_so",
            "harmonic_deriv",
            "solmf",
            "duff_osc"]
-
-#print('kwargs not being sent to optimizer')
+"""
+# print('kwargs not being sent to optimizer')
 
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
@@ -39,7 +39,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     num_harmonics: int
         number of harmonics to presume. omega = 0 constant term is always
         presumed to exist. Minimum (and default) is 1.
-    x0: ndarray
+    x0: array_like
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
         It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
@@ -50,11 +50,13 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         Dictionary of parameters needed by sdfunc.
     other: any
         Other keyword arguments available to nonlinear solvers in
-        ``scipy.optim.nonlin``. See Notes.
+        `scipy.optimize.nonlin
+        <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_.
+        See Notes.
 
     Returns
     -------
-    t, x, e, amps, phases: ndarrays
+    t, x, e, amps, phases: array_like
         time, displacement history (time steps along columns), errors,
     amps : float array
         amplitudes of displacement (primary harmonic) in column vector format.
@@ -71,7 +73,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     Calls a linear algebra function from
     `scipy.optimize.nonlin
     <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
-    newton_krylov as the default.
+    ``newton_krylov`` as the default.
 
     Needs quasi-linear estimator for starting point.
 
@@ -84,23 +86,17 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
            accelerations.
         3. Accelerations are also obtained using a Fourier representation of x
         4. Error in the accelerations are the functional error used by the
-           nonlinear algebraic solver (default `newton_krylov`) to be minimized
-           by the solver.
+           nonlinear algebraic solver (default ``newton_krylov``) to be
+           minimized by the solver.
 
-    Options can be passed in by \*\*kwargs.
+    Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
 
     params['function'] = sdfunc  # function that returns SO derivative
-    #print('params: ', params)
-    # this is the format of the call.
-    # optimize
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
-    #print(time)
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
-    # print(params)
-    # print(kwargs)
 
     def hb_so_err(x):
         """Array (vector) of hamonic balance second order algebraic errors.
@@ -114,7 +110,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
         Parameters
         ----------
-        x : array
+        x : array_like
             x is an :math:`n \\times m` by 1 array of presumed displacements.
             It must be a "list" array (not a linear algebra vector). Here
             :math:`n` is the number of displacements and :math:`m` is the
@@ -135,9 +131,8 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
         Returns
         -------
-        e : array
-            2d numpy vector array of numerical error of presumed solution(s)
-            `x`
+        e : array_like
+            2d array of numerical error of presumed solution(s) `x`.
 
         Notes
         -----
@@ -154,27 +149,15 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
                :math:`n \\times m` by 1 and returned as the vector error used
                by the numerical algebraic equation solver.
         """
-        # print('hello')
-        # print(kwargs)
-        nonlocal params  # global? Arghhh
-        #print('Harmonic Balance Error Function')
-        #  params is defined in the calling function, so this has an
-        #  environmental
-        #  scope
-        #  print('params inside error', params)
-        #  ------------Not sure any of this has value. Much can be deleted.
+        nonlocal params  # Will stay out of global/conflicts
         n_har = params['n_har']
         omega = params['omega']
         function = params['function']
-        # reduced_kwargs = params
-        #  ------------ May be able to delete all above.
-
-        time = params['time']  # This is indeed used.
-        #  del reduced_kwargs['time']
+        time = params['time']
         m = 1 + 2 * n_har
-        #print(x)
+        # print(x)
         vel = harmonic_deriv(omega, x)
-        #print(vel)
+        # print(vel)
 
         accel = harmonic_deriv(omega, vel)
         accel_from_deriv = sp.zeros_like(accel)
@@ -188,11 +171,8 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
                                                          params)
 
         e = accel_from_deriv - accel
-        #print(e)
         return e
-
-
-    x = globals()[method](hb_so_err, x0, maxiter=5)  # , kwargs)
+    x = globals()[method](hb_so_err, x0, **kwargs)
     # v = harmonic_deriv(omega, x)
     # a = harmonic_deriv(omega, v)
     xhar = fftp.fft(x)*2/len(time)
@@ -218,15 +198,15 @@ def harmonic_deriv(omega, r):
     ----------
     omega: float
         Fundamendal frequency, in rad/sec, of repeating signal
-    r: array
+    r: array_like
         | Array of rows of time histories to take the derivative of.
         | The 1 axis (each row) corresponds to a time history.
         | The length of the time histories *must be an odd integer*.
 
     Returns
     -------
-    s: array
-        array of function derivatives.
+    s: array_like
+        Function derivatives.
         The 1 axis (each row) corresponds to a time history.
 
     Notes
@@ -265,14 +245,14 @@ def solmf(x, v, M, C, K, F):
 
     Parameters
     ----------
-    x, v, F : arrays
+    x, v, F : array_like
         :math:`n\\times 1` arrays of current displacement, velocity, and Force.
-    M, C, K : arrays
+    M, C, K : array_like
         Mass, damping, and stiffness matrices.
 
     Returns
     -------
-    a : array
+    a : array_like
         :math:`n\\times 1` acceleration vector
 
     Examples
