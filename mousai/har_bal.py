@@ -177,7 +177,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
                                                         params)
 
         e = accel_from_deriv - accel
-        print(e)
+        # print(e)
         return e
     try:
         x = globals()[method](hb_so_err, x0, **kwargs)
