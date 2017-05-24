@@ -28,10 +28,9 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
     Parameters
     ----------
-    sdfunc: str
-        name of function that returns **column vector** second derivative
-        given omega and
-        \*\*kwargs
+    sdfunc: function
+        Name of function that returns **column vector** second derivative
+        given omega and \*\*kwargs. This is NOT a string.
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
     omega:  float
@@ -92,6 +91,9 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
 
+    if isinstance(sdfunc, str):
+        sdfunc = globals()[sdfunc]
+        print("`sdfunc` is expected to be a function name, not a string")
     params['function'] = sdfunc  # function that returns SO derivative
     time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
     params['time'] = time
