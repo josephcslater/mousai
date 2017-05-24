@@ -20,8 +20,6 @@ Mousai: A Set of Harmonic Balance Solvers
 
 Joseph C. Slater
 
-Mousai
-
 Table of Contents
 -----------------
 

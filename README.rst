@@ -1,11 +1,8 @@
-mousai
+Mousai
 ======
 
 A set of Python-based Harmonic Balance solvers.
 
-Please see the `manual <https://josephcslater.github.io/mousai/>`__.
+Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation.
 
-Revision History
-----------------
-0.1.a3
-Now passes function properly. 
+Please see the `Revision History`_ for updates:
