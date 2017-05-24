@@ -66,7 +66,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     Examples
     --------
     >>> import mousai as ms
-    >>> t, x, e, amps, phases = ms.hb_so('duff_osc', sp.array([[0,1,-1]]), .7)
+    >>> t, x, e, amps, phases = ms.hb_so(ms.duff_osc, sp.array([[0,1,-1]]), .7)
 
     Notes
     ------
@@ -167,8 +167,11 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
             t = time[i]  # This should enable t to be used for current time in
             params['cur_time'] = time[i]  # loops
             # Note that everything in params can be accessed within `function`.
-            accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
-                                                         params)
+#            accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
+#                                                         params)"""
+            #print(params['function'])
+            accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
+                                                        params)
 
         e = accel_from_deriv - accel
         return e
