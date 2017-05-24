@@ -154,7 +154,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         nonlocal params  # Will stay out of global/conflicts
         n_har = params['n_har']
         omega = params['omega']
-        function = params['function']
+        # function = params['function']
         time = params['time']
         m = 1 + 2 * n_har
         # print(x)
@@ -171,13 +171,16 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
             # Note that everything in params can be accessed within `function`.
 #            accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
 #                                                         params)"""
-            #print(params['function'])
+            # print(params['function'])
             accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                         params)
 
         e = accel_from_deriv - accel
         return e
-    x = globals()[method](hb_so_err, x0, **kwargs)
+    try:
+        x = globals()[method](hb_so_err, x0, **kwargs)
+    except:
+        raise
     # v = harmonic_deriv(omega, x)
     # a = harmonic_deriv(omega, v)
     xhar = fftp.fft(x)*2/len(time)
