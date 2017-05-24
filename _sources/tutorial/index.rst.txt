@@ -9,7 +9,7 @@ Tutorials with worked examples and background information for the Harmonic Balan
 .. toctree::
    :maxdepth: 2
 
-
+   demos/Duffing.ipynb
 
 ..   Beats
 
