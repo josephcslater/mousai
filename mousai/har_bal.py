@@ -90,6 +90,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
+    num_harmonics = int((x0.shape[1]-1)/2)
 
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
@@ -176,6 +177,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
                                                         params)
 
         e = accel_from_deriv - accel
+        print(e)
         return e
     try:
         x = globals()[method](hb_so_err, x0, **kwargs)
