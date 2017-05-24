@@ -20,8 +20,6 @@ Mousai: A Set of Harmonic Balance Solvers
 
 Joseph C. Slater
 
-Mousai
-
 Table of Contents
 -----------------
 
@@ -30,6 +28,7 @@ Table of Contents
 
    installation
    reference/index
+   revision_history
 
 ..    tutorial/index
 

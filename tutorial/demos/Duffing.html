@@ -1,0 +1,785 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>&lt;no title&gt; &#8212; Mousai 0.1a4 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1a4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+</style>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">mousai</span> <span class="kn">as</span> <span class="nn">ms</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">pi</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">help</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function hb_so in module mousai.har_bal:
+
+hb_so(sdfunc, x0, omega=1, method=&#39;newton_krylov&#39;, num_harmonics=1, params={}, **kwargs)
+    Harmonic balance solver for second order ODEs.
+
+    Obtains the solution of a second order differential equation under the
+    presumption that the solution is harmonic.
+
+    Returns t (time), x (displacement), v (velocity), and a (acceleration)
+    response of a second order linear ordinary differential
+    equation defined by
+    :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`.
+
+    Parameters
+    ----------
+    sdfunc: str
+        name of function that returns **column vector** second derivative
+        given omega and
+        \*\*kwargs
+
+        :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
+    omega:  float
+        assumed fundamental response frequency in radians per second.
+    num_harmonics: int
+        number of harmonics to presume. omega = 0 constant term is always
+        presumed to exist. Minimum (and default) is 1.
+    x0: array_like
+        n x m array where n is the number of equations and m is the number of
+        values representing the repeating solution.
+        It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
+        generalize allowable default values later.)
+    method: str
+        Name of optimization method to be used.
+    params: dict
+        Dictionary of parameters needed by sdfunc.
+    other: any
+        Other keyword arguments available to nonlinear solvers in
+        `scipy.optimize.nonlin
+        &lt;https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html&gt;`_.
+        See Notes.
+
+    Returns
+    -------
+    t, x, e, amps, phases: array_like
+        time, displacement history (time steps along columns), errors,
+    amps : float array
+        amplitudes of displacement (primary harmonic) in column vector format.
+    phases : float array
+        amplitudes of displacement (primary harmonic) in column vector format.
+
+    Examples
+    --------
+    &gt;&gt;&gt; import mousai as ms
+    &gt;&gt;&gt; t, x, e, amps, phases = ms.hb_so(&#39;duff_osc&#39;, sp.array([[0,1,-1]]), .7)
+
+    Notes
+    ------
+    Calls a linear algebra function from
+    `scipy.optimize.nonlin
+    &lt;https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html&gt;`_ with
+    ``newton_krylov`` as the default.
+
+    Needs quasi-linear estimator for starting point.
+
+    Should gently &#34;walk&#34; solution up to get to nonlinearities.
+
+    Algorithm:
+        1. calls `hb_so_err` with x as the variable to solve for.
+        2. `hb_so_err` uses a Fourier representation of x to obtain velocities
+           (after an inverse fft) then calls `sdfunc` to determine
+           accelerations.
+        3. Accelerations are also obtained using a Fourier representation of x
+        4. Error in the accelerations are the functional error used by the
+           nonlinear algebraic solver (default ``newton_krylov``) to be
+           minimized by the solver.
+
+    Options to the nonlinear solvers can be passed in by \*\*kwargs.
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>sp.linspace<span class="o">?</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">201</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="s1">&#39;duff_osc&#39;</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[23]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>1.4652054368868992
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [131]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">duff_osc2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="c1"># print(&#39;duff osc&#39;)</span>
+    <span class="c1"># print(reduced_kwargs)</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
+    <span class="sd">&#39;&#39;&#39;print(&#39;t=&#39;,t)</span>
+<span class="sd">    print(&#39;x = &#39;, x)</span>
+<span class="sd">    print(&#39;v = &#39;, v)&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mo">000</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mo">01</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [132]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
+<span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
+    <span class="c1">#print(i,freq,x)</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="s1">&#39;duff_osc2&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
+    <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">amp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-132-98ae0082dad9&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">for</span> i<span class="ansi-blue-fg">,</span> freq <span class="ansi-green-fg">in</span> enumerate<span class="ansi-blue-fg">(</span>omega<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-red-fg">#print(i,freq,x)</span>
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg">     </span>t<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">,</span> e<span class="ansi-blue-fg">,</span> amps<span class="ansi-blue-fg">,</span> phases <span class="ansi-blue-fg">=</span> ms<span class="ansi-blue-fg">.</span>hb_so<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;duff_osc2&#39;</span><span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">,</span> freq<span class="ansi-blue-fg">)</span><span class="ansi-red-fg">#, callback = resid)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>     amp<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">=</span>amps<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> plt<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span>omega<span class="ansi-blue-fg">,</span> amp<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/Users/jslater/Documents/python-dev/mousai/mousai/har_bal.py</span> in <span class="ansi-cyan-fg">hb_so</span><span class="ansi-blue-fg">(sdfunc, x0, omega, method, num_harmonics, params, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    173</span>         e <span class="ansi-blue-fg">=</span> accel_from_deriv <span class="ansi-blue-fg">-</span> accel
+<span class="ansi-green-intense-fg ansi-bold">    174</span>         <span class="ansi-green-fg">return</span> e
+<span class="ansi-green-fg">--&gt; 175</span><span class="ansi-red-fg">     </span>x <span class="ansi-blue-fg">=</span> globals<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span>method<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">(</span>hb_so_err<span class="ansi-blue-fg">,</span> x0<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    176</span>     <span class="ansi-red-fg"># v = harmonic_deriv(omega, x)</span>
+<span class="ansi-green-intense-fg ansi-bold">    177</span>     <span class="ansi-red-fg"># a = harmonic_deriv(omega, v)</span>
+
+<span class="ansi-green-fg">/Users/jslater/anaconda/lib/python3.6/site-packages/scipy/optimize/nonlin.py</span> in <span class="ansi-cyan-fg">newton_krylov</span><span class="ansi-blue-fg">(F, xin, iter, rdiff, method, inner_maxiter, inner_M, outer_k, verbose, maxiter, f_tol, f_rtol, x_tol, x_rtol, tol_norm, line_search, callback, **kw)</span>
+
+<span class="ansi-green-fg">/Users/jslater/anaconda/lib/python3.6/site-packages/scipy/optimize/nonlin.py</span> in <span class="ansi-cyan-fg">nonlin_solve</span><span class="ansi-blue-fg">(F, x0, jacobian, iter, verbose, maxiter, f_tol, f_rtol, x_tol, x_rtol, tol_norm, line_search, callback, full_output, raise_exception)</span>
+<span class="ansi-green-intense-fg ansi-bold">    274</span>
+<span class="ansi-green-intense-fg ansi-bold">    275</span>     dx <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>inf
+<span class="ansi-green-fg">--&gt; 276</span><span class="ansi-red-fg">     </span>Fx <span class="ansi-blue-fg">=</span> func<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    277</span>     Fx_norm <span class="ansi-blue-fg">=</span> norm<span class="ansi-blue-fg">(</span>Fx<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    278</span>
+
+<span class="ansi-green-fg">/Users/jslater/anaconda/lib/python3.6/site-packages/scipy/optimize/nonlin.py</span> in <span class="ansi-cyan-fg">&lt;lambda&gt;</span><span class="ansi-blue-fg">(z)</span>
+<span class="ansi-green-intense-fg ansi-bold">    270</span>
+<span class="ansi-green-intense-fg ansi-bold">    271</span>     x0 <span class="ansi-blue-fg">=</span> _as_inexact<span class="ansi-blue-fg">(</span>x0<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 272</span><span class="ansi-red-fg">     </span>func <span class="ansi-blue-fg">=</span> <span class="ansi-green-fg">lambda</span> z<span class="ansi-blue-fg">:</span> _as_inexact<span class="ansi-blue-fg">(</span>F<span class="ansi-blue-fg">(</span>_array_like<span class="ansi-blue-fg">(</span>z<span class="ansi-blue-fg">,</span> x0<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>flatten<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    273</span>     x <span class="ansi-blue-fg">=</span> x0<span class="ansi-blue-fg">.</span>flatten<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    274</span>
+
+<span class="ansi-green-fg">/Users/jslater/Documents/python-dev/mousai/mousai/har_bal.py</span> in <span class="ansi-cyan-fg">hb_so_err</span><span class="ansi-blue-fg">(x)</span>
+<span class="ansi-green-intense-fg ansi-bold">    168</span>             params<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;cur_time&#39;</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> time<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span>  <span class="ansi-red-fg"># loops</span>
+<span class="ansi-green-intense-fg ansi-bold">    169</span>             <span class="ansi-red-fg"># Note that everything in params can be accessed within `function`.</span>
+<span class="ansi-green-fg">--&gt; 170</span><span class="ansi-red-fg">             accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
+</span><span class="ansi-green-intense-fg ansi-bold">    171</span>                                                          params)
+<span class="ansi-green-intense-fg ansi-bold">    172</span>
+
+<span class="ansi-red-fg">KeyError</span>: &#39;duff_osc2&#39;
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [133]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="nb">globals</span><span class="p">()[</span><span class="s1">&#39;duff_osc2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[133]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;function __main__.duff_osc2&gt;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [130]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">1.295</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
+<span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
+    <span class="c1">#print(i,freq,x, &quot;freq:&quot;,freq, phases)</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="s1">&#39;duff_osc&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span><span class="c1">#, f_tol = 1e-10)#, callback = resid)</span>
+    <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span> <span class="n">ampl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[130]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11dc15ba8&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_demos_Duffing_10_1.png" src="../../_images/tutorial_demos_Duffing_10_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [127]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span><span class="n">ampl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[127]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11bb11f98&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_demos_Duffing_11_1.png" src="../../_images/tutorial_demos_Duffing_11_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">newton_krylov</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [91]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">help</span><span class="p">(</span><span class="n">newton_krylov</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function newton_krylov in module scipy.optimize.nonlin:
+
+newton_krylov(F, xin, iter=None, rdiff=None, method=&#39;lgmres&#39;, inner_maxiter=20, inner_M=None, outer_k=10, verbose=False, maxiter=None, f_tol=None, f_rtol=None, x_tol=None, x_rtol=None, tol_norm=None, line_search=&#39;armijo&#39;, callback=None, **kw)
+    Find a root of a function, using Krylov approximation for inverse Jacobian.
+
+    This method is suitable for solving large-scale problems.
+
+    Parameters
+    ----------
+    F : function(x) -&gt; f
+        Function whose root to find; should take and return an array-like
+        object.
+    x0 : array_like
+        Initial guess for the solution
+    rdiff : float, optional
+        Relative step size to use in numerical differentiation.
+    method : {&#39;lgmres&#39;, &#39;gmres&#39;, &#39;bicgstab&#39;, &#39;cgs&#39;, &#39;minres&#39;} or function
+        Krylov method to use to approximate the Jacobian.
+        Can be a string, or a function implementing the same interface as
+        the iterative solvers in `scipy.sparse.linalg`.
+
+        The default is `scipy.sparse.linalg.lgmres`.
+    inner_M : LinearOperator or InverseJacobian
+        Preconditioner for the inner Krylov iteration.
+        Note that you can use also inverse Jacobians as (adaptive)
+        preconditioners. For example,
+
+        &gt;&gt;&gt; from scipy.optimize.nonlin import BroydenFirst, KrylovJacobian
+        &gt;&gt;&gt; from scipy.optimize.nonlin import InverseJacobian
+        &gt;&gt;&gt; jac = BroydenFirst()
+        &gt;&gt;&gt; kjac = KrylovJacobian(inner_M=InverseJacobian(jac))
+
+        If the preconditioner has a method named &#39;update&#39;, it will be called
+        as ``update(x, f)`` after each nonlinear step, with ``x`` giving
+        the current point, and ``f`` the current function value.
+    inner_tol, inner_maxiter, ...
+        Parameters to pass on to the \&#34;inner\&#34; Krylov solver.
+        See `scipy.sparse.linalg.gmres` for details.
+    outer_k : int, optional
+        Size of the subspace kept across LGMRES nonlinear iterations.
+        See `scipy.sparse.linalg.lgmres` for details.
+    iter : int, optional
+        Number of iterations to make. If omitted (default), make as many
+        as required to meet tolerances.
+    verbose : bool, optional
+        Print status to stdout on every iteration.
+    maxiter : int, optional
+        Maximum number of iterations to make. If more are needed to
+        meet convergence, `NoConvergence` is raised.
+    f_tol : float, optional
+        Absolute tolerance (in max-norm) for the residual.
+        If omitted, default is 6e-6.
+    f_rtol : float, optional
+        Relative tolerance for the residual. If omitted, not used.
+    x_tol : float, optional
+        Absolute minimum step size, as determined from the Jacobian
+        approximation. If the step size is smaller than this, optimization
+        is terminated as successful. If omitted, not used.
+    x_rtol : float, optional
+        Relative minimum step size. If omitted, not used.
+    tol_norm : function(vector) -&gt; scalar, optional
+        Norm to use in convergence check. Default is the maximum norm.
+    line_search : {None, &#39;armijo&#39; (default), &#39;wolfe&#39;}, optional
+        Which type of a line search to use to determine the step size in the
+        direction given by the Jacobian approximation. Defaults to &#39;armijo&#39;.
+    callback : function, optional
+        Optional callback function. It is called on every iteration as
+        ``callback(x, f)`` where `x` is the current solution and `f`
+        the corresponding residual.
+
+    Returns
+    -------
+    sol : ndarray
+        An array (of similar array type as `x0`) containing the final solution.
+
+    Raises
+    ------
+    NoConvergence
+        When a solution was not found.
+
+    See Also
+    --------
+    scipy.sparse.linalg.gmres
+    scipy.sparse.linalg.lgmres
+
+    Notes
+    -----
+    This function implements a Newton-Krylov solver. The basic idea is
+    to compute the inverse of the Jacobian with an iterative Krylov
+    method. These methods require only evaluating the Jacobian-vector
+    products, which are conveniently approximated by a finite difference:
+
+    .. math:: J v \approx (f(x + \omega*v/|v|) - f(x)) / \omega
+
+    Due to the use of iterative matrix inverses, these methods can
+    deal with large nonlinear problems.
+
+    Scipy&#39;s `scipy.sparse.linalg` module offers a selection of Krylov
+    solvers to choose from. The default here is `lgmres`, which is a
+    variant of restarted GMRES iteration that reuses some of the
+    information obtained in the previous Newton steps to invert
+    Jacobians in subsequent steps.
+
+    For a review on Newton-Krylov methods, see for example [1]_,
+    and for the LGMRES sparse inverse method, see [2]_.
+
+    References
+    ----------
+    .. [1] D.A. Knoll and D.E. Keyes, J. Comp. Phys. 193, 357 (2004).
+           :doi:`10.1016/j.jcp.2003.08.010`
+    .. [2] A.H. Baker and E.R. Jessup and T. Manteuffel,
+           SIAM J. Matrix Anal. Appl. 26, 962 (2005).
+           :doi:`10.1137/S0895479803422014`
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">resid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">f</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [104]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-.</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[104]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>array([ 1. ,  0.9,  0.8,  0.7,  0.6,  0.5,  0.4,  0.3,  0.2,  0.1])
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Mousai</a></h1>
+
+
+
+<p class="blurb">Harmonic Balance Solvers</p>
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../revision_history.html">Revision History</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorial/demos/Duffing.ipynb.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Joseph C. Slater.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="../../_sources/tutorial/demos/Duffing.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
