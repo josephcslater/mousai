@@ -28,6 +28,7 @@ Table of Contents
 
    installation
    reference/index
+   revision_history
 
 ..    tutorial/index
 
