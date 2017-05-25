@@ -24,12 +24,11 @@ Table of Contents
 -----------------
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    installation
    tutorial/index
    reference/index
-   revision_history
 
 
 .. .. include:: ../readme.rst
