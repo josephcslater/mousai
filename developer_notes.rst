@@ -1,4 +1,4 @@
-To make distribution.
+To make distribution. (not completely valid- pulled from Vibration Toolbox)
 
 1) Edit the version number in ``mousai/__init__.py``
 2) Use the Makefile, ``make release``

@@ -5,3 +5,4 @@ Reference
   :maxdepth: 2
 
   mousai
+  revision_history
