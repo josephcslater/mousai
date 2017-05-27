@@ -293,6 +293,20 @@ def duff_osc(x, v, params):
     print('v = ', v)'''
     return -x-.1*x**3-.2*v+sin(omega*t)
 
+
+def time_history(t, x, n=200):
+    """Generate
+    """
+    dt = t[1]
+    t_length = t.size
+    t = sp.linspace(0, n * dt, n, endpoint=False)
+    x_freq = fftp.fft(x)
+    x_zeros = sp.zeros((x.shape[0], t_length))
+    x_freq = sp.insert(x_freq, [t_length-t_length//2+1], x_zeros, axis=1)
+    x = fftp.ifft(x_freq)
+    return t, x
+
+
 '''
 if __name__ == "__main__":
     """Run doctests.
