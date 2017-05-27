@@ -294,12 +294,49 @@ def duff_osc(x, v, params):
     return -x-.1*x**3-.2*v+sin(omega*t)
 
 
-def time_history(t, x, n=200):
-    """Generate
+def time_history(t, x, num_time_points=200):
+    """Generate refined time history from harmonic balance solution.
+
+    Harmonic balance solutions presume a limited number of harmonics in the
+    solution. The result is that the time history is usually a very limited
+    number of values. Plotting these results implies that the solution isn't
+    actually a continuous one. This function fills in the gaps using the
+    harmonics obtained in the solution.
+
+    Parameters
+    ----------
+    t: array_like
+        1 x m array where m is the number of
+        values representing the repeating solution.
+    x: array_like
+        n x m array where m is the number of equations and m is the number of
+        values representing the repeating solution.
+    num_time_points: int
+        number of points desired in the "smooth" time history.
+
+    Returns
+    -------
+    t: array_like
+        1 x num_time_points array.
+    x: array_like
+        n x num_time_points array.
+
+    Example
+    -------
+    Needs an example
+
+    Notes
+    -----
+    The implication of this function is that the higher harmonics that
+    were not determined in the solution are zero. This is indeed the assumption
+    made when setting up the harmonic balance solution. Whether this is a valid
+    assumption is something that the user must judge when performing the
+    solution.
+
     """
     dt = t[1]
     t_length = t.size
-    t = sp.linspace(0, n * dt, n, endpoint=False)
+    t = sp.linspace(0, num_time_points * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
     x_zeros = sp.zeros((x.shape[0], t_length))
     x_freq = sp.insert(x_freq, [t_length-t_length//2+1], x_zeros, axis=1)
