@@ -11,7 +11,6 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
            "solmf",
            "duff_osc"]
 """
-# print('kwargs not being sent to optimizer')
 
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
