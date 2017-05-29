@@ -323,7 +323,7 @@ def time_history(t, x, num_time_points=200):
 
     Example
     -------
-    Needs an example
+    Needs an example.
 
     Notes
     -----
@@ -338,8 +338,11 @@ def time_history(t, x, num_time_points=200):
     t_length = t.size
     t = sp.linspace(0, num_time_points * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
-    x_zeros = sp.zeros((x.shape[0], t_length))
-    x_freq = sp.insert(x_freq, [t_length-t_length//2+1], x_zeros, axis=1)
+    # print(x_freq)
+    # print(t_length)
+    x_zeros = sp.zeros((x.shape[0], t.size-x.shape[1]))
+    x_freq = sp.insert(x_freq, [t_length-t_length//2], x_zeros, axis=1)
+    # print(x_freq)
     x = fftp.ifft(x_freq)
     return t, x
 
