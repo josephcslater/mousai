@@ -338,6 +338,60 @@
 <span class="sd">    print(&#39;v = &#39;, v)&#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
 
+
+<div class="viewcode-block" id="time_history"><a class="viewcode-back" href="../reference/mousai.html#har_bal.time_history">[docs]</a><span class="k">def</span> <span class="nf">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">num_time_points</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate refined time history from harmonic balance solution.</span>
+
+<span class="sd">    Harmonic balance solutions presume a limited number of harmonics in the</span>
+<span class="sd">    solution. The result is that the time history is usually a very limited</span>
+<span class="sd">    number of values. Plotting these results implies that the solution isn&#39;t</span>
+<span class="sd">    actually a continuous one. This function fills in the gaps using the</span>
+<span class="sd">    harmonics obtained in the solution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t: array_like</span>
+<span class="sd">        1 x m array where m is the number of</span>
+<span class="sd">        values representing the repeating solution.</span>
+<span class="sd">    x: array_like</span>
+<span class="sd">        n x m array where m is the number of equations and m is the number of</span>
+<span class="sd">        values representing the repeating solution.</span>
+<span class="sd">    num_time_points: int</span>
+<span class="sd">        number of points desired in the &quot;smooth&quot; time history.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    t: array_like</span>
+<span class="sd">        1 x num_time_points array.</span>
+<span class="sd">    x: array_like</span>
+<span class="sd">        n x num_time_points array.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    Needs an example.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The implication of this function is that the higher harmonics that</span>
+<span class="sd">    were not determined in the solution are zero. This is indeed the assumption</span>
+<span class="sd">    made when setting up the harmonic balance solution. Whether this is a valid</span>
+<span class="sd">    assumption is something that the user must judge when performing the</span>
+<span class="sd">    solution.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">t_length</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_time_points</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">num_time_points</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">x_freq</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># print(x_freq)</span>
+    <span class="c1"># print(t_length)</span>
+    <span class="n">x_zeros</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">x_freq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">x_freq</span><span class="p">,</span> <span class="p">[</span><span class="n">t_length</span><span class="o">-</span><span class="n">t_length</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">x_zeros</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># print(x_freq)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">x_freq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span></div>
+
+
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">if __name__ == &quot;__main__&quot;:</span>
 <span class="sd">    &quot;&quot;&quot;Run doctests.</span>
@@ -404,7 +458,7 @@
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

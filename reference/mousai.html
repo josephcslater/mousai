@@ -225,6 +225,55 @@ minimized by the solver.</li>
 </div>
 </dd></dl>
 
+<dl class="function">
+<dt id="har_bal.time_history">
+<code class="descclassname">har_bal.</code><code class="descname">time_history</code><span class="sig-paren">(</span><em>t</em>, <em>x</em>, <em>num_time_points=200</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#time_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.time_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate refined time history from harmonic balance solution.</p>
+<p>Harmonic balance solutions presume a limited number of harmonics in the
+solution. The result is that the time history is usually a very limited
+number of values. Plotting these results implies that the solution isn’t
+actually a continuous one. This function fills in the gaps using the
+harmonics obtained in the solution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>t: array_like</strong></p>
+<blockquote>
+<div><p>1 x m array where m is the number of
+values representing the repeating solution.</p>
+</div></blockquote>
+<p><strong>x: array_like</strong></p>
+<blockquote>
+<div><p>n x m array where m is the number of equations and m is the number of
+values representing the repeating solution.</p>
+</div></blockquote>
+<p><strong>num_time_points: int</strong></p>
+<blockquote>
+<div><p>number of points desired in the “smooth” time history.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">t: array_like</p>
+<blockquote>
+<div><p>1 x num_time_points array.</p>
+</div></blockquote>
+<p>x: array_like</p>
+<blockquote class="last">
+<div><p>n x num_time_points array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The implication of this function is that the higher harmonics that
+were not determined in the solution are zero. This is indeed the assumption
+made when setting up the harmonic balance solution. Whether this is a valid
+assumption is something that the user must judge when performing the
+solution.</p>
+</dd></dl>
+
 </div>
 
 
@@ -248,11 +297,7 @@ minimized by the solver.</li>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Harmonic Balance Tools (<code class="docutils literal"><span class="pre">mousai.har_bal</span></code>)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="revision_history.html">Revision History</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Reference</a></li>
 </ul>
 
 
@@ -281,7 +326,7 @@ minimized by the solver.</li>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
