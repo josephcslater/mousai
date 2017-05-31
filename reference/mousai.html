@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.1a5 documentation</title>
+    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1a5',
+        VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -89,9 +89,9 @@ The 1 axis (each row) corresponds to a time history.</p>
 
 <dl class="function">
 <dt id="har_bal.hb_so">
-<code class="descclassname">har_bal.</code><code class="descname">hb_so</code><span class="sig-paren">(</span><em>sdfunc</em>, <em>x0</em>, <em>omega=1</em>, <em>method=’newton_krylov’</em>, <em>num_harmonics=1</em>, <em>params={}</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#hb_so"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.hb_so" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">har_bal.</code><code class="descname">hb_so</code><span class="sig-paren">(</span><em>sdfunc</em>, <em>x0</em>, <em>omega=1</em>, <em>method=’newton_krylov’</em>, <em>num_harmonics=1</em>, <em>eqform=’second_order’</em>, <em>params={}</em>, <em>realify=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#hb_so"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.hb_so" title="Permalink to this definition">¶</a></dt>
 <dd><p>Harmonic balance solver for second order ODEs.</p>
-<p>Obtains the solution of a second order differential equation under the
+<p>Obtains the solution of a second-order differential equation under the
 presumption that the solution is harmonic.</p>
 <p>Returns t (time), x (displacement), v (velocity), and a (acceleration)
 response of a second order linear ordinary differential
@@ -103,18 +103,14 @@ equation defined by
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sdfunc: function</strong></p>
 <blockquote>
-<div><p>Name of function that returns <strong>column vector</strong> second derivative
-given omega and **kwargs. This is NOT a string.</p>
+<div><p>For <code class="docutils literal"><span class="pre">eqform='first_order'</span></code>, name of function that returns <strong>column
+vector</strong> first derivative given <cite>x</cite>, omega and **kwargs. This is NOT
+a string.</p>
+<p><span class="math">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span></p>
+<p>For <code class="docutils literal"><span class="pre">eqform='second_order'</span></code>, name of function that returns <strong>column
+vector</strong> second derivative given <cite>x</cite>, <cite>v</cite>, omega and **kwargs. This
+is NOT a string.</p>
 <p><span class="math">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span></p>
-</div></blockquote>
-<p><strong>omega:  float</strong></p>
-<blockquote>
-<div><p>assumed fundamental response frequency in radians per second.</p>
-</div></blockquote>
-<p><strong>num_harmonics: int</strong></p>
-<blockquote>
-<div><p>number of harmonics to presume. omega = 0 constant term is always
-presumed to exist. Minimum (and default) is 1.</p>
 </div></blockquote>
 <p><strong>x0: array_like</strong></p>
 <blockquote>
@@ -123,13 +119,30 @@ values representing the repeating solution.
 It is required that <span class="math">\(m = 1 + 2 num_{harmonics}\)</span>. (we will
 generalize allowable default values later.)</p>
 </div></blockquote>
+<p><strong>omega:  float</strong></p>
+<blockquote>
+<div><p>assumed fundamental response frequency in radians per second.</p>
+</div></blockquote>
 <p><strong>method: str</strong></p>
 <blockquote>
 <div><p>Name of optimization method to be used.</p>
 </div></blockquote>
+<p><strong>num_harmonics: int</strong></p>
+<blockquote>
+<div><p>number of harmonics to presume. omega = 0 constant term is always
+presumed to exist. Minimum (and default) is 1.</p>
+</div></blockquote>
+<p><strong>eqform: str</strong></p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">second_order</span></code> or <code class="docutils literal"><span class="pre">first_order</span></code>.</p>
+</div></blockquote>
 <p><strong>params: dict</strong></p>
 <blockquote>
 <div><p>Dictionary of parameters needed by sdfunc.</p>
+</div></blockquote>
+<p><strong>realify: boolean</strong></p>
+<blockquote>
+<div><p>Force the returned results to be real.</p>
 </div></blockquote>
 <p><strong>other: any</strong></p>
 <blockquote>
@@ -227,7 +240,7 @@ minimized by the solver.</li>
 
 <dl class="function">
 <dt id="har_bal.time_history">
-<code class="descclassname">har_bal.</code><code class="descname">time_history</code><span class="sig-paren">(</span><em>t</em>, <em>x</em>, <em>num_time_points=200</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#time_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.time_history" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">har_bal.</code><code class="descname">time_history</code><span class="sig-paren">(</span><em>t</em>, <em>x</em>, <em>realify=True</em>, <em>num_time_points=200</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#time_history"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.time_history" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate refined time history from harmonic balance solution.</p>
 <p>Harmonic balance solutions presume a limited number of harmonics in the
 solution. The result is that the time history is usually a very limited
@@ -247,6 +260,10 @@ values representing the repeating solution.</p>
 <blockquote>
 <div><p>n x m array where m is the number of equations and m is the number of
 values representing the repeating solution.</p>
+</div></blockquote>
+<p><strong>realify: boolean</strong></p>
+<blockquote>
+<div><p>Force the returned results to be real.</p>
 </div></blockquote>
 <p><strong>num_time_points: int</strong></p>
 <blockquote>
