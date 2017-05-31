@@ -14,10 +14,10 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
 
 
 def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
-          params={}, **kwargs):
+          eqform = 'second_order', params={}, realify=True, **kwargs):
     r"""Harmonic balance solver for second order ODEs.
 
-    Obtains the solution of a second order differential equation under the
+    Obtains the solution of a second-order differential equation under the
     presumption that the solution is harmonic.
 
     Returns t (time), x (displacement), v (velocity), and a (acceleration)
@@ -28,24 +28,35 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     Parameters
     ----------
     sdfunc: function
-        Name of function that returns **column vector** second derivative
-        given omega and \*\*kwargs. This is NOT a string.
+        For ``eqform='first_order'``, name of function that returns **column
+        vector** first derivative given `x`, omega and \*\*kwargs. This is NOT
+        a string.
+
+        :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`
+
+        For ``eqform='second_order'``, name of function that returns **column
+        vector** second derivative given `x`, `v`, omega and \*\*kwargs. This
+        is NOT a string.
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
-    omega:  float
-        assumed fundamental response frequency in radians per second.
-    num_harmonics: int
-        number of harmonics to presume. omega = 0 constant term is always
-        presumed to exist. Minimum (and default) is 1.
     x0: array_like
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
         It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
         generalize allowable default values later.)
+    omega:  float
+        assumed fundamental response frequency in radians per second.
     method: str
         Name of optimization method to be used.
+    num_harmonics: int
+        number of harmonics to presume. omega = 0 constant term is always
+        presumed to exist. Minimum (and default) is 1.
+    eqform: str
+        ``second_order`` or ``first_order``.
     params: dict
         Dictionary of parameters needed by sdfunc.
+    realify: boolean
+        Force the returned results to be real.
     other: any
         Other keyword arguments available to nonlinear solvers in
         `scipy.optimize.nonlin
@@ -100,7 +111,7 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     params['omega'] = omega
     params['n_har'] = num_harmonics
 
-    def hb_so_err(x):
+    def hb_err(x):
         """Array (vector) of hamonic balance second order algebraic errors.
 
         Given a set of second order equations
@@ -161,25 +172,43 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         vel = harmonic_deriv(omega, x)
         # print(vel)
 
-        accel = harmonic_deriv(omega, vel)
-        accel_from_deriv = sp.zeros_like(accel)
+        if eqform is 'second_order':
+            accel = harmonic_deriv(omega, vel)
+            accel_from_deriv = sp.zeros_like(accel)
 
-        # Should subtract in place below to save memory for large problems
-        for i in sp.arange(m):
-            t = time[i]  # This should enable t to be used for current time in
-            params['cur_time'] = time[i]  # loops
-            # Note that everything in params can be accessed within `function`.
-#            accel_from_deriv[:, i] = globals()[function](x[:, i], vel[:, i],
-#                                                         params)"""
-            # print(params['function'])
-            accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
-                                                        params)
+            # Should subtract in place below to save memory for large problems
+            for i in sp.arange(m):
+                # This should enable t to be used for current time in loops
+                t = time[i]
+                params['cur_time'] = time[i]  # loops
+                # Note that everything in params can be accessed within
+                # `function`.
+                # print(params['function'])
+                accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
+                                                            params)
 
-        e = accel_from_deriv - accel
+            e = accel_from_deriv - accel
+        elif eqform is 'first_order':
+            vel_from_deriv = sp.zeros_like(accel)
+
+            # Should subtract in place below to save memory for large problems
+            for i in sp.arange(m):
+                # This should enable t to be used for current time in loops
+                t = time[i]
+                params['cur_time'] = time[i]
+                # Note that everything in params can be accessed within
+                # `function`.
+                # print(params['function'])
+                vel_from_deriv[:, i] = params['function'](x[:, i], params)
+
+            e = vel_from_deriv - vel
+        else:
+            print('eqform cannot have a value of ', eqform)
+            return 0, 0, 0, 0, 0
         # print(e)
         return e
     try:
-        x = globals()[method](hb_so_err, x0, **kwargs)
+        x = globals()[method](hb_err, x0, **kwargs)
     except:
         raise
     # v = harmonic_deriv(omega, x)
@@ -187,14 +216,12 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     xhar = fftp.fft(x)*2/len(time)
     amps = sp.absolute(xhar[:, 1])
     phases = sp.angle(xhar[:, 1])
-    e = hb_so_err(x)
+    e = hb_err(x)
 
-    '''
-    a) define a function that returns errors in time domain as vector
-    b) define function to obtain velocity and accelerations from displacement
-    and frequencies.
-    c)
-    '''
+    if realify is True:
+        x = sp.real(x)
+    else:
+        print('x was real')
     return time, x, e, amps, phases
 
 
@@ -293,7 +320,7 @@ def duff_osc(x, v, params):
     return -x-.1*x**3-.2*v+sin(omega*t)
 
 
-def time_history(t, x, num_time_points=200):
+def time_history(t, x, realify=True, num_time_points=200):
     """Generate refined time history from harmonic balance solution.
 
     Harmonic balance solutions presume a limited number of harmonics in the
@@ -310,6 +337,8 @@ def time_history(t, x, num_time_points=200):
     x: array_like
         n x m array where m is the number of equations and m is the number of
         values representing the repeating solution.
+    realify: boolean
+        Force the returned results to be real.
     num_time_points: int
         number of points desired in the "smooth" time history.
 
@@ -335,14 +364,19 @@ def time_history(t, x, num_time_points=200):
     """
     dt = t[1]
     t_length = t.size
-    t = sp.linspace(0, num_time_points * dt, num_time_points, endpoint=False)
+    t = sp.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
     # print(x_freq)
     # print(t_length)
     x_zeros = sp.zeros((x.shape[0], t.size-x.shape[1]))
     x_freq = sp.insert(x_freq, [t_length-t_length//2], x_zeros, axis=1)
     # print(x_freq)
-    x = fftp.ifft(x_freq)
+    x = fftp.ifft(x_freq)*num_time_points/t_length
+    if realify is True:
+        x = sp.real(x)
+    else:
+        print('x was real')
+
     return t, x
 
 
