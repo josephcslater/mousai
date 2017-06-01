@@ -13,8 +13,9 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2,\
 """
 
 
-def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
-          eqform = 'second_order', params={}, realify=True, **kwargs):
+def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
+          num_variables=None, eqform='second_order', params={}, realify=True,
+          **kwargs):
     r"""Harmonic balance solver for second order ODEs.
 
     Obtains the solution of a second-order differential equation under the
@@ -29,17 +30,17 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
     ----------
     sdfunc: function
         For ``eqform='first_order'``, name of function that returns **column
-        vector** first derivative given `x`, omega and \*\*kwargs. This is NOT
-        a string.
+        vector** first derivative given `x`, omega and \*\*kwargs. This is
+        *NOT* a string.
 
         :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`
 
         For ``eqform='second_order'``, name of function that returns **column
         vector** second derivative given `x`, `v`, omega and \*\*kwargs. This
-        is NOT a string.
+        is *NOT* a string.
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
-    x0: array_like
+    x0: array_like, optional
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
         It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
@@ -48,9 +49,15 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
         assumed fundamental response frequency in radians per second.
     method: str
         Name of optimization method to be used.
-    num_harmonics: int
-        number of harmonics to presume. omega = 0 constant term is always
-        presumed to exist. Minimum (and default) is 1.
+    num_harmonics: int, optional
+        Number of harmonics to presume. The omega = 0 constant term is always
+        presumed to exist. Minimum (and default) is 1. If num_harmonics*2+1
+        exceeds the number of columns of x0 then x0 will be expanded, using
+        Fourier analaysis, to include additional harmonics with the starting
+        presumption of zero values.
+    num_variables: int, optional
+        If x0 is defined, num_variables is inferred. An error will result if
+        both x0 and num_variables are left out of the function call.
     eqform: str
         ``second_order`` or ``first_order``.
     params: dict
@@ -100,7 +107,23 @@ def hb_so(sdfunc, x0, omega=1, method='newton_krylov', num_harmonics=1,
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
-    num_harmonics = int((x0.shape[1]-1)/2)
+
+    if x0 is None:
+        if num_variables is not None:
+            x0 = sp.zeros((num_variables, 1+num_harmonics*2))
+        else:
+            print('Error: Must either define number of variables or initial\
+                  guess for x')
+            return
+    elif num_harmonics is None:
+        num_harmonics = int((x0.shape[1]-1)/2)
+    elif num_harmonics > x0.shape[1]:
+        x_freq = fftp.fft(x0)
+        x_zeros = sp.zeros((x0.shape[0], 1+num_harmonics*2-x0.shape[1]))
+        x_freq = sp.insert(x_freq, [x0.shape[1]-x0.shape[1]//2], x_zeros,
+                           axis=1)
+        x0 = fftp.ifft(x_freq)*(1+num_harmonics*2)/x0.shape[1]
+        x0 = sp.real(x0)
 
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
@@ -366,11 +389,8 @@ def time_history(t, x, realify=True, num_time_points=200):
     t_length = t.size
     t = sp.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
-    # print(x_freq)
-    # print(t_length)
     x_zeros = sp.zeros((x.shape[0], t.size-x.shape[1]))
     x_freq = sp.insert(x_freq, [t_length-t_length//2], x_zeros, axis=1)
-    # print(x_freq)
     x = fftp.ifft(x_freq)*num_time_points/t_length
     if realify is True:
         x = sp.real(x)
