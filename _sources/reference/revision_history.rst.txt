@@ -1,5 +1,13 @@
 Revision History
 ________________
+0.11
+~~~~
+Enable functionality of `num_harmonics`
+
+0.1
+~~~
+Release
+
 0.1.a5
 ~~~~~~
 Calculate number of harmonics from size of x0. Still needs to handle conflicting information if x0 missing.
