@@ -129,7 +129,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         sdfunc = globals()[sdfunc]
         print("`sdfunc` is expected to be a function name, not a string")
     params['function'] = sdfunc  # function that returns SO derivative
-    time = sp.linspace(0, 2*pi/omega, num=2*num_harmonics+1, endpoint=False)
+    time = sp.linspace(0, 2*pi/omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
