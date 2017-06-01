@@ -27,14 +27,15 @@ ___________________________________________
 
 The usage documentation is far behind the current code, while the reference is way ahead of the released code due to the `autodoc <http://www.sphinx-doc.org/en/stable/ext/autodoc.html>`_ capability of `Sphinx <http://www.sphinx-doc.org/en/stable/>`_. Especially as of early 2017, the code is in rapid development. So is the documentation. Releases to `pypi <https://pypi.python.org/pypi>`_ are far behind current status as stopping to deploy would cost more time that it is worth. We have the objective of releasing a first non-beta version at the end of May, but even this cannot be promised.
 
-If you wish to install the current version of the software, download the newest ``wheel`` file from
-``https://github.com/josephcslater/mousai/tree/master/dist``. This should be easy to understand, outside of what a ``wheel file`` is. Don't fret that. It's the full package as it currently stands (at lease the last time someone made a `wheel`).
+If you wish to stay current with the software, fork the repository, then clone it to your desktop.
 
-Then, type::
+Then, in the root directory of `mousai`, type::
 
-  pip install --force-reinstall --upgrade --user dist/mousai-0.5b9-py3-none-any.whl
+  pip install -e mousai
 
-Where you see ``0.5.b9`` above, you will likely need to insert the correct version. We don't increment versions for each minor edit, so you may have to force upgrade.
+Now if sync/update your clone, you will have the current version each time you do so.
+
+The added benefit is that you can also develop and contribute by submitting pull requests. Please don't edit inside the `mousai` directories unless you intend to submit a pull request because your edits may be overwritten or lost.
 
 That should be it. Please note issues on the `issues tab <https://github.com/josephcslater/mousai>`_ on github.
 
