@@ -208,9 +208,9 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="Duffing-Oscillator-Solution">
 <h1>Duffing Oscillator Solution<a class="headerlink" href="#Duffing-Oscillator-Solution" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [44]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -224,24 +224,15 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The autoreload extension is already loaded. To reload it, use:
-  %reload_ext autoreload
-</pre></div></div>
-</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [45]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="c1"># Test that all is working.</span>
-<span class="c1"># f_tol adjust accuracy. This is more then reasonable, but illustrative.</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-16</span><span class="p">)</span>
+<span class="c1"># f_tol adjusts accuracy. This is smaller than reasonable, but illustrative of usage.</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-12</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -252,39 +243,44 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[ -2.77555756e-17   0.00000000e+00   0.00000000e+00]]
+Equation errors (should be zero):  [[  3.88578059e-16  -1.44328993e-14  -2.10942375e-15]]
 Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [46]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">x</span>
+<span></span><span class="c1"># Using more harmonics.</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[46]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array([[-0.34996499,  1.36053998, -1.11828552]])
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Equation errors (should be zero):  [[  2.03840040e-08  -1.14282772e-08  -4.52823956e-09  -1.00924435e-09
+   -1.08239696e-08  -2.49637952e-07  -6.82057262e-07  -1.59981777e-07
+   -2.75272869e-10   9.92544247e-09   2.19570906e-09   2.51260790e-10
+    7.34231167e-08   4.91779858e-07   5.65899313e-07]]
+Constant term of FFT of signal should be zero:  (7.04077199642e-06+0j)
+</pre></div></div>
 </div>
 <p>Sometimes we can improve just by restarting from the prior end point.
 Sometimes, we just think it’s improved.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [47]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-14</span><span class="p">)</span>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Errors: &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -295,8 +291,11 @@ Sometimes, we just think it’s improved.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Errors:  [[  2.77555756e-17   0.00000000e+00   0.00000000e+00]]
-Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
+Errors:  [[  5.38458167e-15  -3.83026943e-15   7.60502772e-15   8.10462808e-15
+   -5.32907052e-15  -2.60902411e-14  -1.28674849e-13  -3.77475828e-15
+   -4.51852097e-15  -1.94289029e-15   7.54951657e-15  -8.43769499e-15
+    3.55271368e-15   7.79376563e-14   1.14241949e-13]]
+Constant term of FFT of signal should be zero:  (7.0848133063e-06+0j)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -310,30 +309,7 @@ Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [48]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="c1"># Adding more harmonics will improve the zero frequency term accuracy. Longish story here.</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]),</span> <span class="o">.</span><span class="mo">001</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-14</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Errors: &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Errors:  [[  4.22447084e-20   6.35471646e-17   5.71806532e-17   1.80656246e-18
-    9.07976968e-18   6.28548210e-17  -2.77609755e-17]]
-Constant term of FFT of signal should be zero:  (-7.21435334228e-07+0j)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [49]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -350,19 +326,19 @@ Constant term of FFT of signal should be zero:  (-7.21435334228e-07+0j)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average for this problem is known to be zero, we got -1.03062190591e-07
+The average for this problem is known to be zero, we got 4.72320887068e-07
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_7_1.png" src="../../_images/tutorial_demos_Duffing_7_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_6_1.png" src="../../_images/tutorial_demos_Duffing_6_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [50]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -375,15 +351,17 @@ The average for this problem is known to be zero, we got -1.03062190591e-07
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [51]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
 <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -393,23 +371,23 @@ The average for this problem is known to be zero, we got -1.03062190591e-07
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[[-0.18301653  0.89755789  1.38727516  1.33327431  0.72344894 -0.41327672
-  -1.21777379 -1.42368095 -1.10589493]] [[  3.05234490e-09  -5.12549059e-10  -1.90306010e-08  -1.03661774e-07
-   -1.52197536e-07   1.41372924e-09   3.25032445e-09   6.38679235e-07
-    5.26556565e-08]]
-Constant term of FFT of signal should be zero:  (-0.00208664413924+0j)
+[[-0.1854827   0.74408211  1.27869989  1.42305317  1.22766696  0.6400849
+  -0.31045409 -1.06650367 -1.39410353 -1.36873107 -0.98898229]] [[  3.17252322e-09  -6.46322107e-10  -6.38667130e-09  -7.89573579e-08
+   -2.08421426e-07  -1.90428736e-08   1.17204421e-09   4.26699343e-10
+    2.20290910e-08   1.48105392e-07   1.50179501e-07]]
+Constant term of FFT of signal should be zero:  (-0.00067031933905+0j)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_9_1.png" src="../../_images/tutorial_demos_Duffing_9_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_8_1.png" src="../../_images/tutorial_demos_Duffing_8_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [52]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -429,11 +407,11 @@ Constant term of FFT of signal should be zero:  (-0.00208664413924+0j)
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[52]:
+<span></span>Out[20]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1123b1828&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115cacd30&gt;]
 </pre></div>
 </div>
 </div>
@@ -441,7 +419,7 @@ Constant term of FFT of signal should be zero:  (-0.00208664413924+0j)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_10_1.png" src="../../_images/tutorial_demos_Duffing_10_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_9_1.png" src="../../_images/tutorial_demos_Duffing_9_1.png" />
 </div>
 </div>
 <p>The break is an indicative of a break in the branch and is actually a
@@ -453,19 +431,19 @@ solution will necessarily be found.</p>
 solution and see if it finds another one. Indeed that happens.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [53]:
+<span></span>In [28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
     <span class="c1">#print(i,freq,x)</span>
     <span class="c1">#print(sp.average(x))</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
@@ -475,11 +453,50 @@ solution and see if it finds another one. Indeed that happens.</p>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[53]:
+<span></span>Out[28]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x112199358&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x1163878d0&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_demos_Duffing_11_1.png" src="../../_images/tutorial_demos_Duffing_11_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">.</span><span class="mo">03</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
+<span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
+    <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
+    <span class="c1"># we ignore them by inserting `np.nan` values.</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
+        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span> <span class="n">ampl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[29]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x116470588&gt;]
 </pre></div>
 </div>
 </div>
@@ -492,117 +509,7 @@ solution and see if it finds another one. Indeed that happens.</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [55]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">.</span><span class="mo">03</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
-<span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
-    <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
-    <span class="c1"># we ignore them by inserting `np.nan` values.</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
-        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span> <span class="n">ampl</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[55]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1115f8400&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_13_1.png" src="../../_images/tutorial_demos_Duffing_13_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [56]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">x</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[56]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array([[-0.00377912,  0.74011868,  0.90346255,  0.42998097, -0.42353567,
-        -0.90213389, -0.74412809]])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [57]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">sp</span><span class="o">.</span><span class="n">fftpack</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[57]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array([[ -1.45696510e-05+0.j        ,  -1.23816100e-02-3.2910842j ,
-         -6.54385041e-05+0.00369151j,  -7.72572122e-04-0.0644356j ,
-         -7.72572122e-04+0.0644356j ,  -6.54385041e-05-0.00369151j,
-         -1.23816100e-02+3.2910842j ]])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [58]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[58]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1124202b0&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_16_1.png" src="../../_images/tutorial_demos_Duffing_16_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [59]:
+<span></span>In [30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -614,11 +521,11 @@ solution and see if it finds another one. Indeed that happens.</p>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[59]:
+<span></span>Out[30]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1124afa58&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x115eccba8&gt;]
 </pre></div>
 </div>
 </div>
@@ -626,7 +533,7 @@ solution and see if it finds another one. Indeed that happens.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_17_1.png" src="../../_images/tutorial_demos_Duffing_17_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_13_1.png" src="../../_images/tutorial_demos_Duffing_13_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -719,7 +626,7 @@ solution and see if it finds another one. Indeed that happens.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_22_1.png" src="../../_images/tutorial_demos_Duffing_22_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_18_1.png" src="../../_images/tutorial_demos_Duffing_18_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -768,7 +675,7 @@ solution and see if it finds another one. Indeed that happens.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_23_2.png" src="../../_images/tutorial_demos_Duffing_23_2.png" />
+<img alt="../../_images/tutorial_demos_Duffing_19_2.png" src="../../_images/tutorial_demos_Duffing_19_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -796,7 +703,7 @@ solution and see if it finds another one. Indeed that happens.</p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_24_1.png" src="../../_images/tutorial_demos_Duffing_24_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_20_1.png" src="../../_images/tutorial_demos_Duffing_20_1.png" />
 </div>
 </div>
 </div>
