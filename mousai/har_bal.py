@@ -1,4 +1,5 @@
 import scipy as sp
+import numpy as np
 import scipy.fftpack as fftp
 import scipy.linalg as la
 from scipy import pi, sin, cos
@@ -107,7 +108,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
-
+    #print(x0)
     if x0 is None:
         if num_variables is not None:
             x0 = sp.zeros((num_variables, 1+num_harmonics*2))
@@ -119,12 +120,16 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         num_harmonics = int((x0.shape[1]-1)/2)
     elif num_harmonics > x0.shape[1]:
         x_freq = fftp.fft(x0)
+        #print('x_freq ', x_freq)
         x_zeros = sp.zeros((x0.shape[0], 1+num_harmonics*2-x0.shape[1]))
+        #print('x_zeros ', x_zeros)
         x_freq = sp.insert(x_freq, [x0.shape[1]-x0.shape[1]//2], x_zeros,
                            axis=1)
+        #print('x_freq expanded', x_freq)
+
         x0 = fftp.ifft(x_freq)*(1+num_harmonics*2)/x0.shape[1]
         x0 = sp.real(x0)
-
+    #print('x0 after expansion', x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
         print("`sdfunc` is expected to be a function name, not a string")
@@ -194,7 +199,8 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         # print(x)
         vel = harmonic_deriv(omega, x)
         # print(vel)
-
+        # print(x)
+        # print('vel :', vel)
         if eqform is 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = sp.zeros_like(accel)
@@ -208,12 +214,12 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # `function`.
                 # print(params['function'])
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
-                                                            params)
+                                                            params)[:,0]
 
             e = accel_from_deriv - accel
         elif eqform is 'first_order':
-            vel_from_deriv = sp.zeros_like(accel)
-
+            vel_from_deriv = sp.zeros_like(vel)
+            # print(vel_from_deriv.shape)
             # Should subtract in place below to save memory for large problems
             for i in sp.arange(m):
                 # This should enable t to be used for current time in loops
@@ -222,15 +228,21 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # Note that everything in params can be accessed within
                 # `function`.
                 # print(params['function'])
-                vel_from_deriv[:, i] = params['function'](x[:, i], params)
+                """print('vel_fro_shape :', vel_from_deriv[:, i].shape)
+                print('vel_from_derive :', vel_from_deriv[:, i])
+                print('evaluated shape:', params['function'](x[:, i], params).shape)
+                print('evaluated :', params['function'](x[:, i], params))"""
+                vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
 
             e = vel_from_deriv - vel
+            # print('e: ', e)
         else:
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
         # print(e)
         return e
     try:
+        #print('x0 ',x0)
         x = globals()[method](hb_err, x0, **kwargs)
     except:
         raise
@@ -340,7 +352,7 @@ def duff_osc(x, v, params):
     '''print('t=',t)
     print('x = ', x)
     print('v = ', v)'''
-    return -x-.1*x**3-.2*v+sin(omega*t)
+    return sp.array([[-x-.1*x**3-.2*v+sin(omega*t)]])
 
 
 def time_history(t, x, realify=True, num_time_points=200):
