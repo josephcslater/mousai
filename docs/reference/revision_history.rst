@@ -1,6 +1,11 @@
 Revision History
 ________________
 
+0.2.a1
+~~~~~~
+1. Works for first order systems
+2. Works for MDOF systems
+
 0.11
 ~~~~
 Enable functionality of `num_harmonics`

@@ -10,6 +10,7 @@ Tutorials with worked examples and background information for the Harmonic Balan
    :maxdepth: 2
 
    demos/Duffing.ipynb
+   demos/Duffing_state_space.ipynb
 
 ..   Beats
 
