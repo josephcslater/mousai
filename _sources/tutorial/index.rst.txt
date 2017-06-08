@@ -12,6 +12,8 @@ Tutorials with worked examples and background information for the Harmonic Balan
    demos/Duffing.ipynb
    demos/Duffing_state_space.ipynb
 
+All notebooks used in the generation of this document can be obtained  as `downloadable notebooks <https://github.com/josephcslater/mousai/tree/master/docs/tutorial/demos>`__.
+
 ..   Beats
 
 ..   ../../JupyterNotebooks/temp
