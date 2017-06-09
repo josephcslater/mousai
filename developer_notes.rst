@@ -1,4 +1,17 @@
-To make distribution. (not completely valid- pulled from Vibration Toolbox)
+To develop, it's best to NOT use ``pip install mousai`` as you will not know which mousai you are running versus testing. 
+
+The easiest way is to:
+
+1. Fork Mousai
+2. Clone to your hard drive/computer
+3. At the top level directory inside mousai type::
+
+  pip
+  
+  
+
+
+To make a distribution. (not completely valid- pulled from Vibration Toolbox)
 
 1) Edit the version number in ``mousai/__init__.py``
 2) Use the Makefile, ``make release``
@@ -16,3 +29,5 @@ To test before release::
 See ``create_distro.rst`` for explicit ``pypi`` commands that may not be necessary.
 
 See `twine notes <https://packaging.python.org/distributing/#working-in-development-mode>`_ on modern pypi connectivity.
+
+Once travis-ci checking is done, release checking will be unecessary but for checking that travis-ci reported positively. 
