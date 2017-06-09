@@ -108,7 +108,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
-    #print(x0)
+# print(x0)
     if x0 is None:
         if num_variables is not None:
             x0 = sp.zeros((num_variables, 1+num_harmonics*2))
