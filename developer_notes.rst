@@ -6,11 +6,8 @@ The easiest way is to:
 2. Clone to your hard drive/computer
 3. At the top level directory inside mousai type::
 
-  pip
+  > pip install -e mousai
   
-  
-
-
 To make a distribution. (not completely valid- pulled from Vibration Toolbox)
 
 1) Edit the version number in ``mousai/__init__.py``
