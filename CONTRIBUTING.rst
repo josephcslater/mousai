@@ -7,16 +7,14 @@ The easiest way is to:
 
 1. Fork Mousai
 2. Clone to your hard drive/computer
-3. At the top level directory inside ``mousai`` at a terminal (or anaconda) prompt, type:
+3. To work in `developer mode <https://packaging.python.org/distributing/#working-in-development-mode>`_, at the top level directory inside ``mousai`` at a terminal (or anaconda) prompt, type::
 
-::
-
-  pip install -e mousai
+    $ pip install -e .
 
 Testing Docstrings
 ------------------
 
-Typing ``pytest`` at the top of the directory structure will run all unit tests in docstrings. 
+Typing ``pytest`` at the top of the directory structure will run all unit tests in docstrings.
 
 Making Distributions
 --------------------
