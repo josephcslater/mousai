@@ -38,6 +38,9 @@ setup(name='mousai',
       long_description=read('README.rst'),
       keywords=['harmonic balance', 'numerical solvers',
                 'vibration', 'oscillation'],
-      install_requires=['numpy', 'scipy', 'matplotlib'])
+      install_requires=['numpy', 'scipy', 'matplotlib'],
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest']
+      )
 
 # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
