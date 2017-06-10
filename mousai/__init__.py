@@ -17,7 +17,7 @@ Joseph C. Slater
 # import sys
 
 __title__ = 'mousai'
-__version__ = '0.2a1'
+__version__ = '0.2'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
