@@ -1,6 +1,10 @@
 Revision History
 ________________
 
+0.2
+~~~
+Travis CI tests work. 
+
 0.2.a1
 ~~~~~~
 1. Works for first order systems
