@@ -16,8 +16,6 @@ Joseph C. Slater
 """
 # import sys
 
-from .har_bal import *
-
 __title__ = 'mousai'
 __version__ = '0.2a1'
 __author__ = 'Joseph C. Slater'
@@ -25,6 +23,15 @@ __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
 __name__ = 'mousai'
 __package__ = 'mousai'
+
+import sys
+import matplotlib as mpl
+
+if 'pytest' in sys.argv[0]:
+    print('Setting backend to agg to run tests')
+    mpl.use('agg')
+
+from .har_bal import *
 
 # __all__ = ['har_bal', '__version__']
 
