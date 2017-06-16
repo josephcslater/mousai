@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from mousai import *
 import scipy as sp
-from scipy import pi,sin,cos
+from scipy import pi, sin, cos
 f = 2
 omega = 2.*pi * f
 numsteps = 11

@@ -47,8 +47,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fftp</span>
 <span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span>
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">newton_krylov</span><span class="p">,</span> <span class="n">anderson</span><span class="p">,</span> <span class="n">broyden1</span><span class="p">,</span> <span class="n">broyden2</span><span class="p">,</span>\
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">newton_krylov</span><span class="p">,</span> <span class="n">anderson</span><span class="p">,</span> <span class="n">broyden1</span><span class="p">,</span> <span class="n">broyden2</span><span class="p">,</span> \
                            <span class="n">excitingmixing</span><span class="p">,</span> <span class="n">linearmixing</span><span class="p">,</span> <span class="n">diagbroyden</span>
 <span class="c1"># import matplotlib.pyplot as plt</span>
 
@@ -70,7 +69,39 @@
 <span class="sd">    Returns t (time), x (displacement), v (velocity), and a (acceleration)</span>
 <span class="sd">    response of a second order linear ordinary differential</span>
 <span class="sd">    equation defined by</span>
-<span class="sd">    :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`.</span>
+<span class="sd">    :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)` or</span>
+<span class="sd">    :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`.</span>
+
+<span class="sd">    For the state space form, the function ``sdfunc`` should have the form::</span>
+
+<span class="sd">        def duff_osc_ss(x, params):  # params is a dictionary of parameters</span>
+<span class="sd">            omega = params[&#39;omega&#39;]  # `omega` will be put into the dictionary</span>
+<span class="sd">                                     # for you</span>
+<span class="sd">            t = params[&#39;cur_time&#39;]   # The time value is available as</span>
+<span class="sd">                                     # `cur_time` in the dictionary</span>
+<span class="sd">            return np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])</span>
+
+<span class="sd">    In a state space form solution, the function must take the states and the</span>
+<span class="sd">    ``params`` dictionary. This dictionary should be used to obtain the</span>
+<span class="sd">    prescribed response frequency and the current time. These plus any other</span>
+<span class="sd">    parameters are used to calculate the state derivatives which are returned</span>
+<span class="sd">    by the function.</span>
+
+<span class="sd">    For the second order form the function ``sdfunc`` should have the form::</span>
+
+<span class="sd">        def duff_osc(x, v, params):  # params is a dictionary of parameters</span>
+<span class="sd">            omega = params[&#39;omega&#39;]  # `omega` will be put into the dictionary</span>
+<span class="sd">                                     # for you</span>
+<span class="sd">            t = params[&#39;cur_time&#39;]   # The time value is available as</span>
+<span class="sd">                                     # `cur_time` in the dictionary</span>
+<span class="sd">            return np.array([[-x-.1*x**3-.2*v+sin(omega*t)]])</span>
+
+<span class="sd">    In a second-order form solution the function must take the states and the</span>
+<span class="sd">    ``params`` dictionary. This dictionary should be used to obtain the</span>
+<span class="sd">    prescribed response frequency and the current time. These plus any other</span>
+<span class="sd">    parameters are used to calculate the state derivatives which are returned</span>
+<span class="sd">    by the function.</span>
+
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -128,7 +159,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; import mousai as ms</span>
-<span class="sd">    &gt;&gt;&gt; t, x, e, amps, phases = ms.hb_so(ms.duff_osc, sp.array([[0,1,-1]]), .7)</span>
+<span class="sd">    &gt;&gt;&gt; t, x, e, amps, phases = ms.hb_so(ms.duff_osc, np.array([[0,1,-1]]), .7)</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    ------</span>
@@ -137,7 +168,7 @@
 <span class="sd">    &lt;https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html&gt;`_ with</span>
 <span class="sd">    ``newton_krylov`` as the default.</span>
 
-<span class="sd">    Needs quasi-linear estimator for starting point.</span>
+<span class="sd">    Benefits from quasi-linear estimator for starting point.</span>
 
 <span class="sd">    Should gently &quot;walk&quot; solution up to get to nonlinearities.</span>
 
@@ -153,10 +184,9 @@
 
 <span class="sd">    Options to the nonlinear solvers can be passed in by \*\*kwargs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<span class="c1"># print(x0)</span>
     <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">num_variables</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">x0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_variables</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">num_harmonics</span><span class="o">*</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_variables</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">num_harmonics</span><span class="o">*</span><span class="mi">2</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error: Must either define number of variables or initial</span><span class="se">\</span>
 <span class="s1">                  guess for x&#39;</span><span class="p">)</span>
@@ -165,21 +195,17 @@
         <span class="n">num_harmonics</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">num_harmonics</span> <span class="o">&gt;</span> <span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="n">x_freq</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
-        <span class="c1">#print(&#39;x_freq &#39;, x_freq)</span>
-        <span class="n">x_zeros</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="n">num_harmonics</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="c1">#print(&#39;x_zeros &#39;, x_zeros)</span>
-        <span class="n">x_freq</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">x_freq</span><span class="p">,</span> <span class="p">[</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">x_zeros</span><span class="p">,</span>
+        <span class="n">x_zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="n">num_harmonics</span><span class="o">*</span><span class="mi">2</span><span class="o">-</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">x_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">x_freq</span><span class="p">,</span> <span class="p">[</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">x_zeros</span><span class="p">,</span>
                            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="c1">#print(&#39;x_freq expanded&#39;, x_freq)</span>
 
         <span class="n">x0</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">x_freq</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">num_harmonics</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">x0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
-    <span class="c1">#print(&#39;x0 after expansion&#39;, x0)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">sdfunc</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">sdfunc</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;`sdfunc` is expected to be a function name, not a string&quot;</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdfunc</span>  <span class="c1"># function that returns SO derivative</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega</span>
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_har&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_harmonics</span>
@@ -248,10 +274,10 @@
         <span class="c1"># print(&#39;vel :&#39;, vel)</span>
         <span class="k">if</span> <span class="n">eqform</span> <span class="ow">is</span> <span class="s1">&#39;second_order&#39;</span><span class="p">:</span>
             <span class="n">accel</span> <span class="o">=</span> <span class="n">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">vel</span><span class="p">)</span>
-            <span class="n">accel_from_deriv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">accel</span><span class="p">)</span>
+            <span class="n">accel_from_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">accel</span><span class="p">)</span>
 
             <span class="c1"># Should subtract in place below to save memory for large problems</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
                 <span class="c1"># This should enable t to be used for current time in loops</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># loops</span>
@@ -259,14 +285,13 @@
                 <span class="c1"># `function`.</span>
                 <span class="c1"># print(params[&#39;function&#39;])</span>
                 <span class="n">accel_from_deriv</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">](</span><span class="n">x</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">vel</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
-                                                            <span class="n">params</span><span class="p">)[:,</span><span class="mi">0</span><span class="p">]</span>
-
+                                                            <span class="n">params</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">accel_from_deriv</span> <span class="o">-</span> <span class="n">accel</span>
         <span class="k">elif</span> <span class="n">eqform</span> <span class="ow">is</span> <span class="s1">&#39;first_order&#39;</span><span class="p">:</span>
-            <span class="n">vel_from_deriv</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
+            <span class="n">vel_from_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
             <span class="c1"># print(vel_from_deriv.shape)</span>
             <span class="c1"># Should subtract in place below to save memory for large problems</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
                 <span class="c1"># This should enable t to be used for current time in loops</span>
                 <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -275,31 +300,31 @@
                 <span class="c1"># print(params[&#39;function&#39;])</span>
                 <span class="sd">&quot;&quot;&quot;print(&#39;vel_fro_shape :&#39;, vel_from_deriv[:, i].shape)</span>
 <span class="sd">                print(&#39;vel_from_derive :&#39;, vel_from_deriv[:, i])</span>
-<span class="sd">                print(&#39;evaluated shape:&#39;, params[&#39;function&#39;](x[:, i], params).shape)</span>
+<span class="sd">                print(&#39;evaluated shape:&#39;, params[&#39;function&#39;](x[:, i],</span>
+<span class="sd">                      params).shape)</span>
 <span class="sd">                print(&#39;evaluated :&#39;, params[&#39;function&#39;](x[:, i], params))&quot;&quot;&quot;</span>
-                <span class="n">vel_from_deriv</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">](</span><span class="n">x</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">params</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">vel_from_deriv</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span>\
+                    <span class="n">params</span><span class="p">[</span><span class="s1">&#39;function&#39;</span><span class="p">](</span><span class="n">x</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">params</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
 
             <span class="n">e</span> <span class="o">=</span> <span class="n">vel_from_deriv</span> <span class="o">-</span> <span class="n">vel</span>
             <span class="c1"># print(&#39;e: &#39;, e)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eqform cannot have a value of &#39;</span><span class="p">,</span> <span class="n">eqform</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-        <span class="c1"># print(e)</span>
         <span class="k">return</span> <span class="n">e</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="c1">#print(&#39;x0 &#39;,x0)</span>
         <span class="n">x</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">method</span><span class="p">](</span><span class="n">hb_err</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="k">raise</span>
     <span class="c1"># v = harmonic_deriv(omega, x)</span>
     <span class="c1"># a = harmonic_deriv(omega, v)</span>
     <span class="n">xhar</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-    <span class="n">amps</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">phases</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">amps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
     <span class="n">e</span> <span class="o">=</span> <span class="n">hb_err</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">realify</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x was real&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span></div>
@@ -334,7 +359,7 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; from mousai import *</span>
 <span class="sd">    &gt;&gt;&gt; import scipy as sp</span>
-<span class="sd">    &gt;&gt;&gt; from scipy import pi,sin,cos</span>
+<span class="sd">    &gt;&gt;&gt; from scipy import pi, sin, cos</span>
 <span class="sd">    &gt;&gt;&gt; f = 2</span>
 <span class="sd">    &gt;&gt;&gt; omega = 2.*pi * f</span>
 <span class="sd">    &gt;&gt;&gt; numsteps = 11</span>
@@ -348,12 +373,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># print(r)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">omega_half</span> <span class="o">=</span> <span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span> <span class="o">*</span> <span class="mi">2</span><span class="n">j</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">omega_whole</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">omega_half</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">omega_half</span><span class="p">)</span>
+    <span class="n">omega_half</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">omega</span> <span class="o">*</span> <span class="mi">2</span><span class="n">j</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">omega_whole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">omega_half</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">omega_half</span><span class="p">)</span>
     <span class="n">r_freq</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
     <span class="n">s_freq</span> <span class="o">=</span> <span class="n">r_freq</span> <span class="o">*</span> <span class="n">omega_whole</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">s_freq</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="solmf"><a class="viewcode-back" href="../reference/mousai.html#har_bal.solmf">[docs]</a><span class="k">def</span> <span class="nf">solmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
@@ -373,12 +398,12 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import scipy as sp</span>
-<span class="sd">    &gt;&gt;&gt; M = sp.array([[2,0],[0,1]])</span>
-<span class="sd">    &gt;&gt;&gt; K = sp.array([[2,-1],[-1,3]])</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; M = np.array([[2,0],[0,1]])</span>
+<span class="sd">    &gt;&gt;&gt; K = np.array([[2,-1],[-1,3]])</span>
 <span class="sd">    &gt;&gt;&gt; C = 0.01 * M + 0.01 * K</span>
-<span class="sd">    &gt;&gt;&gt; x = sp.array([[1],[0]])</span>
-<span class="sd">    &gt;&gt;&gt; v = sp.array([[0],[10]])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.array([[1],[0]])</span>
+<span class="sd">    &gt;&gt;&gt; v = np.array([[0],[10]])</span>
 <span class="sd">    &gt;&gt;&gt; F = v * 0.1</span>
 <span class="sd">    &gt;&gt;&gt; a = solmf(x, v, M, C, K, F)</span>
 <span class="sd">    &gt;&gt;&gt; print(a)</span>
@@ -390,14 +415,9 @@
 
 
 <span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-    <span class="c1"># print(&#39;duff osc&#39;)</span>
-    <span class="c1"># print(reduced_kwargs)</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
-    <span class="sd">&#39;&#39;&#39;print(&#39;t=&#39;,t)</span>
-<span class="sd">    print(&#39;x = &#39;, x)</span>
-<span class="sd">    print(&#39;v = &#39;, v)&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
 
 
 <div class="viewcode-block" id="time_history"><a class="viewcode-back" href="../reference/mousai.html#har_bal.time_history">[docs]</a><span class="k">def</span> <span class="nf">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">realify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_time_points</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
