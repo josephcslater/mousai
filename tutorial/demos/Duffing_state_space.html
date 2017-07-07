@@ -363,38 +363,13 @@ Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">x</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[7]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array([[-0.00966614,  0.5234018 ,  0.85235438,  0.92199611,  0.73011656,
-         0.29118919, -0.27313706, -0.71945762, -0.91989617, -0.85870059,
-        -0.53820131],
-       [ 0.09574541,  0.08002063,  0.03915022, -0.01219453, -0.06042603,
-        -0.09126401, -0.09182321, -0.06181887, -0.01390861,  0.03753843,
-         0.07898057]])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
     <span class="c1">#print(i,freq,x)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span><span class="c1">#, f_tol = 1e-10)#, callback = resid)</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span><span class="c1">#, f_tol = 1e-10)#, callback = resid)</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
@@ -404,11 +379,11 @@ Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[8]:
+<span></span>Out[7]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x115dd72b0&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x110a05d30&gt;]
 </pre></div>
 </div>
 </div>
@@ -416,7 +391,7 @@ Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_9_1.png" src="../../_images/tutorial_demos_Duffing_state_space_9_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_state_space_8_1.png" src="../../_images/tutorial_demos_Duffing_state_space_8_1.png" />
 </div>
 </div>
 <p>The break is an indicative of a break in the branch and is actually a
@@ -426,283 +401,6 @@ isn’t one that will actually continue in a real situation and another
 solution will necessarily be found.</p>
 <p>A simple solution is to change the starting guess to be away from the
 solution and see if it finds another one. Indeed that happens.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
-<span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
-    <span class="c1">#print(i,freq,x)</span>
-    <span class="c1">#print(sp.average(x))</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
-        <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">amp</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[9]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x115e20160&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_12_1.png" src="../../_images/tutorial_demos_Duffing_state_space_12_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">.</span><span class="mo">03</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
-<span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
-    <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
-    <span class="c1"># we ignore them by inserting `np.nan` values.</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">-</span><span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span><span class="c1">#, callback = resid)</span>
-        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span> <span class="n">ampl</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[10]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x115e40748&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_13_1.png" src="../../_images/tutorial_demos_Duffing_state_space_13_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span><span class="n">ampl</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
-<span class="c1">#plt.axis([0,3, 0, 10.5])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[11]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x115ef5cc0&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_14_1.png" src="../../_images/tutorial_demos_Duffing_state_space_14_1.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">newton_krylov</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">duff_amp_resid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">sigma</span><span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">8</span><span class="o">*</span><span class="n">alpha</span><span class="o">/</span><span class="n">omega_0</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">k</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="n">omega_0</span><span class="o">**</span><span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">mu</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># damping</span>
-<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># excitation amplitude</span>
-<span class="n">sigma</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.9</span> <span class="c1">#detuning</span>
-<span class="n">omega_0</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># driving frequency</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># cubic coefficient</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="o">-.</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[15]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array(-0.5478691201747141)
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">sigmas</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
-<span class="n">amplitudes</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sigmas</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sigmas</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">amplitudes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">amplitudes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">amplitudes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">,</span><span class="n">amplitudes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[16]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1161b6be0&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_19_1.png" src="../../_images/tutorial_demos_Duffing_state_space_19_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">sigmas</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
-<span class="n">sigmasr</span> <span class="o">=</span> <span class="n">sigmas</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">amplitudesr</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sigmas</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sigmasr</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">amplitudesr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">amplitudesr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="n">amplitudesr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span><span class="c1">#newton_krylov(duff_amp_resid,0)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">amplitudesr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmasr</span><span class="p">,</span><span class="n">amplitudesr</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/Users/jslater/anaconda/lib/python3.6/site-packages/scipy/optimize/nonlin.py:474: RuntimeWarning: invalid value encountered in double_scalars
-  and dx_norm/self.x_rtol &lt;= x_norm))
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[17]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1162d01d0&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_20_2.png" src="../../_images/tutorial_demos_Duffing_state_space_20_2.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmasr</span><span class="p">,</span><span class="n">amplitudesr</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">,</span><span class="n">amplitudes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[18]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1160ef518&gt;]
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_state_space_21_1.png" src="../../_images/tutorial_demos_Duffing_state_space_21_1.png" />
-</div>
-</div>
 </div>
 
 
