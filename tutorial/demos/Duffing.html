@@ -5,9 +5,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
     <title>Duffing Oscillator Solution &#8212; Mousai 0.2 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -21,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Duffing Oscillator Solution- State Space Form" href="Duffing_state_space.html" />
@@ -241,7 +244,7 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[  3.88578059e-16  -1.44328993e-14  -2.10942375e-15]]
+Equation errors (should be zero):  [[  1.19348975e-15  -2.04281037e-14  -8.88178420e-16]]
 Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </pre></div></div>
 </div>
@@ -253,7 +256,7 @@ Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="c1"># Using more harmonics.</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -263,11 +266,11 @@ Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[  2.03840040e-08  -1.14282772e-08  -4.52823956e-09  -1.00924435e-09
-   -1.08239696e-08  -2.49637952e-07  -6.82057262e-07  -1.59981777e-07
-   -2.75272869e-10   9.92544247e-09   2.19570906e-09   2.51260790e-10
-    7.34231167e-08   4.91779858e-07   5.65899313e-07]]
-Constant term of FFT of signal should be zero:  (7.04077199642e-06+0j)
+Equation errors (should be zero):  [[  2.04616314e-08  -1.11916120e-08  -4.32641484e-09  -8.27785285e-10
+   -1.06717036e-08  -2.49418783e-07  -6.82304595e-07  -1.59994936e-07
+   -3.88299430e-11   9.85229565e-09   1.56362223e-09  -1.71778813e-10
+    7.32659703e-08   4.91827027e-07   5.65568172e-07]]
+Constant term of FFT of signal should be zero:  (7.04098108967e-06+0j)
 </pre></div></div>
 </div>
 <p>Sometimes we can improve just by restarting from the prior end point.
@@ -279,7 +282,7 @@ Sometimes, we just think it’s improved.</p>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Errors: &#39;</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Errors: &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -289,11 +292,11 @@ Sometimes, we just think it’s improved.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Errors:  [[  5.38458167e-15  -3.83026943e-15   7.60502772e-15   8.10462808e-15
-   -5.32907052e-15  -2.60902411e-14  -1.28674849e-13  -3.77475828e-15
-   -4.51852097e-15  -1.94289029e-15   7.54951657e-15  -8.43769499e-15
-    3.55271368e-15   7.79376563e-14   1.14241949e-13]]
-Constant term of FFT of signal should be zero:  (7.0848133063e-06+0j)
+Errors:  [[  7.29971639e-15   2.38697950e-15   1.02140518e-14   1.55431223e-14
+    2.88657986e-14  -4.44089210e-16  -1.30007116e-13  -1.18793864e-14
+   -5.61399885e-15  -1.65978342e-14  -2.33146835e-15  -1.99840144e-15
+   -2.56461519e-14   7.13873405e-14   1.18960397e-13]]
+Constant term of FFT of signal should be zero:  (7.08481329931e-06+0j)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -705,6 +708,58 @@ solution and see if it finds another one. Indeed that happens.</p>
 </div>
 </div>
 </div>
+<div class="section" id="Using-lambda-functions">
+<h1>Using lambda functions<a class="headerlink" href="#Using-lambda-functions" title="Permalink to this headline">¶</a></h1>
+<p>As an aside, we can use a lambda function to solve a simple equation
+without much hassle. For example,
+<span class="math">\(\ddot{x} + 0.1*\dot{x}+ x + 0.1 x^3 = \sin(0.7t)\)</span></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">duff_osc2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
+<span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[ 1.47796291]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.7</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>Out[20]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>array([ 1.47796291])
+</pre></div>
+</div>
+</div>
+<p>Two things to note: 1. Remember that the lambda function has to return
+an <code class="docutils literal"><span class="pre">n</span> <span class="pre">by</span> <span class="pre">1</span></code> array. 2. Time must be referenced as params[‘cur_time’]</p>
+</div>
 
 
           </div>
@@ -756,7 +811,7 @@ solution and see if it finds another one. Indeed that happens.</p>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
