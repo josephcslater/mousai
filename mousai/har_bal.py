@@ -292,6 +292,7 @@ def harmonic_deriv(omega, r):
 
     Parameters
     ----------
+
     omega: float
         Fundamendal frequency, in rad/sec, of repeating signal
     r: array_like
@@ -301,6 +302,7 @@ def harmonic_deriv(omega, r):
 
     Returns
     -------
+    
     s: array_like
         Function derivatives.
         The 1 axis (each row) corresponds to a time history.
