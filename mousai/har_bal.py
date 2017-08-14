@@ -267,16 +267,27 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
         return e
+    
     try:
         x = globals()[method](hb_err, x0, **kwargs)
     except:
-        raise
+        x = x0#np.full([x0.shape[0],x0.shape[1]],np.nan)
+        amps = np.full([x0.shape[0],],np.nan)
+        phases = np.full([x0.shape[0],],np.nan)
+        e = hb_err(x)#np.full([x0.shape[0],x0.shape[1]],np.nan)
+        print('NOT ABLE TO CONVERGE')
+    else:
+        xhar = fftp.fft(x)*2/len(time)
+        amps = np.absolute(xhar[:, 1])
+        phases = np.angle(xhar[:, 1])
+        e = hb_err(x)
+        
     # v = harmonic_deriv(omega, x)
     # a = harmonic_deriv(omega, v)
-    xhar = fftp.fft(x)*2/len(time)
-    amps = np.absolute(xhar[:, 1])
-    phases = np.angle(xhar[:, 1])
-    e = hb_err(x)
+#    xhar = fftp.fft(x)*2/len(time)
+#    amps = np.absolute(xhar[:, 1])
+#    phases = np.angle(xhar[:, 1])
+#    e = hb_err(x)
 
     if realify is True:
         x = np.real(x)
