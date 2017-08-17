@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Duffing Oscillator Solution- State Space Form &#8212; Mousai 0.2 documentation</title>
+    <title>Duffing Oscillator Solution- State Space Form &#8212; Mousai 0.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -208,9 +208,9 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="Duffing-Oscillator-Solution--State-Space-Form">
 <h1>Duffing Oscillator Solution- State Space Form<a class="headerlink" href="#Duffing-Oscillator-Solution--State-Space-Form" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -225,9 +225,18 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -244,13 +253,13 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[  3.88578059e-16  -1.44328993e-14  -2.10942375e-15]]
+Equation errors (should be zero):  [[  1.19348975e-15  -2.04281037e-14  -8.88178420e-16]]
 Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -266,18 +275,18 @@ Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[  2.03840040e-08  -1.14282772e-08  -4.52823956e-09  -1.00924435e-09
-   -1.08239696e-08  -2.49637952e-07  -6.82057262e-07  -1.59981777e-07
-   -2.75272869e-10   9.92544247e-09   2.19570906e-09   2.51260790e-10
-    7.34231167e-08   4.91779858e-07   5.65899313e-07]]
-Constant term of FFT of signal should be zero:  (7.04077199642e-06+0j)
+Equation errors (should be zero):  [[  2.04616314e-08  -1.11916120e-08  -4.32641484e-09  -8.27785285e-10
+   -1.06717036e-08  -2.49418783e-07  -6.82304595e-07  -1.59994936e-07
+   -3.88299430e-11   9.85229565e-09   1.56362223e-09  -1.71778813e-10
+    7.32659703e-08   4.91827027e-07   5.65568172e-07]]
+Constant term of FFT of signal should be zero:  (7.04098108967e-06+0j)
 </pre></div></div>
 </div>
 <p>Sometimes we can improve just by restarting from the prior end point.
 Sometimes, we just think it’s improved.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -294,7 +303,7 @@ Sometimes, we just think it’s improved.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average for this problem is known to be zero, we got 4.69384799702e-07
+The average for this problem is known to be zero, we got 4.69398739293e-07
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -306,7 +315,7 @@ The average for this problem is known to be zero, we got 4.69384799702e-07
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -321,7 +330,7 @@ The average for this problem is known to be zero, we got 4.69384799702e-07
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -344,13 +353,13 @@ The average for this problem is known to be zero, we got 4.69384799702e-07
 [[-0.00966614  0.5234018   0.85235438  0.92199611  0.73011656  0.29118919
   -0.27313706 -0.71945762 -0.91989617 -0.85870059 -0.53820131]
  [ 0.09574541  0.08002063  0.03915022 -0.01219453 -0.06042603 -0.09126401
-  -0.09182321 -0.06181887 -0.01390861  0.03753843  0.07898057]] [[ -5.15837373e-14   3.54161145e-14   2.82412982e-15  -5.44009282e-15
-   -9.93649607e-15   4.85306240e-14   2.88657986e-15   1.99840144e-15
-    1.16174431e-14   8.09768919e-15  -1.58206781e-15]
- [  8.79247304e-16  -8.90199373e-14  -6.46303826e-11  -2.28276618e-10
-   -2.83455551e-12  -3.25030801e-14   1.17582159e-13   3.81027241e-12
-    2.38269010e-10   5.51238707e-11  -6.22765728e-14]]
-Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
+  -0.09182321 -0.06181887 -0.01390861  0.03753843  0.07898057]] [[ -3.04478665e-14   7.78543896e-15  -1.23720478e-14  -2.27248775e-15
+   -1.64035452e-14   3.11278781e-14  -9.07607323e-15  -1.67782455e-14
+    3.28383154e-15   3.51108032e-14   1.57235336e-14]
+ [  1.41884117e-15  -4.33490049e-14  -6.47579507e-11  -2.28513881e-10
+   -2.48465137e-12   9.80704233e-14  -3.05710318e-14   4.03753073e-12
+    2.38120123e-10   5.53404943e-11   2.89274681e-13]]
+Constant term of FFT of signal should be zero:  (-8.59893907551e-07+0j)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -362,7 +371,7 @@ Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -382,11 +391,11 @@ Constant term of FFT of signal should be zero:  (-8.59893299142e-07+0j)
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[7]:
+<span></span>Out[14]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x110a05d30&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11bc84160&gt;]
 </pre></div>
 </div>
 </div>

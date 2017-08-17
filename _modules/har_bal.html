@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>har_bal &#8212; Mousai 0.2 documentation</title>
+    <title>har_bal &#8212; Mousai 0.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -312,16 +312,27 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;eqform cannot have a value of &#39;</span><span class="p">,</span> <span class="n">eqform</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">e</span>
+    
     <span class="k">try</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="nb">globals</span><span class="p">()[</span><span class="n">method</span><span class="p">](</span><span class="n">hb_err</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">raise</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span><span class="c1">#np.full([x0.shape[0],x0.shape[1]],np.nan)</span>
+        <span class="n">amps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">([</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],],</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">([</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],],</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">hb_err</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#np.full([x0.shape[0],x0.shape[1]],np.nan)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NOT ABLE TO CONVERGE&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">xhar</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">amps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">hb_err</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
     <span class="c1"># v = harmonic_deriv(omega, x)</span>
     <span class="c1"># a = harmonic_deriv(omega, v)</span>
-    <span class="n">xhar</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-    <span class="n">amps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">xhar</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="n">hb_err</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#    xhar = fftp.fft(x)*2/len(time)</span>
+<span class="c1">#    amps = np.absolute(xhar[:, 1])</span>
+<span class="c1">#    phases = np.angle(xhar[:, 1])</span>
+<span class="c1">#    e = hb_err(x)</span>
 
     <span class="k">if</span> <span class="n">realify</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
