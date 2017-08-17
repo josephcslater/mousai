@@ -19,7 +19,7 @@ Joseph C. Slater
 __title__ = 'mousai'
 # version may have no more then numerical digits after decimal point.
 # 1.11 is actually a higher release than 1.2 (confusing)
-__version__ = '0.2'
+__version__ = '0.2.1'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
