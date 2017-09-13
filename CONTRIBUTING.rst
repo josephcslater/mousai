@@ -41,4 +41,5 @@ See ``create_distro.rst`` for explicit ``pypi`` commands that may not be necessa
 
 See `twine notes <https://packaging.python.org/distributing/#working-in-development-mode>`_ on modern pypi connectivity.
 
-Once travis-ci checking is done, release checking will be unecessary but for checking that travis-ci reported positively.
+Once travis-ci checking is done, release checking will be unecessary. 
+Still needs work checking that travis-ci reported positively.
