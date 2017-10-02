@@ -88,6 +88,8 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         Fourier analaysis, to include additional harmonics with the starting
         presumption of zero values.
     num_variables: int, optional
+        Number of states for a state space model, or number of generalized
+        dispacements for a second order form.
         If x0 is defined, num_variables is inferred. An error will result if
         both x0 and num_variables are left out of the function call.
     eqform: str
