@@ -144,11 +144,11 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             x0 = np.zeros((num_variables, 1+num_harmonics*2))
         else:
             print('Error: Must either define number of variables or initial\
-                  guess for x')
+                  guess for x.')
             return
     elif num_harmonics is None:
         num_harmonics = int((x0.shape[1]-1)/2)
-    elif num_harmonics > x0.shape[1]:
+    elif 1+2*num_harmonics > x0.shape[1]:
         x_freq = fftp.fft(x0)
         x_zeros = np.zeros((x0.shape[0], 1+num_harmonics*2-x0.shape[1]))
         x_freq = np.insert(x_freq, [x0.shape[1]-x0.shape[1]//2], x_zeros,
@@ -243,11 +243,14 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                                             params)[:, 0]
             e = accel_from_deriv - accel
         elif eqform is 'first_order':
+            #print(m)
             vel_from_deriv = np.zeros_like(vel)
             # print(vel_from_deriv.shape)
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
+                #print(i)
+                #print(time)
                 t = time[i]
                 params['cur_time'] = time[i]
                 # Note that everything in params can be accessed within
@@ -267,7 +270,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
         return e
-    
+
     try:
         x = globals()[method](hb_err, x0, **kwargs)
     except:
@@ -281,7 +284,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         e = hb_err(x)
-        
+
     # v = harmonic_deriv(omega, x)
     # a = harmonic_deriv(omega, v)
 #    xhar = fftp.fft(x)*2/len(time)
@@ -313,7 +316,7 @@ def harmonic_deriv(omega, r):
 
     Returns
     -------
-    
+
     s: array_like
         Function derivatives.
         The 1 axis (each row) corresponds to a time history.
