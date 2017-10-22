@@ -245,7 +245,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                                             params)[:, 0]
             e = accel_from_deriv - accel
         elif eqform is 'first_order':
-            #print(m)
+
             vel_from_deriv = np.zeros_like(vel)
             # print(vel_from_deriv.shape)
             # Should subtract in place below to save memory for large problems
@@ -280,7 +280,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.full([x0.shape[0],],np.nan)
         phases = np.full([x0.shape[0],],np.nan)
         e = hb_err(x)#np.full([x0.shape[0],x0.shape[1]],np.nan)
-        print('NOT ABLE TO CONVERGE')
+        #print('NOT ABLE TO CONVERGE')
     else:
         xhar = fftp.fft(x)*2/len(time)
         amps = np.absolute(xhar[:, 1])
