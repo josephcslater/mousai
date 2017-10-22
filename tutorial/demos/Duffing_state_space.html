@@ -5,16 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Duffing Oscillator Solution- State Space Form &#8212; Mousai 0.2.1 documentation</title>
-    
+    <title>Duffing Oscillator Solution- State Space Form &#8212; Mousai 0.2.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.2.1',
+        VERSION:     '0.2.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -24,7 +21,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Reference" href="../../reference/index.html" />
@@ -210,7 +207,7 @@ div.nboutput div.output_area.stderr {
 <h1>Duffing Oscillator Solution- State Space Form<a class="headerlink" href="#Duffing-Oscillator-Solution--State-Space-Form" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -236,7 +233,7 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -259,7 +256,7 @@ Constant term of FFT of signal should be zero:  (-0.107710534581+0j)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -286,7 +283,7 @@ Constant term of FFT of signal should be zero:  (7.04098108967e-06+0j)
 Sometimes, we just think it’s improved.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -315,22 +312,20 @@ The average for this problem is known to be zero, we got 4.69398739293e-07
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
-    <span class="c1">#print(&#39;x shape &#39;,x.shape)</span>
-    <span class="c1">#print(np.array([[1],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]]))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],[</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -371,7 +366,7 @@ Constant term of FFT of signal should be zero:  (-8.59893907551e-07+0j)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -391,11 +386,11 @@ Constant term of FFT of signal should be zero:  (-8.59893907551e-07+0j)
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[14]:
+<span></span>Out[8]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11bc84160&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x107fbc5c0&gt;]
 </pre></div>
 </div>
 </div>
@@ -465,7 +460,7 @@ solution and see if it finds another one. Indeed that happens.</p>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

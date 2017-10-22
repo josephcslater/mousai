@@ -29,14 +29,14 @@ The usage documentation is far behind the current code, while the reference is w
 
 If you wish to stay current with the software, fork the repository, then clone it to your desktop.
 
-Then, in the root directory of `mousai`, type::
+Then, in the root directory of ``mousai``, type::
 
-  pip install -e mousai
+  pip install -e .
 
 Now if sync/update your clone, you will have the current version each time you do so.
 
-The added benefit is that you can also develop and contribute by submitting pull requests. Please don't edit inside the `mousai` directories unless you intend to submit a pull request because your edits may be overwritten or lost.
+The added benefit is that you can also develop and contribute by submitting pull requests. Please don't edit inside the ``mousai`` directories unless you intend to submit a pull request because your edits may be overwritten or lost.
 
-That should be it. Please note issues on the `issues tab <https://github.com/josephcslater/mousai>`_ on github.
+That should be it. Please note issues on the `issues tab <https://github.com/josephcslater/mousai/issues>`_ on github.
 
 .. _Jupyter: jupyter.org
