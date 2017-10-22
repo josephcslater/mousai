@@ -9,6 +9,8 @@ Mousai
 
 Python-based Harmonic Balance solvers and relevant tools.
 
+Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation.
+
 Can solve first-order and second-order ordinary differential equations written in state-space form (solved for acceleration for second-order). All you need to provide is the name of a python function. The function accepts:
 1. The states (displacements and derivatives for second order forms)
 2. Time (interpreted as time within the period)
