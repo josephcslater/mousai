@@ -38,9 +38,9 @@ from .har_bal import *
 # __all__ = ['har_bal', '__version__']
 
 # When everything is imported from mousai, define "everything below"
-'''__all__ += ["hb_so",
+'''__all__ += ["hb_time",
             "harmonic_deriv",
             "solmf",
             "duff_osc",
-            "hb_so_err"]
+            "hb_time_err"]
 '''

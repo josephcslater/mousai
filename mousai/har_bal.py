@@ -3,23 +3,24 @@ import numpy as np
 import scipy.fftpack as fftp
 import scipy.linalg as la
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
-                           excitingmixing, linearmixing, diagbroyden
+    excitingmixing, linearmixing, diagbroyden
 # import matplotlib.pyplot as plt
 
-"""__all__ = ["hb_so",
+"""__all__ = ["hb_time",
            "harmonic_deriv",
            "solmf",
            "duff_osc"]
 """
 
 
-def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
-          num_variables=None, eqform='second_order', params={}, realify=True,
-          **kwargs):
-    r"""Harmonic balance solver for second order ODEs.
+def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
+            num_variables=None, eqform='second_order', params={}, realify=True,
+            **kwargs):
+    r"""Harmonic balance solver for first and second order ODEs.
 
-    Obtains the solution of a second-order differential equation under the
-    presumption that the solution is harmonic.
+    Obtains the solution of a first-order and second-order differential
+    equation under the presumption that the solution is harmonic using an
+    algebraic time method.
 
     Returns t (time), x (displacement), v (velocity), and a (acceleration)
     response of a second order linear ordinary differential
@@ -116,7 +117,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     Examples
     --------
     >>> import mousai as ms
-    >>> t, x, e, amps, phases = ms.hb_so(ms.duff_osc, np.array([[0,1,-1]]), .7)
+    >>> t, x, e, amps, phases = ms.hb_time(ms.duff_osc, np.array([[0,1,-1]]), .7)
 
     Notes
     ------
@@ -125,44 +126,49 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
     ``newton_krylov`` as the default.
 
-    Benefits from quasi-linear estimator for starting point.
+    Evaluates the differential equation/s at evenly spaced points in time. Each
+    point in time yields a single equation. One harmonic plus the constant term
+    results in 3 points in time over the cycle.
 
-    Should gently "walk" solution up to get to nonlinearities.
+    Solver should gently "walk" solution up to get to nonlinearities for hard
+    nonlinearities.
 
     Algorithm:
-        1. calls `hb_so_err` with x as the variable to solve for.
-        2. `hb_so_err` uses a Fourier representation of x to obtain velocities
-           (after an inverse fft) then calls `sdfunc` to determine
+        1. calls `hb_time_err` with x as the variable to solve for.
+        2. `hb_time_err` uses a Fourier representation of x to obtain
+           velocities (after an inverse FFT) then calls `sdfunc` to determine
            accelerations.
         3. Accelerations are also obtained using a Fourier representation of x
-        4. Error in the accelerations are the functional error used by the
-           nonlinear algebraic solver (default ``newton_krylov``) to be
-           minimized by the solver.
+        4. Error in the accelerations (or state derivatives) are the functional
+           error used by the nonlinear algebraic solver
+           (default ``newton_krylov``) to be minimized by the solver.
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
+
+    '''Initial conditions exist?'''
     if x0 is None:
         if num_variables is not None:
-            x0 = np.zeros((num_variables, 1+num_harmonics*2))
+            x0 = np.zeros((num_variables, 1 + num_harmonics * 2))
         else:
             print('Error: Must either define number of variables or initial\
                   guess for x.')
             return
     elif num_harmonics is None:
-        num_harmonics = int((x0.shape[1]-1)/2)
-    elif 1+2*num_harmonics > x0.shape[1]:
+        num_harmonics = int((x0.shape[1] - 1) / 2)
+    elif 1 + 2 * num_harmonics > x0.shape[1]:
         x_freq = fftp.fft(x0)
-        x_zeros = np.zeros((x0.shape[0], 1+num_harmonics*2-x0.shape[1]))
-        x_freq = np.insert(x_freq, [x0.shape[1]-x0.shape[1]//2], x_zeros,
+        x_zeros = np.zeros((x0.shape[0], 1 + num_harmonics * 2 - x0.shape[1]))
+        x_freq = np.insert(x_freq, [x0.shape[1] - x0.shape[1] // 2], x_zeros,
                            axis=1)
 
-        x0 = fftp.ifft(x_freq)*(1+num_harmonics*2)/x0.shape[1]
+        x0 = fftp.ifft(x_freq) * (1 + num_harmonics * 2) / x0.shape[1]
         x0 = np.real(x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
         print("`sdfunc` is expected to be a function name, not a string")
     params['function'] = sdfunc  # function that returns SO derivative
-    time = np.linspace(0, 2*np.pi/omega, num=x0.shape[1], endpoint=False)
+    time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
     params['omega'] = omega
     params['n_har'] = num_harmonics
@@ -206,7 +212,7 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         Notes
         -----
         `function` and `omega` are not separately defined arguments so as to
-        enable algebraic solver functions to call `hb_so_err` cleanly.
+        enable algebraic solver functions to call `hb_time_err` cleanly.
 
         The algorithm is as follows:
             1. The velocity and accelerations are calculated in the same shape
@@ -251,8 +257,8 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                #print(i)
-                #print(time)
+                # print(i)
+                # print(time)
                 t = time[i]
                 params['cur_time'] = time[i]
                 # Note that everything in params can be accessed within
@@ -276,13 +282,13 @@ def hb_so(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     try:
         x = globals()[method](hb_err, x0, **kwargs)
     except:
-        x = x0#np.full([x0.shape[0],x0.shape[1]],np.nan)
-        amps = np.full([x0.shape[0],],np.nan)
-        phases = np.full([x0.shape[0],],np.nan)
-        e = hb_err(x)#np.full([x0.shape[0],x0.shape[1]],np.nan)
+        x = x0  # np.full([x0.shape[0],x0.shape[1]],np.nan)
+        amps = np.full([x0.shape[0], ], np.nan)
+        phases = np.full([x0.shape[0], ], np.nan)
+        e = hb_err(x)  # np.full([x0.shape[0],x0.shape[1]],np.nan)
         #print('NOT ABLE TO CONVERGE')
     else:
-        xhar = fftp.fft(x)*2/len(time)
+        xhar = fftp.fft(x) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         e = hb_err(x)
@@ -346,7 +352,7 @@ def harmonic_deriv(omega, r):
     """
     # print(r)
     n = r.shape[1]
-    omega_half = -np.arange((n-1)/2+1) * omega * 2j/(n-2)
+    omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
     omega_whole = np.append(np.conj(omega_half[-1:0:-1]), omega_half)
     r_freq = fftp.fft(r)
     s_freq = r_freq * omega_whole
@@ -390,7 +396,7 @@ def solmf(x, v, M, C, K, F):
 def duff_osc(x, v, params):
     omega = params['omega']
     t = params['cur_time']
-    return np.array([[-x-.1*x**3-.2*v+np.sin(omega*t)]])
+    return np.array([[-x - .1 * x**3 - .2 * v + np.sin(omega * t)]])
 
 
 def time_history(t, x, realify=True, num_time_points=200):
@@ -439,9 +445,9 @@ def time_history(t, x, realify=True, num_time_points=200):
     t_length = t.size
     t = sp.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
-    x_zeros = sp.zeros((x.shape[0], t.size-x.shape[1]))
-    x_freq = sp.insert(x_freq, [t_length-t_length//2], x_zeros, axis=1)
-    x = fftp.ifft(x_freq)*num_time_points/t_length
+    x_zeros = sp.zeros((x.shape[0], t.size - x.shape[1]))
+    x_freq = sp.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
+    x = fftp.ifft(x_freq) * num_time_points / t_length
     if realify is True:
         x = sp.real(x)
     else:

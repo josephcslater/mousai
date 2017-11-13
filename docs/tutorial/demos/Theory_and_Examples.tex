@@ -1,0 +1,973 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Theory\_and\_Examples}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Mousai: An Open-Source General Purpose Harmonic Balance
+Solver}\label{mousai-an-open-source-general-purpose-harmonic-balance-solver}
+
+ASME Dayton Engineering Sciences Symposium 2017\\
+Joseph C. Slater, October 23, 2017
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+        \PY{o}{\PYZpc{}}\PY{k}{load\PYZus{}ext} autoreload
+        \PY{o}{\PYZpc{}}\PY{k}{autoreload} 2
+        \PY{k+kn}{import} \PY{n+nn}{scipy} \PY{k}{as} \PY{n+nn}{sp}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}
+        \PY{k+kn}{import} \PY{n+nn}{mousai} \PY{k}{as} \PY{n+nn}{ms}
+        \PY{k+kn}{from} \PY{n+nn}{scipy} \PY{k}{import} \PY{n}{pi}\PY{p}{,} \PY{n}{sin}
+        \PY{n}{matplotlib}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}\PY{l+m+mi}{11}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+
+    \subsection{Overview}\label{overview}
+
+A wide array of contemporary problems can be represented by nonlinear
+ordinary differential equations with solutions that can be represented
+by Fourier Series: * \textbf{Limit cycle oscillation of wings/blades} *
+Flapping motion of birds/insects/ornithopters * Flagellum (threadlike
+cellular structures that enable bacteria etc. to swim) * Shaft rotation,
+especially including rubbing or nonlinear bearing contacts *
+\textbf{Engines} * Radio/sonar/radar electronics * Wireless power
+transmission * Power converters * Boat/ship motions and interactions
+
+    \begin{itemize}
+\tightlist
+\item
+  \textbf{Cardio systems} (heart/arteries/veins)
+\item
+  Ultrasonic systems transversing nonlinear media
+\item
+  Responses of composite materials or materials with cracks
+\item
+  Near buckling behavior of vibrating columns
+\item
+  Nonlinearities in power systems
+\item
+  \textbf{Energy harvesting systems}
+\item
+  \textbf{Wind turbines}
+\item
+  Radio Frequency Integrated Circuits
+\item
+  \textbf{Any system with nonlinear coatings/friction damping, air
+  damping, etc.}
+\end{itemize}
+
+These can all be observed in a quick literature search on 'Harmonic
+Balance'.
+
+    \subsection{Why (did I) write Mousai?}\label{why-did-i-write-mousai}
+
+\begin{itemize}
+\tightlist
+\item
+  The ability to code harmonic balance seems to be publishable by itself
+
+  \begin{itemize}
+  \tightlist
+  \item
+    It's not research- it's just application of a known family of
+    technique
+  \end{itemize}
+\item
+  A limited number of people have this knowledge and skill
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Most cannot access this technique
+  \item
+    "Research effort" is spent coding the technique, not doing research
+  \end{itemize}
+\end{itemize}
+
+    \subsubsection{Why write Mousai?
+(continued)}\label{why-write-mousai-continued}
+
+\begin{itemize}
+\tightlist
+\item
+  Matlab command eig unleashed power to the masses
+\item
+  Very few papers are published on eigensolutions- they have to be
+  better than \texttt{eig}
+\item
+  \texttt{eig} only provides simple access to high-end eigensolvers
+  written in \texttt{C} and \texttt{Fortran}
+\item
+  Undergraduates with no practical understanding of the algorithms
+  easily solve problems that were intractable a few decades ago.
+\item
+  \emph{Access} and \emph{ease of use} of such techniques enable
+  \emph{greater science} and \emph{greater research}.
+\item
+  The real world is nonlinear, but \textbf{linear analysis dominates
+  because the tools are easier to use}.
+\item
+  With \texttt{Mousai}, an undergraduate can solve a nonlinear harmonic
+  response problem easier then a PhD can today.
+\end{itemize}
+
+    \subsection{Theory:}\label{theory}
+
+\subsubsection{Linear Solution}\label{linear-solution}
+
+\begin{itemize}
+\item
+  Most dynamics systems can be modeled as a first order differential
+  equation
+
+  \begin{equation}
+  \ddot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
+  \end{equation}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use finite differences
+  \item
+    Use Galerkin methods (Finite Elements)
+  \item
+    Of course discrete objects
+  \end{itemize}
+\item
+  This is the common \emph{State-Space} form: -solutions exceedingly
+  well known if it is linear
+\item
+  Finding the oscillatory response, after dissipation of the transient
+  response, requires \textbf{long} time marching.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Without damping, this may not even been feasible.
+  \item
+    With damping, tens, hundreds, or thousands of cycles, therefore
+    thousands of times steps at minimum.
+  \end{itemize}
+\end{itemize}
+
+    For a linear system in the frequency domain this is
+
+\begin{equation}
+j\omega\mathbf{Z}(\omega)=\mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))
+\end{equation}\begin{equation}
+j\omega\mathbf{Z}(\omega)=A\mathbf{Z}(\omega)+B\mathbf{U}(\omega)
+\end{equation}
+
+where
+
+\begin{equation}
+A = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{Z}(\omega)},\qquad
+B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{U}(\omega)}
+\end{equation}
+
+are constant matrices.
+
+The solution is:
+
+\begin{equation}
+\mathbf{Z}(\omega) = \left(Ij\omega-A\right)^{-1}B\mathbf{U}(\omega)
+\end{equation}
+
+Where the magnitudes and phases of the elements of \(\mathbf{Z}\)
+provide the amplitudes and phases of the harmonic response of each state
+at the frequency \(\omega\).
+
+    \subsubsection{Nonlinear solution}\label{nonlinear-solution}
+
+\begin{itemize}
+\item
+  For a nonlinear system in the frequency domain we assume a Fourier
+  series solution
+
+  \begin{equation}
+  \mathbf{z}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t}
+  \end{equation}
+\item
+  \(N=1\) for a single harmonic. \(n=0\) is the constant term.
+\item
+  This can be substituted into the governing equation to find
+  \(\dot{\mathbf{z}}(t)\):
+
+  \begin{equation}
+  \dot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
+  \end{equation}
+\item
+  This is actually a function call to a Finite Element Package, CFD,
+  Matlab function, - whatever your solver uses to get derivatives
+\item
+  We can also find \(\dot{\mathbf{z}}(t)\) from the derivative of the
+  Fourier Series:
+
+  \begin{equation}
+  \dot{\mathbf{z}}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}j n \omega\mathbf{Z}_n e^{j n \omega t}
+  \end{equation}
+\end{itemize}
+
+    \begin{itemize}
+\tightlist
+\item
+  The difference between these methods is zero when \(\mathbf{Z}_n\) are
+  correct.
+\end{itemize}
+
+\begin{equation}
+ \mathbf{0} \approx\sum_{n=-N}^{N}j n\omega \mathbf{Z}_n e^{j n \omega t}-\mathbf{f}\left(\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t},\mathbf{u}(t)\right)
+\end{equation}
+
+\begin{itemize}
+\tightlist
+\item
+  These operations are wrapped inside a function that returns this error
+\item
+  This function is used by a Newton-Krylov nonlinear algebraic solver.
+\item
+  Calls any solver in the SciPy family of solvers with the ability to
+  easily pass through parameters to the solver \emph{and} to the
+  external derivative evaluator.
+\end{itemize}
+
+    \subsection{Examples:}\label{examples}
+
+    \subsubsection{Duffing Oscillator}\label{duffing-oscillator}
+
+\[\ddot{x}+0.1\dot{x}+x+0.1 x^3=\sin(\omega t)\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{\PYZsh{} Define our function (Python)}
+        \PY{k}{def} \PY{n+nf}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{params}\PY{p}{)}\PY{p}{:}
+            \PY{n}{omega} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{omega}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{t} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cur\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{xd} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                           \PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.1} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3} \PY{o}{\PYZhy{}} \PY{l+m+mf}{0.1} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{+} \PY{l+m+mi}{1} \PY{o}{*} \PY{n}{sin}\PY{p}{(}\PY{n}{omega} \PY{o}{*} \PY{n}{t}\PY{p}{)}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+            \PY{k}{return} \PY{n}{xd}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{c+c1}{\PYZsh{} Arguments are name of derivative function, number of states, driving frequency,}
+        \PY{c+c1}{\PYZsh{} form of the equation, and number of harmonics}
+        
+        \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{omega}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1}\PY{p}{,}
+                                         \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Displacement amplitude is }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Velocity amplitude is }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Displacement amplitude is  0.946956354668
+Velocity amplitude is  0.0946956354558
+
+    \end{Verbatim}
+
+    \paragraph{Mousai can easily recreate the near-continuous
+response}\label{mousai-can-easily-recreate-the-near-continuous-response}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{time, xc }\OperatorTok{=}\NormalTok{ ms.time_history(t, x)}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{k}{def} \PY{n+nf}{pltcont}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+             \PY{n}{time}\PY{p}{,} \PY{n}{xc} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{time\PYZus{}history}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+             \PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{t}\PY{p}{,}
+                                     \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Displacement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{vel\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                    \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Velocity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{handles}\PY{o}{=}\PY{p}{[}\PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{vel\PYZus{}plot}\PY{p}{]}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time (sec)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response of Duffing Oscillator at 0.0159 rad/sec}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{legend}
+             \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{n}{fig}\PY{o}{=}\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{=}\PY{n}{fig}\PY{o}{.}\PY{n}{add\PYZus{}subplot}\PY{p}{(}\PY{l+m+mi}{111}\PY{p}{)}
+         \PY{n}{time}\PY{p}{,} \PY{n}{xc} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{time\PYZus{}history}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+         \PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{t}\PY{p}{,}
+                                     \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Displacement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{vel\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                    \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Velocity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{handles}\PY{o}{=}\PY{p}{[}\PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{vel\PYZus{}plot}\PY{p}{]}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time (sec)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response of Duffing Oscillator at 0.0159 rad/sec}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{legend}
+         \PY{n}{ax}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{n}{pltcont}\PY{p}{(}\PY{p}{)}\PY{c+c1}{\PYZsh{} abbreviated plotting function}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_17_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{n}{time}\PY{p}{,} \PY{n}{xc} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{time\PYZus{}history}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{)}
+         \PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{t}\PY{p}{,}
+                                 \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Displacement}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{vel\PYZus{}plot}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{time}\PY{p}{,} \PY{n}{xc}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                                \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{o}{.}\PY{n}{T}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{*r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Velocity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{handles}\PY{o}{=}\PY{p}{[}\PY{n}{disp\PYZus{}plot}\PY{p}{,} \PY{n}{vel\PYZus{}plot}\PY{p}{]}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Time (sec)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response of Duffing Oscillator at 0.0159 rad/sec}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Response}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_18_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{n}{omega} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1} \PY{o}{/} \PY{l+m+mi}{200}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1} \PY{o}{/} \PY{l+m+mi}{200}
+         \PY{n}{amp} \PY{o}{=} \PY{n}{sp}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{omega}\PY{p}{)}
+         \PY{n}{amp}\PY{p}{[}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+         \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}
+                                          \PY{n}{omega}\PY{o}{=}\PY{l+m+mi}{1} \PY{o}{/} \PY{l+m+mi}{200}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{freq} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{omega}\PY{p}{)}\PY{p}{:}
+             \PY{c+c1}{\PYZsh{} Here we try to obtain solutions, but if they don\PYZsq{}t work,}
+             \PY{c+c1}{\PYZsh{} we ignore them by inserting `np.nan` values.}
+             \PY{n}{x} \PY{o}{=} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{sp}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+             \PY{k}{try}\PY{p}{:}
+                 \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=}
+                 \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{,} \PY{n}{x0}\PY{o}{=}\PY{n}{x}\PY{p}{,}
+                          \PY{n}{omega}\PY{o}{=}\PY{n}{freq}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{n}{amp}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+             \PY{k}{except}\PY{p}{:}
+                 \PY{n}{amp}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+             \PY{k}{if} \PY{n}{np}\PY{o}{.}\PY{n}{isnan}\PY{p}{(}\PY{n}{amp}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{break}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{omega}\PY{p}{,} \PY{n}{amp}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \paragraph{Let's sweep through driving frequencies to find a frequency
+response
+function}\label{lets-sweep-through-driving-frequencies-to-find-a-frequency-response-function}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{omegal} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{03}\PY{p}{,} \PY{o}{\PYZhy{}}\PY{l+m+mi}{1} \PY{o}{/} \PY{l+m+mi}{200}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1} \PY{o}{/} \PY{l+m+mi}{200}
+        \PY{n}{ampl} \PY{o}{=} \PY{n}{sp}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{omegal}\PY{p}{)}
+        \PY{n}{ampl}\PY{p}{[}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+        \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,}
+                                         \PY{n}{omega}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{freq} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{omegal}\PY{p}{)}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Here we try to obtain solutions, but if they don\PYZsq{}t work,}
+            \PY{c+c1}{\PYZsh{} we ignore them by inserting `np.nan` values.}
+            \PY{n}{x} \PY{o}{=} \PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+            \PY{k}{try}\PY{p}{:}
+                \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=}
+                \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{duff\PYZus{}osc\PYZus{}ss}\PY{p}{,} \PY{n}{x0}\PY{o}{=}\PY{n}{x}\PY{p}{,}
+                         \PY{n}{omega}\PY{o}{=}\PY{n}{freq}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+                \PY{n}{ampl}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{k}{except}\PY{p}{:}
+                \PY{n}{ampl}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nan}
+            \PY{k}{if} \PY{n}{np}\PY{o}{.}\PY{n}{isnan}\PY{p}{(}\PY{n}{ampl}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+                \PY{k}{break}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{omega}\PY{p}{,}\PY{n}{amp}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Up sweep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{omegal}\PY{p}{,}\PY{n}{ampl}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Down sweep}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude versus frequency for Duffing Oscillator}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Driving frequency \PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{omega\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_22_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Two degree of freedom
+system}\label{two-degree-of-freedom-system}
+
+
+$$
+\begin{bmatrix}
+1&0\\
+0&1
+\end{bmatrix}\begin{bmatrix}
+\ddot{x}_1\\ \ddot{x}_2\end{bmatrix}
+  \begin{bmatrix}
+  2&-1 \\
+  -1&2
+  \end{bmatrix}\begin{bmatrix}
+  {x}_1\\{x}_2\end{bmatrix}
+  +
+  \begin{bmatrix}
+  \alpha x_{1}^{3}\\
+  0
+  \end{bmatrix}=
+ \begin{bmatrix}
+  0 \\
+  A \sin(\omega t)
+  \end{bmatrix}
+$$
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{k}{def} \PY{n+nf}{two\PYZus{}dof\PYZus{}demo}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{params}\PY{p}{)}\PY{p}{:}
+            \PY{n}{omega} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{omega}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{t} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cur\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{force\PYZus{}amplitude} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{force\PYZus{}amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{n}{alpha} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+            \PY{c+c1}{\PYZsh{} The following could call an external code to obtain the state derivatives}
+            \PY{n}{xd} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                           \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{alpha} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3} \PY{o}{+} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                           \PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                           \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{]} \PY{o}{+} \PY{n}{force\PYZus{}amplitude} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{omega} \PY{o}{*} \PY{n}{t}\PY{p}{)}\PY{p}{)}
+            \PY{k}{return} \PY{n}{xd}
+\end{Verbatim}
+
+
+    \paragraph{Let's find a response.}\label{lets-find-a-response.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{force\PYZus{}amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.2}\PY{p}{\PYZcb{}}
+         \PY{n}{parameters}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.4}
+         \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{two\PYZus{}dof\PYZus{}demo}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                                          \PY{n}{omega}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{params}\PY{o}{=}\PY{n}{parameters}\PY{p}{)}
+         \PY{n}{amps}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}10}]:} array([ 0.86696762,  0.89484597,  0.99030411,  1.04097851])
+\end{Verbatim}
+            
+    \paragraph{Or a parametric study of response amplitude versus
+nonlinearity.}\label{or-a-parametric-study-of-response-amplitude-versus-nonlinearity.}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{n}{alpha} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{,} \PY{o}{.}\PY{l+m+mi}{45}\PY{p}{,} \PY{l+m+mi}{2000}\PY{p}{)}
+         \PY{n}{amp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{alpha}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{alphai} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{alpha}\PY{p}{)}\PY{p}{:}
+             \PY{n}{parameters}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{alpha}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{alphai}
+             \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{two\PYZus{}dof\PYZus{}demo}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{omega}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,}
+                                              \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{params}\PY{o}{=}\PY{n}{parameters}\PY{p}{)}
+             \PY{n}{amp}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{alpha}\PY{p}{,}\PY{n}{amp}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude of \PYZdl{}x\PYZus{}1\PYZdl{} versus \PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{alpha\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude of \PYZdl{}x\PYZus{}1\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{alpha\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_29_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Two degree of freedom system with Coulomb
+Damping}\label{two-degree-of-freedom-system-with-coulomb-damping}
+
+$$\begin{bmatrix}
+1&0\\
+0&1
+\end{bmatrix}\begin{bmatrix}
+\ddot{x}_1\\ \ddot{x}_2\end{bmatrix}
+  \begin{bmatrix}
+  2&-1 \\
+  -1&2
+  \end{bmatrix}\begin{bmatrix}
+  {x}_1\\{x}_2\end{bmatrix}
+  +
+  \begin{bmatrix}
+  \mu |\dot{x}|_{1}\\
+  0
+  \end{bmatrix}
+=
+  \begin{bmatrix}
+  0 \\
+  A \sin(\omega t)
+  \end{bmatrix}
+$$
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{k}{def} \PY{n+nf}{two\PYZus{}dof\PYZus{}coulomb}\PY{p}{(}\PY{n}{x}\PY{p}{,} \PY{n}{params}\PY{p}{)}\PY{p}{:}
+             \PY{n}{omega} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{omega}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+             \PY{n}{t} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cur\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+             \PY{n}{force\PYZus{}amplitude} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{force\PYZus{}amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+             \PY{n}{mu} \PY{o}{=} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+             \PY{c+c1}{\PYZsh{} The following could call an external code to obtain the state derivatives}
+             \PY{n}{xd} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                            \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{mu} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                            \PY{p}{[}\PY{n}{x}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{,}
+                            \PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{+} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{]} \PY{o}{+} \PY{n}{force\PYZus{}amplitude} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{omega} \PY{o}{*} \PY{n}{t}\PY{p}{)}\PY{p}{)}
+             \PY{k}{return} \PY{n}{xd}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{n}{parameters} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{force\PYZus{}amplitude}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{l+m+mf}{0.2}\PY{p}{\PYZcb{}}
+         \PY{n}{parameters}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.1}
+         \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{two\PYZus{}dof\PYZus{}coulomb}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,}
+                                          \PY{n}{omega}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,} \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{params}\PY{o}{=}\PY{n}{parameters}\PY{p}{)}
+         \PY{n}{amps}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}14}]:} array([ 0.68916938,  0.68228249,  0.67299987,  0.66065012])
+\end{Verbatim}
+            
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{n}{mu} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.0}\PY{p}{,} \PY{l+m+mi}{200}\PY{p}{)}
+         \PY{n}{amp} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros\PYZus{}like}\PY{p}{(}\PY{n}{mu}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{mui} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{mu}\PY{p}{)}\PY{p}{:}
+             \PY{n}{parameters}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{mui}
+             \PY{n}{t}\PY{p}{,} \PY{n}{x}\PY{p}{,} \PY{n}{e}\PY{p}{,} \PY{n}{amps}\PY{p}{,} \PY{n}{phases} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{n}{two\PYZus{}dof\PYZus{}coulomb}\PY{p}{,} \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{,} \PY{n}{omega}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,}
+                                              \PY{n}{eqform}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} \PY{n}{params}\PY{o}{=}\PY{n}{parameters}\PY{p}{)}
+             \PY{n}{amp}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{=} \PY{n}{amps}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+
+
+    \paragraph{Too much Coulomb friction can increase the
+response.}\label{too-much-coulomb-friction-can-increase-the-response.}
+
+\begin{itemize}
+\tightlist
+\item
+  Did you know that?
+\item
+  This damping shifted resonance.
+\end{itemize}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{mu}\PY{p}{,}\PY{n}{amp}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude of \PYZdl{}x\PYZus{}1\PYZdl{} versus \PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{mu\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amplitude of \PYZdl{}x\PYZus{}1\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+se}{\PYZbs{}\PYZbs{}}\PY{l+s+s1}{mu\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Theory_and_Examples_files/Theory_and_Examples_35_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{But can I solve an equation in one line?
+Yes!!!}\label{but-can-i-solve-an-equation-in-one-line-yes}
+
+Damped Duffing oscillator in one command.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{n}{out} \PY{o}{=} \PY{n}{ms}\PY{o}{.}\PY{n}{hb\PYZus{}so}\PY{p}{(}\PY{k}{lambda} \PY{n}{x}\PY{p}{,} \PY{n}{v}\PY{p}{,}
+                        \PY{n}{params}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{o}{.}\PY{l+m+mi}{1} \PY{o}{*} \PY{n}{x}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3} \PY{o}{\PYZhy{}} \PY{o}{.}\PY{l+m+mi}{1} \PY{o}{*} \PY{n}{v} \PY{o}{+} \PY{l+m+mi}{1} \PY{o}{*}
+                                           \PY{n}{sin}\PY{p}{(}\PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{omega}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{*} \PY{n}{params}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cur\PYZus{}time}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{]}\PY{p}{]}\PY{p}{)}\PY{p}{,}
+                        \PY{n}{num\PYZus{}variables}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{omega}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{7}\PY{p}{,} \PY{n}{num\PYZus{}harmonics}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{out}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}25}]:} 1.4779630014433971
+\end{Verbatim}
+            
+    OK - that's a bit obtuse. I wouldn't do that normally, but Mousai can.
+
+    \subsection{How to get this?}\label{how-to-get-this}
+
+\begin{itemize}
+\tightlist
+\item
+  Install Scientific Python from
+  \href{https://www.scipy.org/install.html}{SciPy.org}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    AFRL: See your tech support to get the Enthought distribution
+    installed
+  \end{itemize}
+\item
+  See the Mousai
+  \href{https://josephcslater.github.io/mousai/index.html}{documents
+  for} installation instructions
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{pip\ install\ mousai}
+  \item
+    AFRL: Talk to me- install is easy if I send you the files.
+  \end{itemize}
+\item
+  See \href{https://github.com/josephcslater/mousai}{Mousai on GitHub}
+  (https://github.com/josephcslater/mousai)
+\end{itemize}
+
+    \subsection{Conclusions}\label{conclusions}
+
+\begin{itemize}
+\tightlist
+\item
+  Nonlinear frequency solutions are within reach of undergraduates
+\item
+  Installation is trivial
+\item
+  Already in use (GitHub logs indicate dozens of users)
+\item
+  Custom special case and proprietary solvers such as BDamper can be
+  replaced for free
+\item
+  Research potential is about to be unleashed
+\end{itemize}
+
+    \subsection{Future}\label{future}
+
+\begin{itemize}
+\tightlist
+\item
+  Add time-averaging method
+
+  \begin{itemize}
+  \tightlist
+  \item
+    currently requires high number of harmonics for non-smooth systems
+  \end{itemize}
+\item
+  Add masking of known harmonics (average is often fixed and known)
+\item
+  Automated sweep control
+\item
+  Branch following
+\item
+  Condense the one-line method
+\item
+  Evaluate on large scale problems
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Currently attempting to hook to ANSYS
+  \end{itemize}
+\item
+  Parallelize
+\item
+  Leverage CUDA
+\end{itemize}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
