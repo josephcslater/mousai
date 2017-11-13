@@ -294,14 +294,6 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         phases = np.angle(xhar[:, 1])
         e = hb_err(x)
 
-
-'''    # v = harmonic_deriv(omega, x)
-    # a = harmonic_deriv(omega, v)
-#    xhar = fftp.fft(x)*2/len(time)
-#    amps = np.absolute(xhar[:, 1])
-#    phases = np.angle(xhar[:, 1])
-#    e = hb_err(x)'''
-
     if realify is True:
         x = np.real(x)
     else:
