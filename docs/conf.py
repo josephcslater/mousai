@@ -1,13 +1,4 @@
-html_theme_options = {
-#    'logo': 'js.jpg',
-    'logo_name': 'JCS',
-    'description': 'My classes, my tutorials, and my research',
-    'github_button': 'True',
-    'github_user': 'josephcslater',
-    'analytics_id': 'UA-62100376-5',
-    'touch_icon': 'js.jpg',
-    'extra_nav_links':   extra_nav_links,
-}
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
@@ -173,7 +164,7 @@ html_theme_options = {
     'description': 'Harmonic Balance Solvers',
     'github_button': 'True',
     'github_user': 'josephcslater',
-#    'analytics_id': 'UA-62100376-4',
+    'analytics_id': 'UA-62100376-5',
 }
 
 
