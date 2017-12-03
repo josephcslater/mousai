@@ -209,9 +209,9 @@ div.nboutput div.output_area.stderr {
 <div class="line">ASME Dayton Engineering Sciences Symposium 2017</div>
 <div class="line">Joseph C. Slater, October 23, 2017</div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -228,33 +228,24 @@ div.nboutput div.output_area.stderr {
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-The autoreload extension is already loaded. To reload it, use:
-  %reload_ext autoreload
-</pre></div></div>
-</div>
 <div class="section" id="Overview">
 <h2>Overview<a class="headerlink" href="#Overview" title="Permalink to this headline">¶</a></h2>
 <p>A wide array of contemporary problems can be represented by nonlinear
 ordinary differential equations with solutions that can be represented
-by Fourier Series: * Limit cycle oscillation of wings/blades *
+by Fourier Series: * <strong>Limit cycle oscillation of wings/blades</strong> *
 Flapping motion of birds/insects/ornithopters * Flagellum (threadlike
 cellular structures that enable bacteria etc. to swim) * Shaft
 rotation, especially including rubbing or nonlinear bearing contacts *
-<em>Engines</em> * Radio/sonar/radar electronics * Wireless power
+<strong>Engines</strong> * Radio/sonar/radar electronics * Wireless power
 transmission * Power converters * Boat/ship motions and interactions</p>
 <ul class="simple">
-<li>Cardio systems (heart/arteries/veins/)</li>
+<li><strong>Cardio systems</strong> (heart/arteries/veins)</li>
 <li>Ultrasonic systems transversing nonlinear media</li>
 <li>Responses of composite materials or materials with cracks</li>
 <li>Near buckling behavior of vibrating columns</li>
 <li>Nonlinearities in power systems</li>
-<li>Energy harvesting systems</li>
-<li>Wind turbines</li>
+<li><strong>Energy harvesting systems</strong></li>
+<li><strong>Wind turbines</strong></li>
 <li>Radio Frequency Integrated Circuits</li>
 <li><strong>Any system with nonlinear coatings/friction damping, air damping,
 etc.</strong></li>
@@ -281,19 +272,21 @@ research</li>
 <div class="section" id="Why-write-Mousai?-(continued)">
 <h3>Why write Mousai? (continued)<a class="headerlink" href="#Why-write-Mousai?-(continued)" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Matlab command eig unleashed power to the masses</li>
+<li>Matlab command eig unleashed power to the masses<ul>
 <li>Very few papers are published on eigensolutions- they have to be
 better than <code class="docutils literal"><span class="pre">eig</span></code></li>
-<li><code class="docutils literal"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers written
-in <code class="docutils literal"><span class="pre">C</span></code> and <code class="docutils literal"><span class="pre">Fortran</span></code></li>
+<li><code class="docutils literal"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers
+written in <code class="docutils literal"><span class="pre">C</span></code> and <code class="docutils literal"><span class="pre">Fortran</span></code></li>
 <li>Undergraduates with no practical understanding of the algorithms
 easily solve problems that were intractable a few decades ago.</li>
 <li><em>Access</em> and <em>ease of use</em> of such techniques enable <em>greater
 science</em> and <em>greater research</em>.</li>
-<li>The real world is nonlinear, but <strong>linear analysis dominates because
-the tools are easier to use</strong>.</li>
+<li>The real world is nonlinear, but <strong>linear analysis dominates
+because the tools are easier to use</strong>.</li>
 <li>With <code class="docutils literal"><span class="pre">Mousai</span></code>, an undergraduate can solve a nonlinear harmonic
 response problem easier then a PhD can today.</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -301,80 +294,61 @@ response problem easier then a PhD can today.</li>
 <h2>Theory:<a class="headerlink" href="#Theory:" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Linear-Solution">
 <h3>Linear Solution<a class="headerlink" href="#Linear-Solution" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first">Most dynamics systems can be modeled as a first order differential
-equation</p>
-<div class="math">
-\begin{equation}
+<ul class="simple">
+<li>Most dynamics systems can be modeled as a first order differential
+equation <a href="#id1"><span class="problematic" id="id2">:raw-latex:`\begin{equation}
 \ddot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
-\end{equation}</div><ul class="simple">
+\end{equation}`</span></a><ul>
 <li>Use finite differences</li>
 <li>Use Galerkin methods (Finite Elements)</li>
 <li>Of course discrete objects</li>
 </ul>
 </li>
-<li><p class="first">This is the common <em>State-Space</em> form: -solutions exceedingly well
-known if it is linear</p>
-</li>
-<li><p class="first">Finding the oscillatory response, after dissipation of the transient
-response, requires <strong>long</strong> time marching.</p>
-<ul class="simple">
+<li>This is the common <em>State-Space</em> form: -solutions exceedingly well
+known if it is linear</li>
+<li>Finding the oscillatory response, after dissipation of the transient
+response, requires <strong>long</strong> time marching.<ul>
 <li>Without damping, this may not even been feasible.</li>
 <li>With damping, tens, hundreds, or thousands of cycles, therefore
 thousands of times steps at minimum.</li>
 </ul>
 </li>
-<li><p class="first">For a linear system in the frequency domain this is</p>
-<div class="math">
-\begin{equation}
+</ul>
+<p>For a linear system in the frequency domain this is
+<a href="#id3"><span class="problematic" id="id4">:raw-latex:`\begin{equation}
 j\omega\mathbf{Z}(\omega)=\mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))
-\end{equation}\begin{equation}
+\end{equation}`</span></a> <a href="#id5"><span class="problematic" id="id6">:raw-latex:`\begin{equation}
 j\omega\mathbf{Z}(\omega)=A\mathbf{Z}(\omega)+B\mathbf{U}(\omega)
-\end{equation}</div><p>where</p>
-<div class="math">
-\begin{equation}
+\end{equation}`</span></a> where <a href="#id7"><span class="problematic" id="id8">:raw-latex:`\begin{equation}
 A = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{Z}(\omega)},\qquad
 B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{U}(\omega)}
-\end{equation}</div><p>are constant matrices.</p>
-</li>
-</ul>
-<p>The solution is:</p>
-<div class="math">
-\begin{equation}
-\mathbf{Z}(\omega) = \left(I-A^{-1}\right)B\mathbf{U}(\omega)
-\end{equation}</div><p>Where the magnitudes and phases of the elements of <span class="math">\(\mathbf{Z}\)</span>
-provide the amplitudes and phases of the harmonic response of each state
-at the frequency <span class="math">\(\omega\)</span>.</p>
+\end{equation}`</span></a> are constant matrices.</p>
+<p>The solution is: <a href="#id9"><span class="problematic" id="id10">:raw-latex:`\begin{equation}
+\mathbf{Z}(\omega) = \left(Ij\omega-A\right)^{-1}B\mathbf{U}(\omega)
+\end{equation}`</span></a> Where the magnitudes and phases of the elements of
+<span class="math">\(\mathbf{Z}\)</span> provide the amplitudes and phases of the harmonic
+response of each state at the frequency <span class="math">\(\omega\)</span>.</p>
 </div>
 <div class="section" id="Nonlinear-solution">
 <h3>Nonlinear solution<a class="headerlink" href="#Nonlinear-solution" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first">For a nonlinear system in the frequency domain we assume a Fourier
-series solution</p>
-<div class="math">
-\begin{equation}
+<ul class="simple">
+<li>For a nonlinear system in the frequency domain we assume a Fourier
+series solution <a href="#id11"><span class="problematic" id="id12">:raw-latex:`\begin{equation}
 \mathbf{z}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t}
-\end{equation}</div></li>
-<li><p class="first"><span class="math">\(N=1\)</span> for a single harmonic. <span class="math">\(n=0\)</span> is the constant term.</p>
-</li>
-<li><p class="first">This can be substituted into the governing equation to find
-<span class="math">\(\dot{\mathbf{z}}(t)\)</span>:</p>
-<div class="math">
-\begin{equation}
+\end{equation}`</span></a></li>
+<li><span class="math">\(N=1\)</span> for a single harmonic. <span class="math">\(n=0\)</span> is the constant term.</li>
+<li>This can be substituted into the governing equation to find
+<span class="math">\(\dot{\mathbf{z}}(t)\)</span>: <a href="#id13"><span class="problematic" id="id14">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
-\end{equation}</div></li>
-<li><p class="first">This is actually a function call to a Finite Element Package, CFD,
-Matlab function, - whatever your solver uses to get derivatives</p>
-</li>
-<li><p class="first">We can also find <span class="math">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
-the Fourier Series:</p>
-<div class="math">
-\begin{equation}
+\end{equation}`</span></a></li>
+<li>This is actually a function call to a Finite Element Package, CFD,
+Matlab function, - whatever your solver uses to get derivatives</li>
+<li>We can also find <span class="math">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
+the Fourier Series: <a href="#id15"><span class="problematic" id="id16">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}j n \omega\mathbf{Z}_n e^{j n \omega t}
-\end{equation}</div></li>
-<li><p class="first">The difference between these methods is zero when
-<span class="math">\(\mathbf{Z}_n\)</span> are correct.</p>
-</li>
+\end{equation}`</span></a></li>
+<li>The difference between these methods is zero when
+<span class="math">\(\mathbf{Z}_n\)</span> are correct.</li>
 </ul>
 <div class="math">
 \begin{equation}
@@ -420,7 +394,7 @@ derivative evaluator.</li>
 <span></span><span class="c1"># Arguments are name of derivative function, number of states, driving frequency,</span>
 <span class="c1"># form of the equation, and number of harmonics</span>
 
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">omega</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">omega</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
                                  <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Displacement amplitude is &#39;</span><span class="p">,</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Velocity amplitude is &#39;</span><span class="p">,</span> <span class="n">amps</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -443,7 +417,7 @@ Velocity amplitude is  0.0946956354558
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -464,11 +438,23 @@ Velocity amplitude is  0.0946956354558
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">pltcont</span><span class="p">()</span>
+<span></span><span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
+                            <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;*b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
+<span class="n">vel_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span>
+                           <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;*r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">disp_plot</span><span class="p">,</span> <span class="n">vel_plot</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (sec)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Response of Duffing Oscillator at 0.0159 rad/sec&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Response&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -481,7 +467,24 @@ Velocity amplitude is  0.0946956354558
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">pltcont</span><span class="p">()</span><span class="c1"># abbreviated plotting function</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre>
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -503,27 +506,28 @@ Velocity amplitude is  0.0946956354558
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" />
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_18_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_18_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
 <span class="n">amp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
     <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
     <span class="c1"># we ignore them by inserting `np.nan` values.</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">sp</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-                                         <span class="n">omega</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># , f_tol = 1e-6)#, callback = resid)</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                 <span class="n">omega</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -533,26 +537,16 @@ Velocity amplitude is  0.0946956354558
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[6]:
-</pre></div>
-</div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x1182ab710&gt;]
-</pre></div>
-</div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_18_1.png" src="../../_images/tutorial_demos_Theory_and_Examples_18_1.png" />
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_19_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_19_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="Let's-sweep-through-driving-frequencies-to-find-a-frequency-response-function">
-<h4>Let’s sweep through driving frequencies to find a frequency response function<a class="headerlink" href="#Let's-sweep-through-driving-frequencies-to-find-a-frequency-response-function" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function">
+<h4>Let’s sweep through driving frequencies to find a frequency response function<a class="headerlink" href="#Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [7]:
@@ -562,15 +556,16 @@ Velocity amplitude is  0.0946956354558
 <span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
 <span class="n">ampl</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
     <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
     <span class="c1"># we ignore them by inserting `np.nan` values.</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-                                         <span class="n">omega</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># , f_tol = 1e-6)#, callback = resid)</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                 <span class="n">omega</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">ampl</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -599,38 +594,23 @@ Velocity amplitude is  0.0946956354558
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_21_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_21_0.png" />
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_22_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_22_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="Two-degree-of-freedom-system">
 <h3>Two degree of freedom system<a class="headerlink" href="#Two-degree-of-freedom-system" title="Permalink to this headline">¶</a></h3>
-<p>$</p>
-<div class="math">
-\begin{bmatrix}
-1&amp;0\\
-0&amp;1
-\end{bmatrix}\begin{bmatrix}
-\ddot{x}_1\\ \ddot{x}_2\end{bmatrix}</div><ul>
-<li><div class="first math">
-\begin{bmatrix}
-2&amp;-1 \\
--1&amp;2
-\end{bmatrix}\begin{bmatrix}
-{x}_1\\{x}_2\end{bmatrix}</div><p>+$ $</p>
-<div class="math">
-\begin{bmatrix}
-\alpha x_{1}^{3}\\
-0
-\end{bmatrix}</div><p>$ $=</p>
+<p>$ \begin{bmatrix} 1&amp;0\ 0&amp;1 \end{bmatrix} \begin{bmatrix}
+<a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\ <a href="#id19"><span class="problematic" id="id20">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +
+\begin{bmatrix} 2&amp;-1 \ -1&amp;2 \end{bmatrix} \begin{bmatrix}
+{x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+:raw-latex:<a href="#id21"><span class="problematic" id="id22">`</span></a>alpha <a href="#id23"><span class="problematic" id="id24">`</span></a>x*{1}^{3}\ 0 \end{bmatrix} $ $=</p>
 <div class="math">
 \begin{bmatrix}
 0 \\
 A \sin(\omega t)
 \end{bmatrix}</div><p>$</p>
-</li>
-</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [9]:
@@ -651,8 +631,8 @@ A \sin(\omega t)
 </pre></div>
 </div>
 </div>
-<div class="section" id="Let's-find-a-response.">
-<h4>Let’s find a response.<a class="headerlink" href="#Let's-find-a-response." title="Permalink to this headline">¶</a></h4>
+<div class="section" id="Let’s-find-a-response.">
+<h4>Let’s find a response.<a class="headerlink" href="#Let’s-find-a-response." title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [10]:
@@ -661,7 +641,7 @@ A \sin(\omega t)
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 <span class="n">amps</span>
 </pre></div>
@@ -690,7 +670,7 @@ A \sin(\omega t)
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alphai</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
     <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alphai</span>
-    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                                      <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
     <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
@@ -714,38 +694,23 @@ A \sin(\omega t)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_28_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_28_0.png" />
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_29_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_29_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="Two-degree-of-freedom-system-with-Coulomb-Damping">
 <h3>Two degree of freedom system with Coulomb Damping<a class="headerlink" href="#Two-degree-of-freedom-system-with-Coulomb-Damping" title="Permalink to this headline">¶</a></h3>
-<p>$</p>
-<div class="math">
-\begin{bmatrix}
-1&amp;0\\
-0&amp;1
-\end{bmatrix}\begin{bmatrix}
-\ddot{x}_1\\ \ddot{x}_2\end{bmatrix}</div><ul>
-<li><div class="first math">
-\begin{bmatrix}
-2&amp;-1 \\
--1&amp;2
-\end{bmatrix}\begin{bmatrix}
-{x}_1\\{x}_2\end{bmatrix}</div><p>+$ $</p>
-<div class="math">
-\begin{bmatrix}
-\mu |\dot{x}|_{1}\\
-0
-\end{bmatrix}</div><p>$ $=</p>
+<p>$ \begin{bmatrix} 1&amp;0\ 0&amp;1 \end{bmatrix} \begin{bmatrix}
+<a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_1\ <a href="#id27"><span class="problematic" id="id28">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +
+\begin{bmatrix} 2&amp;-1 \ -1&amp;2 \end{bmatrix} \begin{bmatrix}
+{x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+<a href="#id29"><span class="problematic" id="id30">:raw-latex:`\mu `\|:raw-latex:`</span></a>dot{x}`|*{1}\ 0 \end{bmatrix} $ $=</p>
 <div class="math">
 \begin{bmatrix}
 0 \\
 A \sin(\omega t)
 \end{bmatrix}</div><p>$</p>
-</li>
-</ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [13]:
@@ -774,7 +739,7 @@ A \sin(\omega t)
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 <span class="n">amps</span>
 </pre></div>
@@ -800,7 +765,7 @@ A \sin(\omega t)
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mui</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
     <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mui</span>
-    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
                                      <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
     <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
@@ -830,7 +795,7 @@ A \sin(\omega t)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_34_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_34_0.png" />
+<img alt="../../_images/tutorial_demos_Theory_and_Examples_35_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_35_0.png" />
 </div>
 </div>
 </div>
@@ -844,7 +809,7 @@ A \sin(\omega t)
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_so</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+<span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
                <span class="n">params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span>
                                   <span class="n">sin</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span>
                <span class="n">num_variables</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -904,6 +869,8 @@ replaced for free</li>
 </ul>
 </li>
 <li>Add masking of known harmonics (average is often fixed and known)</li>
+<li>Automated sweep control</li>
+<li>Branch following</li>
 <li>Condense the one-line method</li>
 <li>Evaluate on large scale problems<ul>
 <li>Currently attempting to hook to ANSYS</li>
@@ -965,7 +932,7 @@ replaced for free</li>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
@@ -975,6 +942,22 @@ replaced for free</li>
 
     
 
+    
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-62100376-5']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
     
   </body>
 </html>

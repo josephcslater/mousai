@@ -55,7 +55,7 @@
    "source": [
     "# Test that all is working. \n",
     "# f_tol adjusts accuracy. This is smaller than reasonable, but illustrative of usage. \n",
-    "t, x, e, amps, phases = ms.hb_so(ms.duff_osc, sp.array([[0,1,-1]]), .7, f_tol = 1e-12)\n",
+    "t, x, e, amps, phases = ms.hb_time(ms.duff_osc, sp.array([[0,1,-1]]), .7, f_tol = 1e-12)\n",
     "print('Equation errors (should be zero): ',e)\n",
     "print('Constant term of FFT of signal should be zero: ', ms.fftp.fft(x)[0,0])"
    ]
@@ -81,7 +81,7 @@
    ],
    "source": [
     "# Using more harmonics. \n",
-    "t, x, e, amps, phases = ms.hb_so(ms.duff_osc, x0 = sp.array([[0,1,-1]]), omega = .7, num_harmonics= 7)\n",
+    "t, x, e, amps, phases = ms.hb_time(ms.duff_osc, x0 = sp.array([[0,1,-1]]), omega = .7, num_harmonics= 7)\n",
     "print('Equation errors (should be zero): ',e)\n",
     "print('Constant term of FFT of signal should be zero: ', ms.fftp.fft(x)[0,0])"
    ]
@@ -171,7 +171,7 @@
     }
    ],
    "source": [
-    "t, x, e, amps, phases = ms.hb_so(duff_osc_ss, sp.array([[0,1,-1],[.1,-.1,0]]), .1, eqform='first_order', num_harmonics=5)\n",
+    "t, x, e, amps, phases = ms.hb_time(duff_osc_ss, sp.array([[0,1,-1],[.1,-.1,0]]), .1, eqform='first_order', num_harmonics=5)\n",
     "\n",
     "print(x,e)\n",
     "print('Constant term of FFT of signal should be zero: ', ms.fftp.fft(x)[0,0])\n",
@@ -216,7 +216,7 @@
     "for i, freq in enumerate(omega):\n",
     "    #print(i,freq,x)\n",
     "    try:\n",
-    "        t, x, e, amps, phases = ms.hb_so(ms.duff_osc, x, freq)#, f_tol = 1e-10)#, callback = resid)\n",
+    "        t, x, e, amps, phases = ms.hb_time(ms.duff_osc, x, freq)#, f_tol = 1e-10)#, callback = resid)\n",
     "        amp[i]=amps[0]\n",
     "    except:\n",
     "        amp[i] = sp.nan    \n",
