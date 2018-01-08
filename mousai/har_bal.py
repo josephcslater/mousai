@@ -175,7 +175,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['n_har'] = num_harmonics
 
     def hb_err(x):
-        """Array (vector) of hamonic balance second order algebraic errors.
+        r"""Array (vector) of hamonic balance second order algebraic errors.
 
         Given a set of second order equations
         :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
@@ -302,7 +302,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 
 def hb_so(sdfunc, **kwargs):
-    '''Deprecated function name. Use hb_time'''
+    """Deprecated function name. Use hb_time."""
 
     message = 'hb_so has been deprecated. Please use hb_time or an alternaative.'
     warnings.warn(message, DeprecationWarning)
@@ -310,7 +310,7 @@ def hb_so(sdfunc, **kwargs):
 
 
 def harmonic_deriv(omega, r):
-    """Derivative of a harmonic function using frequency methods.
+    r"""Derivative of a harmonic function using frequency methods.
 
     Returns the derivatives of a harmonic function
 
@@ -363,12 +363,12 @@ def harmonic_deriv(omega, r):
 
 
 def solmf(x, v, M, C, K, F):
-    """Acceleration of second order linear matrix system.
+    r"""Acceleration of second order linear matrix system.
 
     Parameters
     ----------
     x, v, F : array_like
-        :math:`n\\times 1` arrays of current displacement, velocity, and Force.
+        :math:`n\times 1` arrays of current displacement, velocity, and Force.
     M, C, K : array_like
         Mass, damping, and stiffness matrices.
 
@@ -402,7 +402,7 @@ def duff_osc(x, v, params):
 
 
 def time_history(t, x, realify=True, num_time_points=200):
-    """Generate refined time history from harmonic balance solution.
+    r"""Generate refined time history from harmonic balance solution.
 
     Harmonic balance solutions presume a limited number of harmonics in the
     solution. The result is that the time history is usually a very limited
@@ -456,27 +456,3 @@ def time_history(t, x, realify=True, num_time_points=200):
         print('x was real')
 
     return t, x
-
-
-'''
-if __name__ == "__main__":
-    """Run doctests.
-
-    python (name of this file)  -v
-    will test all of the examples in the help.
-
-    Leaving off -v will run the tests without any output. Success will return
-    nothing.
-
-    See the doctest section of the python manual.
-    https://docs.python.org/3.5/library/doctest.html
-    """
-
-    # import mousai as ms
-
-    # doctest.run_docstring_examples(frfest,globals(),optionflags=doctest.ELLIPSIS)
-    # doctest.run_docstring_examples(asd,globals(),optionflags=doctest.ELLIPSIS)
-    import doctest
-    doctest.testmod(optionflags=doctest.ELLIPSIS |
-                    doctest.NORMALIZE_WHITESPACE)
-'''
