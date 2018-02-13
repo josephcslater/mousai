@@ -62,7 +62,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Parameters
     ----------
-    sdfunc: function
+    sdfunc : function
         For ``eqform='first_order'``, name of function that returns **column
         vector** first derivative given `x`, omega and \*\*kwargs. This is
         *NOT* a string.
@@ -74,31 +74,31 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         is *NOT* a string.
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
-    x0: array_like, optional
+    x0 : array_like, somewhat optional
         n x m array where n is the number of equations and m is the number of
         values representing the repeating solution.
         It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will
         generalize allowable default values later.)
-    omega:  float
+    omega :  float
         assumed fundamental response frequency in radians per second.
-    method: str
+    method : str, optional
         Name of optimization method to be used.
-    num_harmonics: int, optional
+    num_harmonics : int, optional
         Number of harmonics to presume. The omega = 0 constant term is always
         presumed to exist. Minimum (and default) is 1. If num_harmonics*2+1
         exceeds the number of columns of x0 then x0 will be expanded, using
         Fourier analaysis, to include additional harmonics with the starting
         presumption of zero values.
-    num_variables: int, optional
+    num_variables : int, somewhat optional
         Number of states for a state space model, or number of generalized
         dispacements for a second order form.
         If x0 is defined, num_variables is inferred. An error will result if
         both x0 and num_variables are left out of the function call.
-    eqform: str
+    eqform : str
         ``second_order`` or ``first_order``.
-    params: dict
+    params : dict, optional
         Dictionary of parameters needed by sdfunc.
-    realify: boolean
+    realify : boolean, optional
         Force the returned results to be real.
     other: any
         Other keyword arguments available to nonlinear solvers in

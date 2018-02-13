@@ -12,6 +12,7 @@ Python-based Harmonic Balance solvers and relevant tools.
 Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation.
 
 Can solve first-order and second-order ordinary differential equations written in state-space form (solved for acceleration for second-order). All you need to provide is the name of a Python function. The function accepts:
+
 1. The states (displacements and derivatives for second order forms)
 2. Time (interpreted as time within the period)
 3. Fundamental frequency of the harmonic representation
@@ -24,10 +25,9 @@ Quasi-linear models can (not yet implemented) obtain good low amplitude solution
 
 The manual is still under development, but the Tutorial provides two examples of solutions to the Duffing Oscillator, one in first order form, the other in second order form.
 
-The Reference section of the manual illustrates supporting code for building out more time-refined solutions, finding velocities from displacements, and specifics on function calls. 
+The Reference section of the manual illustrates supporting code for building out more time-refined solutions, finding velocities from displacements, and specifics on function calls.
 
 Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation.
 
 If you use this for any work, please cite it as:
 `Slater, Joseph C., "Mousai: An Open Source Harmonic Balance Solver for Nonlinear Systems," 13th ASME Dayton Engineering Sciences Symposium, Oct. 30, 2017, Dayton, OH. <https://josephcslater.github.io/DESS2017/#/>`_
-
