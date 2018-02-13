@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Mousai: An Open-Source General Purpose Harmonic Balance Solver &#8212; Mousai 0.2.3 documentation</title>
+    <title>Mousai: An Open-Source General Purpose Harmonic Balance Solver &#8212; Mousai 0.2.5 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.2.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -32,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -201,7 +192,11 @@ div.nboutput div.output_area.stderr {
 .ansi-white-intense-fg { color: #A1A6B2; }
 .ansi-white-intense-bg { background-color: #A1A6B2; }
 
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
 .ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
 </style>
 <div class="section" id="Mousai:-An-Open-Source-General-Purpose-Harmonic-Balance-Solver">
 <h1>Mousai: An Open-Source General Purpose Harmonic Balance Solver<a class="headerlink" href="#Mousai:-An-Open-Source-General-Purpose-Harmonic-Balance-Solver" title="Permalink to this headline">¶</a></h1>
@@ -210,11 +205,11 @@ div.nboutput div.output_area.stderr {
 <div class="line">Joseph C. Slater, October 23, 2017</div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
@@ -274,16 +269,16 @@ research</li>
 <ul class="simple">
 <li>Matlab command eig unleashed power to the masses<ul>
 <li>Very few papers are published on eigensolutions- they have to be
-better than <code class="docutils literal"><span class="pre">eig</span></code></li>
-<li><code class="docutils literal"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers
-written in <code class="docutils literal"><span class="pre">C</span></code> and <code class="docutils literal"><span class="pre">Fortran</span></code></li>
+better than <code class="docutils literal notranslate"><span class="pre">eig</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers
+written in <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">Fortran</span></code></li>
 <li>Undergraduates with no practical understanding of the algorithms
 easily solve problems that were intractable a few decades ago.</li>
 <li><em>Access</em> and <em>ease of use</em> of such techniques enable <em>greater
 science</em> and <em>greater research</em>.</li>
 <li>The real world is nonlinear, but <strong>linear analysis dominates
 because the tools are easier to use</strong>.</li>
-<li>With <code class="docutils literal"><span class="pre">Mousai</span></code>, an undergraduate can solve a nonlinear harmonic
+<li>With <code class="docutils literal notranslate"><span class="pre">Mousai</span></code>, an undergraduate can solve a nonlinear harmonic
 response problem easier then a PhD can today.</li>
 </ul>
 </li>
@@ -326,8 +321,8 @@ B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\m
 <p>The solution is: <a href="#id9"><span class="problematic" id="id10">:raw-latex:`\begin{equation}
 \mathbf{Z}(\omega) = \left(Ij\omega-A\right)^{-1}B\mathbf{U}(\omega)
 \end{equation}`</span></a> Where the magnitudes and phases of the elements of
-<span class="math">\(\mathbf{Z}\)</span> provide the amplitudes and phases of the harmonic
-response of each state at the frequency <span class="math">\(\omega\)</span>.</p>
+<span class="math notranslate">\(\mathbf{Z}\)</span> provide the amplitudes and phases of the harmonic
+response of each state at the frequency <span class="math notranslate">\(\omega\)</span>.</p>
 </div>
 <div class="section" id="Nonlinear-solution">
 <h3>Nonlinear solution<a class="headerlink" href="#Nonlinear-solution" title="Permalink to this headline">¶</a></h3>
@@ -336,21 +331,21 @@ response of each state at the frequency <span class="math">\(\omega\)</span>.</p
 series solution <a href="#id11"><span class="problematic" id="id12">:raw-latex:`\begin{equation}
 \mathbf{z}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t}
 \end{equation}`</span></a></li>
-<li><span class="math">\(N=1\)</span> for a single harmonic. <span class="math">\(n=0\)</span> is the constant term.</li>
+<li><span class="math notranslate">\(N=1\)</span> for a single harmonic. <span class="math notranslate">\(n=0\)</span> is the constant term.</li>
 <li>This can be substituted into the governing equation to find
-<span class="math">\(\dot{\mathbf{z}}(t)\)</span>: <a href="#id13"><span class="problematic" id="id14">:raw-latex:`\begin{equation}
+<span class="math notranslate">\(\dot{\mathbf{z}}(t)\)</span>: <a href="#id13"><span class="problematic" id="id14">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
 \end{equation}`</span></a></li>
 <li>This is actually a function call to a Finite Element Package, CFD,
 Matlab function, - whatever your solver uses to get derivatives</li>
-<li>We can also find <span class="math">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
+<li>We can also find <span class="math notranslate">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
 the Fourier Series: <a href="#id15"><span class="problematic" id="id16">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}j n \omega\mathbf{Z}_n e^{j n \omega t}
 \end{equation}`</span></a></li>
 <li>The difference between these methods is zero when
-<span class="math">\(\mathbf{Z}_n\)</span> are correct.</li>
+<span class="math notranslate">\(\mathbf{Z}_n\)</span> are correct.</li>
 </ul>
-<div class="math">
+<div class="math notranslate">
 \begin{equation}
  \mathbf{0} \approx\sum_{n=-N}^{N}j n\omega \mathbf{Z}_n e^{j n \omega t}-\mathbf{f}\left(\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t},\mathbf{u}(t)\right)
 \end{equation}</div><ul class="simple">
@@ -367,14 +362,14 @@ derivative evaluator.</li>
 <h2>Examples:<a class="headerlink" href="#Examples:" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="Duffing-Oscillator">
 <h3>Duffing Oscillator<a class="headerlink" href="#Duffing-Oscillator" title="Permalink to this headline">¶</a></h3>
-<div class="math">
+<div class="math notranslate">
 \[\ddot{x}+0.1\dot{x}+x+0.1 x^3=\sin(\omega t)\]</div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Define our function (Python)</span>
 <span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
@@ -386,11 +381,11 @@ derivative evaluator.</li>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Arguments are name of derivative function, number of states, driving frequency,</span>
 <span class="c1"># form of the equation, and number of harmonics</span>
 
@@ -412,15 +407,15 @@ Velocity amplitude is  0.0946956354558
 </div>
 <div class="section" id="Mousai-can-easily-recreate-the-near-continuous-response">
 <h4>Mousai can easily recreate the near-continuous response<a class="headerlink" href="#Mousai-can-easily-recreate-the-near-continuous-response" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">pltcont</span><span class="p">():</span>
     <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
@@ -437,11 +432,11 @@ Velocity amplitude is  0.0946956354558
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
@@ -466,11 +461,11 @@ Velocity amplitude is  0.0946956354558
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">pltcont</span><span class="p">()</span><span class="c1"># abbreviated plotting function</span>
 </pre></div>
 </div>
@@ -483,11 +478,11 @@ Velocity amplitude is  0.0946956354558
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
                         <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;*b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
@@ -510,11 +505,11 @@ Velocity amplitude is  0.0946956354558
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
 <span class="n">amp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -548,11 +543,11 @@ Velocity amplitude is  0.0946956354558
 <div class="section" id="Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function">
 <h4>Let’s sweep through driving frequencies to find a frequency response function<a class="headerlink" href="#Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
 <span class="n">ampl</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -575,11 +570,11 @@ Velocity amplitude is  0.0946956354558
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Up sweep&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span><span class="n">ampl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Down sweep&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
@@ -601,22 +596,30 @@ Velocity amplitude is  0.0946956354558
 </div>
 <div class="section" id="Two-degree-of-freedom-system">
 <h3>Two degree of freedom system<a class="headerlink" href="#Two-degree-of-freedom-system" title="Permalink to this headline">¶</a></h3>
-<p>$ \begin{bmatrix} 1&amp;0\ 0&amp;1 \end{bmatrix} \begin{bmatrix}
-<a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\ <a href="#id19"><span class="problematic" id="id20">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +
-\begin{bmatrix} 2&amp;-1 \ -1&amp;2 \end{bmatrix} \begin{bmatrix}
-{x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+<p>$</p>
+<div class="math notranslate">
+\begin{bmatrix}
+1&amp;0\\
+0&amp;1
+\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\
+<a href="#id19"><span class="problematic" id="id20">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
+<div class="math notranslate">
+\begin{bmatrix}
+2&amp;-1 \\
+-1&amp;2
+\end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
 :raw-latex:<a href="#id21"><span class="problematic" id="id22">`</span></a>alpha <a href="#id23"><span class="problematic" id="id24">`</span></a>x*{1}^{3}\ 0 \end{bmatrix} $ $=</p>
-<div class="math">
+<div class="math notranslate">
 \begin{bmatrix}
 0 \\
 A \sin(\omega t)
 \end{bmatrix}</div><p>$</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">two_dof_demo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
@@ -634,11 +637,11 @@ A \sin(\omega t)
 <div class="section" id="Let’s-find-a-response.">
 <h4>Let’s find a response.<a class="headerlink" href="#Let’s-find-a-response." title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.4</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
@@ -648,11 +651,11 @@ A \sin(\omega t)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Out[10]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([ 0.86696762,  0.89484597,  0.99030411,  1.04097851])
 </pre></div>
 </div>
@@ -661,11 +664,11 @@ A \sin(\omega t)
 <div class="section" id="Or-a-parametric-study-of-response-amplitude-versus-nonlinearity.">
 <h4>Or a parametric study of response amplitude versus nonlinearity.<a class="headerlink" href="#Or-a-parametric-study-of-response-amplitude-versus-nonlinearity." title="Permalink to this headline">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alphai</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
@@ -677,11 +680,11 @@ A \sin(\omega t)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$ versus $</span><span class="se">\\</span><span class="s1">alpha$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$&#39;</span><span class="p">)</span>
@@ -701,22 +704,30 @@ A \sin(\omega t)
 </div>
 <div class="section" id="Two-degree-of-freedom-system-with-Coulomb-Damping">
 <h3>Two degree of freedom system with Coulomb Damping<a class="headerlink" href="#Two-degree-of-freedom-system-with-Coulomb-Damping" title="Permalink to this headline">¶</a></h3>
-<p>$ \begin{bmatrix} 1&amp;0\ 0&amp;1 \end{bmatrix} \begin{bmatrix}
-<a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_1\ <a href="#id27"><span class="problematic" id="id28">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +
-\begin{bmatrix} 2&amp;-1 \ -1&amp;2 \end{bmatrix} \begin{bmatrix}
-{x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+<p>$</p>
+<div class="math notranslate">
+\begin{bmatrix}
+1&amp;0\\
+0&amp;1
+\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_1\
+<a href="#id27"><span class="problematic" id="id28">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
+<div class="math notranslate">
+\begin{bmatrix}
+2&amp;-1 \\
+-1&amp;2
+\end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
 <a href="#id29"><span class="problematic" id="id30">:raw-latex:`\mu `\|:raw-latex:`</span></a>dot{x}`|*{1}\ 0 \end{bmatrix} $ $=</p>
-<div class="math">
+<div class="math notranslate">
 \begin{bmatrix}
 0 \\
 A \sin(\omega t)
 \end{bmatrix}</div><p>$</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">two_dof_coulomb</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
@@ -732,11 +743,11 @@ A \sin(\omega t)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
@@ -746,21 +757,21 @@ A \sin(\omega t)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Out[14]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([ 0.68916938,  0.68228249,  0.67299987,  0.66065012])
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mui</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
@@ -778,11 +789,11 @@ A \sin(\omega t)
 <li>This damping shifted resonance.</li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$ versus $</span><span class="se">\\</span><span class="s1">mu$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$&#39;</span><span class="p">)</span>
@@ -804,11 +815,11 @@ A \sin(\omega t)
 <h3>But can I solve an equation in one line? Yes!!!<a class="headerlink" href="#But-can-I-solve-an-equation-in-one-line?-Yes!!!" title="Permalink to this headline">¶</a></h3>
 <p>Damped Duffing oscillator in one command.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
                <span class="n">params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span>
                                   <span class="n">sin</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span>
@@ -818,11 +829,11 @@ A \sin(\omega t)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Out[25]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>1.4779630014433971
 </pre></div>
 </div>
@@ -842,7 +853,7 @@ installed</li>
 <li>See the Mousai <a class="reference external" href="https://josephcslater.github.io/mousai/index.html">documents
 for</a>
 installation instructions<ul>
-<li><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">mousai</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">mousai</span></code></li>
 <li>AFRL: Talk to me- install is easy if I send you the files.</li>
 </ul>
 </li>
@@ -909,12 +920,14 @@ replaced for free</li>
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
   <div role="note" aria-label="source link">
@@ -932,7 +945,7 @@ replaced for free</li>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>har_bal &#8212; Mousai 0.2.3 documentation</title>
+    <title>har_bal &#8212; Mousai 0.2.5 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.2.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -30,8 +22,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -104,45 +95,46 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    sdfunc: function</span>
+<span class="sd">    sdfunc : function</span>
 <span class="sd">        For ``eqform=&#39;first_order&#39;``, name of function that returns **column</span>
-<span class="sd">        vector** first derivative given `x`, omega and \*\*kwargs. This is</span>
+<span class="sd">        vector** first derivative given `x`, `omega` and \*\*kwargs. This is</span>
 <span class="sd">        *NOT* a string.</span>
 
 <span class="sd">        :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`</span>
 
 <span class="sd">        For ``eqform=&#39;second_order&#39;``, name of function that returns **column</span>
-<span class="sd">        vector** second derivative given `x`, `v`, omega and \*\*kwargs. This</span>
+<span class="sd">        vector** second derivative given `x`, `v`, `omega` and \*\*kwargs. This</span>
 <span class="sd">        is *NOT* a string.</span>
 
 <span class="sd">        :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`</span>
-<span class="sd">    x0: array_like, optional</span>
+<span class="sd">    x0 : array_like, somewhat optional</span>
 <span class="sd">        n x m array where n is the number of equations and m is the number of</span>
 <span class="sd">        values representing the repeating solution.</span>
 <span class="sd">        It is required that :math:`m = 1 + 2 num_{harmonics}`. (we will</span>
 <span class="sd">        generalize allowable default values later.)</span>
-<span class="sd">    omega:  float</span>
+<span class="sd">    omega : float</span>
 <span class="sd">        assumed fundamental response frequency in radians per second.</span>
-<span class="sd">    method: str</span>
+<span class="sd">    method : str, optional</span>
 <span class="sd">        Name of optimization method to be used.</span>
-<span class="sd">    num_harmonics: int, optional</span>
+<span class="sd">    num_harmonics : int, optional</span>
 <span class="sd">        Number of harmonics to presume. The omega = 0 constant term is always</span>
 <span class="sd">        presumed to exist. Minimum (and default) is 1. If num_harmonics*2+1</span>
-<span class="sd">        exceeds the number of columns of x0 then x0 will be expanded, using</span>
+<span class="sd">        exceeds the number of columns of `x0` then `x0` will be expanded, using</span>
 <span class="sd">        Fourier analaysis, to include additional harmonics with the starting</span>
 <span class="sd">        presumption of zero values.</span>
-<span class="sd">    num_variables: int, optional</span>
+<span class="sd">    num_variables : int, somewhat optional</span>
 <span class="sd">        Number of states for a state space model, or number of generalized</span>
 <span class="sd">        dispacements for a second order form.</span>
-<span class="sd">        If x0 is defined, num_variables is inferred. An error will result if</span>
-<span class="sd">        both x0 and num_variables are left out of the function call.</span>
-<span class="sd">    eqform: str</span>
-<span class="sd">        ``second_order`` or ``first_order``.</span>
-<span class="sd">    params: dict</span>
+<span class="sd">        If `x0` is defined, num_variables is inferred. An error will result if</span>
+<span class="sd">        both `x0` and num_variables are left out of the function call.</span>
+<span class="sd">        `num_variables` must be defined if `x0` is not.</span>
+<span class="sd">    eqform : str, optional</span>
+<span class="sd">        ``second_order`` or ``first_order``. (second order is default)</span>
+<span class="sd">    params : dict, optional</span>
 <span class="sd">        Dictionary of parameters needed by sdfunc.</span>
-<span class="sd">    realify: boolean</span>
+<span class="sd">    realify : boolean, optional</span>
 <span class="sd">        Force the returned results to be real.</span>
-<span class="sd">    other: any</span>
+<span class="sd">    other : any</span>
 <span class="sd">        Other keyword arguments available to nonlinear solvers in</span>
 <span class="sd">        `scipy.optimize.nonlin</span>
 <span class="sd">        &lt;https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html&gt;`_.</span>
@@ -217,7 +209,7 @@
     <span class="n">params</span><span class="p">[</span><span class="s1">&#39;n_har&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_harmonics</span>
 
     <span class="k">def</span> <span class="nf">hb_err</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Array (vector) of hamonic balance second order algebraic errors.</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Array (vector) of hamonic balance second order algebraic errors.</span>
 
 <span class="sd">        Given a set of second order equations</span>
 <span class="sd">        :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`</span>
@@ -339,20 +331,20 @@
     <span class="k">if</span> <span class="n">realify</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x was real&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x was real&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">time</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span>
 
 
 <div class="viewcode-block" id="hb_so"><a class="viewcode-back" href="../reference/mousai.html#har_bal.hb_so">[docs]</a><span class="k">def</span> <span class="nf">hb_so</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Deprecated function name. Use hb_time&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated function name. Use hb_time.&quot;&quot;&quot;</span>
 
     <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;hb_so has been deprecated. Please use hb_time or an alternaative.&#39;</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">hb_time</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">hb_time</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="harmonic_deriv"><a class="viewcode-back" href="../reference/mousai.html#har_bal.harmonic_deriv">[docs]</a><span class="k">def</span> <span class="nf">harmonic_deriv</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Derivative of a harmonic function using frequency methods.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Derivative of a harmonic function using frequency methods.</span>
 
 <span class="sd">    Returns the derivatives of a harmonic function</span>
 
@@ -400,17 +392,17 @@
     <span class="n">omega_whole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">omega_half</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">omega_half</span><span class="p">)</span>
     <span class="n">r_freq</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
     <span class="n">s_freq</span> <span class="o">=</span> <span class="n">r_freq</span> <span class="o">*</span> <span class="n">omega_whole</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">s_freq</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">fftp</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">s_freq</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="solmf"><a class="viewcode-back" href="../reference/mousai.html#har_bal.solmf">[docs]</a><span class="k">def</span> <span class="nf">solmf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Acceleration of second order linear matrix system.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Acceleration of second order linear matrix system.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x, v, F : array_like</span>
-<span class="sd">        :math:`n\\times 1` arrays of current displacement, velocity, and Force.</span>
+<span class="sd">        :math:`n\times 1` arrays of current displacement, velocity, and Force.</span>
 <span class="sd">    M, C, K : array_like</span>
 <span class="sd">        Mass, damping, and stiffness matrices.</span>
 
@@ -433,8 +425,8 @@
 <span class="sd">        [[-0.95]</span>
 <span class="sd">         [ 1.6 ]]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">return</span> <span class="o">-</span><span class="n">la</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">C</span> <span class="o">@</span> <span class="n">v</span> <span class="o">+</span> <span class="n">K</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">F</span><span class="p">)</span></div>
+</div>
+    <span class="k">return</span> <span class="o">-</span><span class="n">la</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">C</span> <span class="o">@</span> <span class="n">v</span> <span class="o">+</span> <span class="n">K</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">F</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
@@ -444,7 +436,7 @@
 
 
 <div class="viewcode-block" id="time_history"><a class="viewcode-back" href="../reference/mousai.html#har_bal.time_history">[docs]</a><span class="k">def</span> <span class="nf">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">realify</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_time_points</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate refined time history from harmonic balance solution.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate refined time history from harmonic balance solution.</span>
 
 <span class="sd">    Harmonic balance solutions presume a limited number of harmonics in the</span>
 <span class="sd">    solution. The result is that the time history is usually a very limited</span>
@@ -496,32 +488,8 @@
         <span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x was real&#39;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span></div>
-
-
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">if __name__ == &quot;__main__&quot;:</span>
-<span class="sd">    &quot;&quot;&quot;Run doctests.</span>
-
-<span class="sd">    python (name of this file)  -v</span>
-<span class="sd">    will test all of the examples in the help.</span>
-
-<span class="sd">    Leaving off -v will run the tests without any output. Success will return</span>
-<span class="sd">    nothing.</span>
-
-<span class="sd">    See the doctest section of the python manual.</span>
-<span class="sd">    https://docs.python.org/3.5/library/doctest.html</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<span class="sd">    # import mousai as ms</span>
-
-<span class="sd">    # doctest.run_docstring_examples(frfest,globals(),optionflags=doctest.ELLIPSIS)</span>
-<span class="sd">    # doctest.run_docstring_examples(asd,globals(),optionflags=doctest.ELLIPSIS)</span>
-<span class="sd">    import doctest</span>
-<span class="sd">    doctest.testmod(optionflags=doctest.ELLIPSIS |</span>
-<span class="sd">                    doctest.NORMALIZE_WHITESPACE)</span>
-<span class="sd">&#39;&#39;&#39;</span>
+</div>
+    <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span>
 </pre></div>
 
           </div>
@@ -550,12 +518,14 @@
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -566,7 +536,7 @@
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
