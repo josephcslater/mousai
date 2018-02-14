@@ -431,8 +431,8 @@ def time_history(t, x, realify=True, num_time_points=200):
     x: array_like
         n x num_time_points array.
 
-    Example
-    -------
+    Examples
+    --------
     Needs an example.
 
     Notes
