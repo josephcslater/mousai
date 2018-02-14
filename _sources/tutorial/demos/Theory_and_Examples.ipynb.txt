@@ -243,7 +243,9 @@
    "source": [
     "### Duffing Oscillator\n",
     "\n",
-    "$$\\ddot{x}+0.1\\dot{x}+x+0.1 x^3=\\sin(\\omega t)$$"
+    "\\begin{equation}\n",
+    "\\ddot{x}+0.1\\dot{x}+x+0.1 x^3=\\sin(\\omega t)\n",
+    "\\end{equation}"
    ]
   },
   {
@@ -999,7 +1001,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.6.2"
+   "version": "3.6.4"
   },
   "toc": {
    "nav_menu": {},
