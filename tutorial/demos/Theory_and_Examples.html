@@ -319,15 +319,15 @@ thousands of times steps at minimum.</li>
 </ul>
 </li>
 </ul>
-<p>For a linear system in the frequency domain this is
-<a href="#id1"><span class="problematic" id="id2">:raw-latex:`\begin{equation}j\omega\mathbf{Z}(\omega)=\mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))\end{equation}`</span></a>
-<a href="#id3"><span class="problematic" id="id4">:raw-latex:`\begin{equation}j\omega\mathbf{Z}(\omega)=A\mathbf{Z}(\omega)+B\mathbf{U}(\omega)\end{equation}`</span></a>
-where
-<a href="#id5"><span class="problematic" id="id6">:raw-latex:`\begin{equation}A = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{Z}(\omega)},\qquad
-B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{U}(\omega)}\end{equation}`</span></a>
-are constant matrices.</p>
+<p>For a linear system in the frequency domain this is</p>
+<div class="math notranslate">
+\begin{equation}j\omega\mathbf{Z}(\omega)=\mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))\end{equation}</div><div class="math notranslate">
+\begin{equation}j\omega\mathbf{Z}(\omega)=A\mathbf{Z}(\omega)+B\mathbf{U}(\omega)\end{equation}</div><p>where</p>
+<div class="math notranslate">
+\begin{equation}A = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{Z}(\omega)},\qquad
+B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\mathbf{U}(\omega)}\end{equation}</div><p>are constant matrices.</p>
 <p>The solution is:
-<a href="#id7"><span class="problematic" id="id8">:raw-latex:`\begin{equation}\mathbf{Z}(\omega) = \left(Ij\omega-A\right)^{-1}B\mathbf{U}(\omega)\end{equation}`</span></a>
+<a href="#id1"><span class="problematic" id="id2">:raw-latex:`\begin{equation}\mathbf{Z}(\omega) = \left(Ij\omega-A\right)^{-1}B\mathbf{U}(\omega)\end{equation}`</span></a>
 Where the magnitudes and phases of the elements of <span class="math notranslate">\(\mathbf{Z}\)</span>
 provide the amplitudes and phases of the harmonic response of each state
 at the frequency <span class="math notranslate">\(\omega\)</span>.</p>
@@ -336,18 +336,18 @@ at the frequency <span class="math notranslate">\(\omega\)</span>.</p>
 <h3>Nonlinear solution<a class="headerlink" href="#Nonlinear-solution" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>For a nonlinear system in the frequency domain we assume a Fourier
-series solution <a href="#id9"><span class="problematic" id="id10">:raw-latex:`\begin{equation}
+series solution <a href="#id3"><span class="problematic" id="id4">:raw-latex:`\begin{equation}
 \mathbf{z}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t}
 \end{equation}`</span></a></li>
 <li><span class="math notranslate">\(N=1\)</span> for a single harmonic. <span class="math notranslate">\(n=0\)</span> is the constant term.</li>
 <li>This can be substituted into the governing equation to find
-<span class="math notranslate">\(\dot{\mathbf{z}}(t)\)</span>: <a href="#id11"><span class="problematic" id="id12">:raw-latex:`\begin{equation}
+<span class="math notranslate">\(\dot{\mathbf{z}}(t)\)</span>: <a href="#id5"><span class="problematic" id="id6">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))
 \end{equation}`</span></a></li>
 <li>This is actually a function call to a Finite Element Package, CFD,
 Matlab function, - whatever your solver uses to get derivatives</li>
 <li>We can also find <span class="math notranslate">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
-the Fourier Series: <a href="#id13"><span class="problematic" id="id14">:raw-latex:`\begin{equation}
+the Fourier Series: <a href="#id7"><span class="problematic" id="id8">:raw-latex:`\begin{equation}
 \dot{\mathbf{z}}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}j n \omega\mathbf{Z}_n e^{j n \omega t}
 \end{equation}`</span></a></li>
 <li>The difference between these methods is zero when
@@ -610,14 +610,14 @@ Velocity amplitude is  0.0946956354558
 \begin{bmatrix}
 1&amp;0\\
 0&amp;1
-\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id15"><span class="problematic" id="id16">:raw-latex:`\ddot{x}`</span></a>_1\
-<a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
+\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id9"><span class="problematic" id="id10">:raw-latex:`\ddot{x}`</span></a>_1\
+<a href="#id11"><span class="problematic" id="id12">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
 <div class="math notranslate">
 \begin{bmatrix}
 2&amp;-1 \\
 -1&amp;2
 \end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
-:raw-latex:<a href="#id19"><span class="problematic" id="id20">`</span></a>alpha <a href="#id21"><span class="problematic" id="id22">`</span></a>x*{1}^{3}\ 0 \end{bmatrix} $ $=</p>
+:raw-latex:<a href="#id13"><span class="problematic" id="id14">`</span></a>alpha <a href="#id15"><span class="problematic" id="id16">`</span></a>x*{1}^{3}\ 0 \end{bmatrix} $ $=</p>
 <div class="math notranslate">
 \begin{bmatrix}
 0 \\
@@ -718,14 +718,14 @@ A \sin(\omega t)
 \begin{bmatrix}
 1&amp;0\\
 0&amp;1
-\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id23"><span class="problematic" id="id24">:raw-latex:`\ddot{x}`</span></a>_1\
-<a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
+\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\
+<a href="#id19"><span class="problematic" id="id20">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
 <div class="math notranslate">
 \begin{bmatrix}
 2&amp;-1 \\
 -1&amp;2
 \end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
-<a href="#id27"><span class="problematic" id="id28">:raw-latex:`\mu `\|:raw-latex:`</span></a>dot{x}`|*{1}\ 0 \end{bmatrix} $ $=</p>
+<a href="#id21"><span class="problematic" id="id22">:raw-latex:`\mu `\|:raw-latex:`</span></a>dot{x}`|*{1}\ 0 \end{bmatrix} $ $=</p>
 <div class="math notranslate">
 \begin{bmatrix}
 0 \\
