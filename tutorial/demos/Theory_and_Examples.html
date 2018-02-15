@@ -32,185 +32,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput,
-div.nbinput div.prompt,
-div.nbinput div.input_area,
-div.nbinput div[class*=highlight],
-div.nbinput div[class*=highlight] pre,
-div.nboutput,
-div.nbinput div.prompt,
-div.nbinput div.output_area,
-div.nboutput div[class*=highlight],
-div.nboutput div[class*=highlight] pre {
-    background: none;
-    border: none;
-    padding: 0 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-/* avoid gaps between output lines */
-div.nboutput div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput,
-div.nboutput {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput,
-    div.nboutput {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput div.prompt pre {
-    color: #303F9F;
-}
-
-/* output prompt */
-div.nboutput div.prompt pre {
-    color: #D84315;
-}
-
-/* all prompts */
-div.nbinput div.prompt,
-div.nboutput div.prompt {
-    min-width: 8ex;
-    padding-top: 0.4em;
-    padding-right: 0.4em;
-    text-align: right;
-    flex: 0;
-}
-@media (max-width: 540px) {
-    div.nbinput div.prompt,
-    div.nboutput div.prompt {
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput div.prompt.empty {
-        padding: 0;
-    }
-}
-
-/* disable scrollbars on prompts */
-div.nbinput div.prompt pre,
-div.nboutput div.prompt pre {
-    overflow: hidden;
-}
-
-/* input/output area */
-div.nbinput div.input_area,
-div.nboutput div.output_area {
-    padding: 0.4em;
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput div.input_area,
-    div.nboutput div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput div.input_area {
-    border: 1px solid #cfcfcf;
-    border-radius: 2px;
-    background: #f7f7f7;
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.pngmath center alignment in output cells */
-div.nboutput div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-</style>
-<div class="section" id="Mousai:-An-Open-Source-General-Purpose-Harmonic-Balance-Solver">
-<h1>Mousai: An Open-Source General Purpose Harmonic Balance Solver<a class="headerlink" href="#Mousai:-An-Open-Source-General-Purpose-Harmonic-Balance-Solver" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="mousai-an-open-source-general-purpose-harmonic-balance-solver">
+<h1>Mousai: An Open-Source General Purpose Harmonic Balance Solver<a class="headerlink" href="#mousai-an-open-source-general-purpose-harmonic-balance-solver" title="Permalink to this headline">¶</a></h1>
 <div class="line-block">
 <div class="line">ASME Dayton Engineering Sciences Symposium 2017</div>
 <div class="line">Joseph C. Slater, October 23, 2017</div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
@@ -222,9 +50,8 @@ div.nboutput div.output_area.stderr {
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="Overview">
-<h2>Overview<a class="headerlink" href="#Overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>A wide array of contemporary problems can be represented by nonlinear
 ordinary differential equations with solutions that can be represented
 by Fourier Series: * <strong>Limit cycle oscillation of wings/blades</strong> *
@@ -248,8 +75,8 @@ etc.</strong></li>
 <p>These can all be observed in a quick literature search on ‘Harmonic
 Balance’.</p>
 </div>
-<div class="section" id="Why-(did-I)-write-Mousai?">
-<h2>Why (did I) write Mousai?<a class="headerlink" href="#Why-(did-I)-write-Mousai?" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="why-did-i-write-mousai">
+<h2>Why (did I) write Mousai?<a class="headerlink" href="#why-did-i-write-mousai" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>The ability to code harmonic balance seems to be publishable by
 itself<ul>
@@ -264,8 +91,8 @@ research</li>
 </ul>
 </li>
 </ul>
-<div class="section" id="Why-write-Mousai?-(continued)">
-<h3>Why write Mousai? (continued)<a class="headerlink" href="#Why-write-Mousai?-(continued)" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="why-write-mousai-continued">
+<h3>Why write Mousai? (continued)<a class="headerlink" href="#why-write-mousai-continued" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Matlab command eig unleashed power to the masses<ul>
 <li>Very few papers are published on eigensolutions- they have to be
@@ -285,10 +112,10 @@ response problem easier then a PhD can today.</li>
 </ul>
 </div>
 </div>
-<div class="section" id="Theory:">
-<h2>Theory:<a class="headerlink" href="#Theory:" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Linear-Solution">
-<h3>Linear Solution<a class="headerlink" href="#Linear-Solution" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="theory">
+<h2>Theory:<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linear-solution">
+<h3>Linear Solution<a class="headerlink" href="#linear-solution" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Most dynamics systems can be modeled as a first order differential
 equation <a href="#id1"><span class="problematic" id="id2">:raw-latex:`\begin{equation}
@@ -324,8 +151,8 @@ B = \frac{\partial \mathbf{f}(\mathbf{Z}(\omega),\mathbf{U}(\omega))}{\partial\m
 <span class="math notranslate">\(\mathbf{Z}\)</span> provide the amplitudes and phases of the harmonic
 response of each state at the frequency <span class="math notranslate">\(\omega\)</span>.</p>
 </div>
-<div class="section" id="Nonlinear-solution">
-<h3>Nonlinear solution<a class="headerlink" href="#Nonlinear-solution" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="nonlinear-solution">
+<h3>Nonlinear solution<a class="headerlink" href="#nonlinear-solution" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>For a nonlinear system in the frequency domain we assume a Fourier
 series solution <a href="#id11"><span class="problematic" id="id12">:raw-latex:`\begin{equation}
@@ -345,10 +172,7 @@ the Fourier Series: <a href="#id15"><span class="problematic" id="id16">:raw-lat
 <li>The difference between these methods is zero when
 <span class="math notranslate">\(\mathbf{Z}_n\)</span> are correct.</li>
 </ul>
-<div class="math notranslate">
-\begin{equation}
- \mathbf{0} \approx\sum_{n=-N}^{N}j n\omega \mathbf{Z}_n e^{j n \omega t}-\mathbf{f}\left(\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t},\mathbf{u}(t)\right)
-\end{equation}</div><ul class="simple">
+<ul class="simple">
 <li>These operations are wrapped inside a function that returns this
 error</li>
 <li>This function is used by a Newton-Krylov nonlinear algebraic solver.</li>
@@ -358,20 +182,11 @@ derivative evaluator.</li>
 </ul>
 </div>
 </div>
-<div class="section" id="Examples:">
-<h2>Examples:<a class="headerlink" href="#Examples:" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="Duffing-Oscillator">
-<h3>Duffing Oscillator<a class="headerlink" href="#Duffing-Oscillator" title="Permalink to this headline">¶</a></h3>
-<div class="math notranslate">
-\begin{equation}
-\ddot{x}+0.1\dot{x}+x+0.1 x^3=\sin(\omega t)
-\end{equation}</div><div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Define our function (Python)</span>
+<div class="section" id="examples">
+<h2>Examples:<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="duffing-oscillator">
+<h3>Duffing Oscillator<a class="headerlink" href="#duffing-oscillator" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define our function (Python)</span>
 <span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
@@ -380,14 +195,7 @@ derivative evaluator.</li>
     <span class="k">return</span> <span class="n">xd</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Arguments are name of derivative function, number of states, driving frequency,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arguments are name of derivative function, number of states, driving frequency,</span>
 <span class="c1"># form of the equation, and number of harmonics</span>
 
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">omega</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span>
@@ -396,28 +204,16 @@ derivative evaluator.</li>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Velocity amplitude is &#39;</span><span class="p">,</span> <span class="n">amps</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Displacement</span> <span class="n">amplitude</span> <span class="ow">is</span>  <span class="mf">0.946956354668</span>
+<span class="n">Velocity</span> <span class="n">amplitude</span> <span class="ow">is</span>  <span class="mf">0.0946956354558</span>
+</pre></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Displacement amplitude is  0.946956354668
-Velocity amplitude is  0.0946956354558
-</pre></div></div>
-</div>
-<div class="section" id="Mousai-can-easily-recreate-the-near-continuous-response">
-<h4>Mousai can easily recreate the near-continuous response<a class="headerlink" href="#Mousai-can-easily-recreate-the-near-continuous-response" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="mousai-can-easily-recreate-the-near-continuous-response">
+<h4>Mousai can easily recreate the near-continuous response<a class="headerlink" href="#mousai-can-easily-recreate-the-near-continuous-response" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">pltcont</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pltcont</span><span class="p">():</span>
     <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
                             <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;*b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
@@ -431,14 +227,7 @@ Velocity amplitude is  0.0946956354558
     <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [18]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
@@ -453,38 +242,12 @@ Velocity amplitude is  0.0946956354558
 <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_16_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_16_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<img alt="../../_images/Theory_and_Examples_16_0.png" src="../../_images/Theory_and_Examples_16_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pltcont</span><span class="p">()</span><span class="c1"># abbreviated plotting function</span>
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">pltcont</span><span class="p">()</span><span class="c1"># abbreviated plotting function</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_17_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<img alt="../../_images/Theory_and_Examples_17_0.png" src="../../_images/Theory_and_Examples_17_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
 <span class="n">disp_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span>
                         <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;*b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
 <span class="n">vel_plot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span>
@@ -497,21 +260,8 @@ Velocity amplitude is  0.0946956354558
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_18_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_18_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
+<img alt="../../_images/Theory_and_Examples_18_0.png" src="../../_images/Theory_and_Examples_18_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
 <span class="n">amp</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -532,24 +282,11 @@ Velocity amplitude is  0.0946956354558
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">amp</span><span class="p">)</span>
 </pre></div>
 </div>
+<img alt="../../_images/Theory_and_Examples_19_0.png" src="../../_images/Theory_and_Examples_19_0.png" />
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_19_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_19_0.png" />
-</div>
-</div>
-</div>
-<div class="section" id="Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function">
-<h4>Let’s sweep through driving frequencies to find a frequency response function<a class="headerlink" href="#Let’s-sweep-through-driving-frequencies-to-find-a-frequency-response-function" title="Permalink to this headline">¶</a></h4>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
+<div class="section" id="lets-sweep-through-driving-frequencies-to-find-a-frequency-response-function">
+<h4>Let’s sweep through driving frequencies to find a frequency response function<a class="headerlink" href="#lets-sweep-through-driving-frequencies-to-find-a-frequency-response-function" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">.</span><span class="mo">03</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">200</span>
 <span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
 <span class="n">ampl</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">duff_osc_ss</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -569,14 +306,7 @@ Velocity amplitude is  0.0946956354558
         <span class="k">break</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Up sweep&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Up sweep&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span><span class="n">ampl</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Down sweep&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Amplitude versus frequency for Duffing Oscillator&#39;</span><span class="p">)</span>
@@ -585,43 +315,18 @@ Velocity amplitude is  0.0946956354558
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_22_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_22_0.png" />
+<img alt="../../_images/Theory_and_Examples_22_0.png" src="../../_images/Theory_and_Examples_22_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Two-degree-of-freedom-system">
-<h3>Two degree of freedom system<a class="headerlink" href="#Two-degree-of-freedom-system" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="two-degree-of-freedom-system">
+<h3>Two degree of freedom system<a class="headerlink" href="#two-degree-of-freedom-system" title="Permalink to this headline">¶</a></h3>
 <p>$</p>
-<div class="math notranslate">
-\begin{bmatrix}
-1&amp;0\\
-0&amp;1
-\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\
+<p>\begin{bmatrix} <a href="#id17"><span class="problematic" id="id18">:raw-latex:`\ddot{x}`</span></a>_1\
 <a href="#id19"><span class="problematic" id="id20">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
-<div class="math notranslate">
-\begin{bmatrix}
-2&amp;-1 \\
--1&amp;2
-\end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+<p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
 :raw-latex:<a href="#id21"><span class="problematic" id="id22">`</span></a>alpha <a href="#id23"><span class="problematic" id="id24">`</span></a>x*{1}^{3}\ 0 \end{bmatrix} $ $=</p>
-<div class="math notranslate">
-\begin{bmatrix}
-0 \\
-A \sin(\omega t)
-\end{bmatrix}</div><p>$</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">two_dof_demo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<p>$</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">two_dof_demo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
     <span class="n">force_amplitude</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">]</span>
@@ -634,43 +339,22 @@ A \sin(\omega t)
     <span class="k">return</span> <span class="n">xd</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="Let’s-find-a-response.">
-<h4>Let’s find a response.<a class="headerlink" href="#Let’s-find-a-response." title="Permalink to this headline">¶</a></h4>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
+<div class="section" id="lets-find-a-response">
+<h4>Let’s find a response.<a class="headerlink" href="#lets-find-a-response" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.4</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_demo</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 <span class="n">amps</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[10]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>array([ 0.86696762,  0.89484597,  0.99030411,  1.04097851])
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span> <span class="mf">0.86696762</span><span class="p">,</span>  <span class="mf">0.89484597</span><span class="p">,</span>  <span class="mf">0.99030411</span><span class="p">,</span>  <span class="mf">1.04097851</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Or-a-parametric-study-of-response-amplitude-versus-nonlinearity.">
-<h4>Or a parametric study of response amplitude versus nonlinearity.<a class="headerlink" href="#Or-a-parametric-study-of-response-amplitude-versus-nonlinearity." title="Permalink to this headline">¶</a></h4>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<div class="section" id="or-a-parametric-study-of-response-amplitude-versus-nonlinearity">
+<h4>Or a parametric study of response amplitude versus nonlinearity.<a class="headerlink" href="#or-a-parametric-study-of-response-amplitude-versus-nonlinearity" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">.</span><span class="mi">45</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">alphai</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alpha</span><span class="p">):</span>
     <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alphai</span>
@@ -679,57 +363,25 @@ A \sin(\omega t)
     <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$ versus $</span><span class="se">\\</span><span class="s1">alpha$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">alpha$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_29_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_29_0.png" />
+<img alt="../../_images/Theory_and_Examples_29_0.png" src="../../_images/Theory_and_Examples_29_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="Two-degree-of-freedom-system-with-Coulomb-Damping">
-<h3>Two degree of freedom system with Coulomb Damping<a class="headerlink" href="#Two-degree-of-freedom-system-with-Coulomb-Damping" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="two-degree-of-freedom-system-with-coulomb-damping">
+<h3>Two degree of freedom system with Coulomb Damping<a class="headerlink" href="#two-degree-of-freedom-system-with-coulomb-damping" title="Permalink to this headline">¶</a></h3>
 <p>$</p>
-<div class="math notranslate">
-\begin{bmatrix}
-1&amp;0\\
-0&amp;1
-\end{bmatrix}</div><p>\begin{bmatrix} <a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_1\
+<p>\begin{bmatrix} <a href="#id25"><span class="problematic" id="id26">:raw-latex:`\ddot{x}`</span></a>_1\
 <a href="#id27"><span class="problematic" id="id28">:raw-latex:`\ddot{x}`</span></a>_2end{bmatrix} +</p>
-<div class="math notranslate">
-\begin{bmatrix}
-2&amp;-1 \\
--1&amp;2
-\end{bmatrix}</div><p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
+<p>\begin{bmatrix} {x}_1{x}*2end{bmatrix} +$ $ \begin{bmatrix}
 <a href="#id29"><span class="problematic" id="id30">:raw-latex:`\mu `\|:raw-latex:`</span></a>dot{x}`|*{1}\ 0 \end{bmatrix} $ $=</p>
-<div class="math notranslate">
-\begin{bmatrix}
-0 \\
-A \sin(\omega t)
-\end{bmatrix}</div><p>$</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">two_dof_coulomb</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<p>$</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">two_dof_coulomb</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
     <span class="n">force_amplitude</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">]</span>
@@ -742,38 +394,17 @@ A \sin(\omega t)
     <span class="k">return</span> <span class="n">xd</span>
 </pre></div>
 </div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;force_amplitude&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">}</span>
 <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span>
 <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">two_dof_coulomb</span><span class="p">,</span> <span class="n">num_variables</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                  <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">eqform</span><span class="o">=</span><span class="s1">&#39;first_order&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
 <span class="n">amps</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[14]:
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span> <span class="mf">0.68916938</span><span class="p">,</span>  <span class="mf">0.68228249</span><span class="p">,</span>  <span class="mf">0.67299987</span><span class="p">,</span>  <span class="mf">0.66065012</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>array([ 0.68916938,  0.68228249,  0.67299987,  0.66065012])
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">mui</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
     <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;mu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mui</span>
@@ -782,68 +413,40 @@ A \sin(\omega t)
     <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="Too-much-Coulomb-friction-can-increase-the-response.">
-<h4>Too much Coulomb friction can increase the response.<a class="headerlink" href="#Too-much-Coulomb-friction-can-increase-the-response." title="Permalink to this headline">¶</a></h4>
+<div class="section" id="too-much-coulomb-friction-can-increase-the-response">
+<h4>Too much Coulomb friction can increase the response.<a class="headerlink" href="#too-much-coulomb-friction-can-increase-the-response" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>Did you know that?</li>
 <li>This damping shifted resonance.</li>
 </ul>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$ versus $</span><span class="se">\\</span><span class="s1">mu$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Amplitude of $x_1$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Theory_and_Examples_35_0.png" src="../../_images/tutorial_demos_Theory_and_Examples_35_0.png" />
+<img alt="../../_images/Theory_and_Examples_35_0.png" src="../../_images/Theory_and_Examples_35_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="But-can-I-solve-an-equation-in-one-line?-Yes!!!">
-<h3>But can I solve an equation in one line? Yes!!!<a class="headerlink" href="#But-can-I-solve-an-equation-in-one-line?-Yes!!!" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="but-can-i-solve-an-equation-in-one-line-yes">
+<h3>But can I solve an equation in one line? Yes!!!<a class="headerlink" href="#but-can-i-solve-an-equation-in-one-line-yes" title="Permalink to this headline">¶</a></h3>
 <p>Damped Duffing oscillator in one command.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span>
                <span class="n">params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">v</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">*</span>
                                   <span class="n">sin</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span>
                <span class="n">num_variables</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">out</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[25]:
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.4779630014433971</span>
 </pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>1.4779630014433971
-</pre></div>
-</div>
 </div>
 <p>OK - that’s a bit obtuse. I wouldn’t do that normally, but Mousai can.</p>
 </div>
 </div>
-<div class="section" id="How-to-get-this?">
-<h2>How to get this?<a class="headerlink" href="#How-to-get-this?" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-to-get-this">
+<h2>How to get this?<a class="headerlink" href="#how-to-get-this" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Install Scientific Python from
 <a class="reference external" href="https://www.scipy.org/install.html">SciPy.org</a><ul>
@@ -862,8 +465,8 @@ installation instructions<ul>
 (<a class="reference external" href="https://github.com/josephcslater/mousai">https://github.com/josephcslater/mousai</a>)</li>
 </ul>
 </div>
-<div class="section" id="Conclusions">
-<h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Nonlinear frequency solutions are within reach of undergraduates</li>
 <li>Installation is trivial</li>
@@ -873,8 +476,8 @@ replaced for free</li>
 <li>Research potential is about to be unleashed</li>
 </ul>
 </div>
-<div class="section" id="Future">
-<h2>Future<a class="headerlink" href="#Future" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="future">
+<h2>Future<a class="headerlink" href="#future" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Add time-averaging method<ul>
 <li>currently requires high number of harmonics for non-smooth systems</li>
@@ -934,7 +537,7 @@ replaced for free</li>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/tutorial/demos/Theory_and_Examples.ipynb.txt"
+      <li><a href="../../_sources/tutorial/demos/Theory_and_Examples.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -950,7 +553,7 @@ replaced for free</li>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../../_sources/tutorial/demos/Theory_and_Examples.ipynb.txt"
+      <a href="../../_sources/tutorial/demos/Theory_and_Examples.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
