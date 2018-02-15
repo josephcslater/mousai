@@ -176,8 +176,10 @@
     "are constant matrices. \n",
     "\n",
     "The solution is:\n",
+    "\n",
     "\\begin{equation}\\mathbf{Z}(\\omega) = \\left(Ij\\omega-A\\right)^{-1}B\\mathbf{U}(\\omega)\\end{equation}\n",
-    "Where the magnitudes and phases of the elements of $\\mathbf{Z}$ provide the amplitudes and phases of the harmonic response of each state at the frequency $\\omega$."
+    "\n",
+    "where the magnitudes and phases of the elements of $\\mathbf{Z}$ provide the amplitudes and phases of the harmonic response of each state at the frequency $\\omega$."
    ]
   },
   {
@@ -191,21 +193,19 @@
     "### Nonlinear solution\n",
     "\n",
     "- For a nonlinear system in the frequency domain we assume a Fourier series solution\n",
-    "\\begin{equation}\n",
-    "\\mathbf{z}(t)=\\lim_{N\\to\\infty}\\sum_{n=-N}^{N}\\mathbf{Z}_n e^{j n \\omega t}\n",
-    "\\end{equation}\n",
+    "\n",
+    "\\begin{equation}\\mathbf{z}(t)=\\lim_{N\\to\\infty}\\sum_{n=-N}^{N}\\mathbf{Z}_n e^{j n \\omega t}\\end{equation}\n",
     "\n",
     "- $N=1$ for a single harmonic. $n=0$ is the constant term.\n",
     "- This can be substituted into the governing equation to find $\\dot{\\mathbf{z}}(t)$:\n",
-    "\\begin{equation}\n",
-    "\\dot{\\mathbf{z}}(t)=\\mathbf{f}(\\mathbf{z}(t),\\mathbf{u}(t))\n",
-    "\\end{equation}\n",
+    "\n",
+    "\\begin{equation}\\dot{\\mathbf{z}}(t)=\\mathbf{f}(\\mathbf{z}(t),\\mathbf{u}(t))\\end{equation}\n",
+    "\n",
     "- This is actually a function call to a Finite Element Package, CFD, Matlab function, - whatever your solver uses to get derivatives \n",
     "\n",
     "- We can also find $\\dot{\\mathbf{z}}(t)$ from the derivative of the Fourier Series:\n",
-    "\\begin{equation}\n",
-    "\\dot{\\mathbf{z}}(t)=\\lim_{N\\to\\infty}\\sum_{n=-N}^{N}j n \\omega\\mathbf{Z}_n e^{j n \\omega t}\n",
-    "\\end{equation}"
+    "\n",
+    "\\begin{equation}\\dot{\\mathbf{z}}(t)=\\lim_{N\\to\\infty}\\sum_{n=-N}^{N}j n \\omega\\mathbf{Z}_n e^{j n \\omega t}\\end{equation}\n"
    ]
   },
   {
@@ -218,9 +218,7 @@
    "source": [
     "- The difference between these methods is zero when $\\mathbf{Z}_n$ are correct.\n",
     "\n",
-    "\\begin{equation}\n",
-    " \\mathbf{0} \\approx\\sum_{n=-N}^{N}j n\\omega \\mathbf{Z}_n e^{j n \\omega t}-\\mathbf{f}\\left(\\sum_{n=-N}^{N}\\mathbf{Z}_n e^{j n \\omega t},\\mathbf{u}(t)\\right)\n",
-    "\\end{equation}\n",
+    "\\begin{equation}\\mathbf{0} \\approx\\sum_{n=-N}^{N}j n\\omega \\mathbf{Z}_n e^{j n \\omega t}-\\mathbf{f}\\left(\\sum_{n=-N}^{N}\\mathbf{Z}_n e^{j n \\omega t},\\mathbf{u}(t)\\right)\\end{equation}\n",
     "\n",
     "- These operations are wrapped inside a function that returns this error\n",
     "- This function is used by a Newton-Krylov nonlinear algebraic solver. \n",
@@ -248,9 +246,7 @@
    "source": [
     "### Duffing Oscillator\n",
     "\n",
-    "\\begin{equation}\n",
-    "\\ddot{x}+0.1\\dot{x}+x+0.1 x^3=\\sin(\\omega t)\n",
-    "\\end{equation}"
+    "\\begin{equation}\\ddot{x}+0.1\\dot{x}+x+0.1 x^3=\\sin(\\omega t)\\end{equation}\n"
    ]
   },
   {
