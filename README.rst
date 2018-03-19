@@ -1,6 +1,10 @@
 Mousai
 ======
 
+.. image:: https://badges.gitter.im/mousai_hb/Lobby.svg
+   :alt: Join the chat at https://gitter.im/mousai_hb/Lobby
+   :target: https://gitter.im/mousai_hb/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 .. image:: https://badge.fury.io/py/mousai.png/
     :target: http://badge.fury.io/py/mousai
 
