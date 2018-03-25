@@ -109,7 +109,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Returns
     -------
-    t, x, e, amps, phases: array_like
+    t, x, e, amps, phases : array_like
         time, displacement history (time steps along columns), errors,
     amps : float array
         amplitudes of displacement (primary harmonic) in column vector format.
