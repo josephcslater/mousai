@@ -1,7 +1,3 @@
-# Copyright (c) Joseph C. Slater developers.
-
-# Distributed under the terms of the BSD-3-Clause License.
-
 """
 Implementations of the Harmonic Balance Method.
 
@@ -18,10 +14,19 @@ Joseph C. Slater
     >>> import mousai as ms
 
 """
-# import sys
+
+import sys
+import matplotlib as mpl
+
+from .har_bal import *
+
+# Copyright (c) Joseph C. Slater developers.
+
+# Distributed under the terms of the BSD-3-Clause License.
+
 
 __title__ = 'mousai'
-# version may have no more then numerical digits after decimal point.
+# version may have no more than numerical digits after decimal point.
 # 1.11 is actually a higher release than 1.2 (confusing)
 __version__ = '0.2.5'
 __author__ = 'Joseph C. Slater'
@@ -30,14 +35,12 @@ __copyright__ = 'Copyright 2017 Joseph C. Slater'
 # __name__ = 'mousai'
 # __package__ = 'mousai'
 
-import sys
-import matplotlib as mpl
 
 if 'pytest' in sys.argv[0]:
     print('Setting backend to agg to run tests')
     mpl.use('agg')
 
-from .har_bal import *
+
 
 # __all__ = ['har_bal', '__version__']
 
