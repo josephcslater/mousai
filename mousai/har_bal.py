@@ -5,7 +5,7 @@ import scipy.linalg as la
 import warnings
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
-# import matplotlib.pyplot as plt
+
 
 
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
@@ -223,14 +223,9 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         nonlocal params  # Will stay out of global/conflicts
         n_har = params['n_har']
         omega = params['omega']
-        # function = params['function']
         time = params['time']
         m = 1 + 2 * n_har
-        # print(x)
         vel = harmonic_deriv(omega, x)
-        # print(vel)
-        # print(x)
-        # print('vel :', vel)
         if eqform is 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = np.zeros_like(accel)
@@ -248,27 +243,17 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         elif eqform == 'first_order':
 
             vel_from_deriv = np.zeros_like(vel)
-            # print(vel_from_deriv.shape)
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                # print(i)
-                # print(time)
                 t = time[i]
                 params['cur_time'] = time[i]
                 # Note that everything in params can be accessed within
                 # `function`.
-                # print(params['function'])
-                """print('vel_fro_shape :', vel_from_deriv[:, i].shape)
-                print('vel_from_derive :', vel_from_deriv[:, i])
-                print('evaluated shape:', params['function'](x[:, i],
-                      params).shape)
-                print('evaluated :', params['function'](x[:, i], params))"""
                 vel_from_deriv[:, i] =\
                     params['function'](x[:, i], params)[:, 0]
 
             e = vel_from_deriv - vel
-            # print('e: ', e)
         else:
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
@@ -281,7 +266,6 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.full([x0.shape[0], ], np.nan)
         phases = np.full([x0.shape[0], ], np.nan)
         e = hb_err(x)  # np.full([x0.shape[0],x0.shape[1]],np.nan)
-        #print('NOT ABLE TO CONVERGE')
     else:
         xhar = fftp.fft(x) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
@@ -346,7 +330,6 @@ def harmonic_deriv(omega, r):
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
     """
-    # print(r)
     n = r.shape[1]
     omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
     omega_whole = np.append(np.conj(omega_half[-1:0:-1]), omega_half)
