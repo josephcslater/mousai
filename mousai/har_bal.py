@@ -7,12 +7,6 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 # import matplotlib.pyplot as plt
 
-"""__all__ = ["hb_time",
-           "harmonic_deriv",
-           "solmf",
-           "duff_osc"]
-"""
-
 
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, eqform='second_order', params={}, realify=True,
@@ -148,7 +142,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
     """
 
-    '''Initial conditions exist?'''
+    # Initial conditions exist?
     if x0 is None:
         if num_variables is not None:
             x0 = np.zeros((num_variables, 1 + num_harmonics * 2))
@@ -244,15 +238,14 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                t = time[i]
+                t = time[i] # might be able to be commented out, left as example
                 params['cur_time'] = time[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
-                # print(params['function'])
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
             e = accel_from_deriv - accel
-        elif eqform is 'first_order':
+        elif eqform == 'first_order':
 
             vel_from_deriv = np.zeros_like(vel)
             # print(vel_from_deriv.shape)
@@ -397,9 +390,11 @@ def solmf(x, v, M, C, K, F):
 
 
 def duff_osc(x, v, params):
+    """Duffing oscillator acceleration."""
     omega = params['omega']
     t = params['cur_time']
-    return np.array([[-x - .1 * x**3 - .2 * v + np.sin(omega * t)]])
+    acceleration = np.array([[-x - .1 * x**3 - .2 * v + np.sin(omega * t)]])
+    return acceleration
 
 
 def time_history(t, x, realify=True, num_time_points=200):
