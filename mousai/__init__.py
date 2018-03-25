@@ -20,8 +20,8 @@ Distributed under the terms of the BSD-3-Clause License.
 
 __title__ = 'mousai'
 # 1) Version may have other than numerical digits after decimal point.
-# 2) 1.11 is actually a higher release than 1.2 (confusing)
-# 3) Let's just increment with single digits. 
+# 2) 1.11 is actually a higher release than 1.2 (confusing).
+# 3) Let's just increment with single digits.
 __version__ = '0.2.5'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
