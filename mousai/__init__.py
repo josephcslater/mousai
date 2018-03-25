@@ -18,19 +18,10 @@ Copyright (c) Joseph C. Slater
 Distributed under the terms of the BSD-3-Clause License.
 """
 
-import sys
-import matplotlib as mpl
-
-from .har_bal import *
-
-# Copyright (c) Joseph C. Slater developers.
-
-# Distributed under the terms of the BSD-3-Clause License.
-
-
 __title__ = 'mousai'
-# version may have no more than numerical digits after decimal point.
-# 1.11 is actually a higher release than 1.2 (confusing)
+# 1) Version may have other than numerical digits after decimal point.
+# 2) 1.11 is actually a higher release than 1.2 (confusing)
+# 3) Let's just increment with single digits. 
 __version__ = '0.2.5'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
@@ -38,11 +29,15 @@ __copyright__ = 'Copyright 2017 Joseph C. Slater'
 # __name__ = 'mousai'
 # __package__ = 'mousai'
 
+import sys
+import matplotlib as mpl
 
+from .har_bal import *
+
+# Accomodate using Travis-ci and potential matlotlib results.
 if 'pytest' in sys.argv[0]:
     print('Setting backend to agg to run tests')
     mpl.use('agg')
-
 
 # This would have value for using
 # from mousai import *
