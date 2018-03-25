@@ -13,6 +13,9 @@ Joseph C. Slater
 
     >>> import mousai as ms
 
+Copyright (c) Joseph C. Slater
+
+Distributed under the terms of the BSD-3-Clause License.
 """
 
 import sys
@@ -41,13 +44,7 @@ if 'pytest' in sys.argv[0]:
     mpl.use('agg')
 
 
-
+# This would have value for using
+# from mousai import *
+# That's bad practice and I'd rather not support it
 # __all__ = ['har_bal', '__version__']
-
-# When everything is imported from mousai, define "everything below"
-'''__all__ += ["hb_time",
-            "harmonic_deriv",
-            "solmf",
-            "duff_osc",
-            "hb_time_err"]
-'''
