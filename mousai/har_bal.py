@@ -448,67 +448,67 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['omega'] = omega
     params['n_har'] = num_harmonics
 
+
+#   Need to make X0, initial guess in frequency domain (nxm, m even)
+
     def hb_err(X):
-        r"""Array (vector) of hamonic balance second order algebraic errors.
+        # r"""Array (vector) of hamonic balance second order algebraic errors.
+        #
+        # Given a set of second order equations
+        # :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
+        # calculate the error :math:`E = \mathcal{F}(\ddot{x}
+        # - \mathcal{F}\left(f(x, \dot{x}, \omega, t)\right)`
+        # presuming that :math:`x` can be represented as a Fourier series, and
+        # thus :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the
+        # Fourier series representation of :math:`x` and :math:`\mathcal{F}(x)`
+        # represents the Fourier series of :math:`x(t)`
+        #
+        # Parameters
+        # ----------
+        # X : float array
+        #     X is an :math:`n \\times m` by 1 array of sp.fft.rfft
+        #     fft coefficients lacking the constant (first) element.
+        #     Here :math:`n` is the number of displacements and :math:`m` 2 times
+        #     the number of harmonics to be solved for.
+        #
+        # **kwargs : string, float, variable
+        #     **kwargs is a packed set of keyword arguments with 3 required
+        #     arguments.
+        #         1. `function`: a string name of the function which returned
+        #         the numerically calculated acceleration.
+        #
+        #         2. `omega`: which is the defined fundamental harmonic
+        #         at which the is desired.
+        #
+        #         3. `n_har`: an integer representing the number of harmonics.
+        #         Note that `m` above is equal to 2 * `n_har`.
+        #
+        # Returns
+        # -------
+        # e : float array
+        #     2d array of numerical errors of presumed solution(s) `X`. Error
+        #     between first (or second) derivative via Fourier analysis and via
+        #     solution of the governing equation.
+        #
+        # Notes
+        # -----
+        # `function` and `omega` are not separately defined arguments so as to
+        # enable algebraic solver functions to call `hb_err` cleanly.
+        #
+        # The algorithm is as follows:
+        #     1. X is prepended with a zero vector (to represent the constant
+        #        value)
+        #     2. `x` is calculated via an inverse `numpy.fft.rfft`
+        #     1. The velocity and accelerations are calculated in the same shape
+        #        as `x` as `vel` and `accel`.
+        #     3. Each column of `x` and `v` are sent with `t`, `omega`, and other
+        #        `**kwargs** to `function` one at a time with the results
+        #        agregated into the columns of `accel_num`.
+        #     4. The rfft is taken of `accel_num` and `accel`.
+        #     5. The first column is stripped out of both `accel_num_freq and
+        #        `accel_freq`.
 
-        Given a set of second order equations
-        :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
-        calculate the error :math:`E = \mathcal{F}(\ddot{x}
-        - \mathcal{F}\left(f(x, \dot{x}, \omega, t)\right)`
-        presuming that :math:`x` can be represented as a Fourier series, and
-        thus :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the
-        Fourier series representation of :math:`x` and :math:`\mathcal{F}(x)`
-        represents the Fourier series of :math:`x(t)`
-
-        Parameters
-        ----------
-        X : float array
-            X is an :math:`n \\times m` by 1 array of sp.fft.rfft
-            fft coefficients lacking the constant (first) element.
-            Here :math:`n` is the number of displacements and :math:`m` 2 times
-            the number of harmonics to be solved for.
-
-        **kwargs : string, float, variable
-            **kwargs is a packed set of keyword arguments with 3 required
-            arguments.
-                1. `function`: a string name of the function which returned
-                the numerically calculated acceleration.
-
-                2. `omega`: which is the defined fundamental harmonic
-                at which the is desired.
-
-                3. `n_har`: an integer representing the number of harmonics.
-                Note that `m` above is equal to 2 * `n_har`.
-
-        Returns
-        -------
-        e : float array
-            2d array of numerical errors of presumed solution(s) `X`. Error
-            between first (or second) derivative via Fourier analysis and via
-            solution of the governing equation.
-
-        Notes
-        -----
-        `function` and `omega` are not separately defined arguments so as to
-        enable algebraic solver functions to call `hb_err` cleanly.
-
-        The algorithm is as follows:
-            1. X is prepended with a zero vector (to represent the constant
-               value)
-            2. `x` is calculated via an inverse `numpy.fft.rfft`
-            1. The velocity and accelerations are calculated in the same shape
-               as `x` as `vel` and `accel`.
-            3. Each column of `x` and `v` are sent with `t`, `omega`, and other
-               `**kwargs** to `function` one at a time with the results
-               agregated into the columns of `accel_num`.
-            4. The rfft is taken of `accel_num` and `accel`.
-            5. The first column is stripped out of both `accel_num_freq and
-               `accel_freq`.
-            4. The difference between `accel_num_freq` and `accel_req` is reshaped to be
-               :math:`n \\times m` by 1 and returned as the vector error used
-               by the numerical algebraic equation solver.
-
-        """
+        #"""
         nonlocal params  # Will stay out of global/conflicts
         n_har = params['n_har']
         omega = params['omega']
@@ -620,6 +620,7 @@ def harmonic_deriv(omega, r):
     >>> state_derives = harmonic_deriv(omega,states)
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
+
     """
     n = r.shape[1]
     omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
@@ -702,14 +703,18 @@ def time_history(t, x, realify=True, num_time_points=200):
 
     Examples
     --------
-    Needs an example.
+    >>> import numpy as np
+    >>> import mousai as ms
+    >>> x = np.array([[-0.34996499,  1.36053998, -1.11828552]])
+    >>> t = np.array([0.        , 2.991993  , 5.98398601])
+    >>> t_full, x_full = ms.time_history(t, x, num_time_points=300)
 
     Notes
     -----
     The implication of this function is that the higher harmonics that
     were not determined in the solution are zero. This is indeed the assumption
     made when setting up the harmonic balance solution. Whether this is a valid
-    assumption is something that the user must judge when performing the
+    assumption is something that the user must judge when obtaining the
     solution.
 
     """
@@ -726,3 +731,21 @@ def time_history(t, x, realify=True, num_time_points=200):
         print('x was real')
 
     return t, x
+
+
+def condense_fft(X_full, num_harmonics):
+    """Create equivalent amplitude reduced-size FFT from longer FFT."""
+    X_red = X_full[:, 0:(2*num_harmonics + 1)]*(2*num_harmonics+1)/X_full[0,:].size
+    return X_red
+
+
+def rfft_to_fft(X_real):
+    """Switch from SciPy real fft form to complex fft form."""
+    X = fftp.fft(fftp.irfft(X_real))
+    return X
+
+
+def fft_to_rfft(X_real):
+    """Switch from complex form fft form to SciPy rfft form."""
+    X_complex = fftp.rfft(np.real(fftp.ifft(X_real)))
+    return X_complex
