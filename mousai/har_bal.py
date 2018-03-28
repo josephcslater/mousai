@@ -564,13 +564,19 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         e = fft_to_rfft(e_fft_condensed)
         if mask_constant is True:
             e = e[:,1:]
+        print(e)
         return e
 #-----------------
 # through Here- above expand times!
 #-------------------
+    print('hmm')
+    X = globals()[method](hb_err, X0, **kwargs)
     try:
         X = globals()[method](hb_err, X0, **kwargs)
+        print('again')
+        X = globals()[method](hb_err, X, **kwargs)
     except:
+        print('except')
         X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
@@ -696,7 +702,7 @@ def duff_osc(x, v, params):
     """Duffing oscillator acceleration."""
     omega = params['omega']
     t = params['cur_time']
-    acceleration = np.array([[-x - .1 * x**3. - 0.2 * v + np.sin(omega * t)]])
+    acceleration = np.array([[-x - .001 * x**3. - 0.2 * v + np.sin(omega * t)]])
     return acceleration
 
 
