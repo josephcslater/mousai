@@ -521,7 +521,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         time = params['time']
         mask_constant = params['mask_constant']
         if mask_constant is True:
-            X = np.hstack((np.zeros_like(X[:,0]) , X))
+            X = np.hstack((np.zeros_like(X[:,0]).reshape(-1,1), X))
 
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
@@ -580,6 +580,14 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         e = hb_err(X)
+
+    if mask_constant is True:
+        X = np.hstack((np.zeros_like(X[:,0]).reshape(-1,1), X))
+
+    print(X)
+    amps = np.sqrt(X[:, 1]**2+X[:,2]**2)
+    phases = np.arctan2(X[:,2], X[:, 1])
+    # e = hb_err(X)
 
     x = fftp.irfft(X)
 
