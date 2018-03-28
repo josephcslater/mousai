@@ -448,24 +448,25 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['omega'] = omega
     params['n_har'] = num_harmonics
 
-    def hb_err(x):
+    def hb_err(X):
         r"""Array (vector) of hamonic balance second order algebraic errors.
 
         Given a set of second order equations
         :math:`\ddot{x} = f(x, \dot{x}, \omega, t)`
-        calculate the error :math:`E = \ddot{x} - f(x, \dot{x}, \omega, t)`
+        calculate the error :math:`E = \mathcal{F}(\ddot{x}
+        - \mathcal{F}\left(f(x, \dot{x}, \omega, t)\right)`
         presuming that :math:`x` can be represented as a Fourier series, and
         thus :math:`\dot{x}` and :math:`\ddot{x}` can be obtained from the
-        Fourier series representation of :math:`x`.
+        Fourier series representation of :math:`x` and :math:`\mathcal{F}(x)`
+        represents the Fourier series of :math:`x(t)`
 
         Parameters
         ----------
-        x : array_like
-            x is an :math:`n \\times m` by 1 array of presumed displacements.
-            It must be a "list" array (not a linear algebra vector). Here
-            :math:`n` is the number of displacements and :math:`m` is the
-            number of times per cycle at which the displacement is guessed
-            (minimum of 3)
+        X : float array
+            X is an :math:`n \\times m` by 1 array of sp.fft.rfft
+            fft coefficients lacking the constant (first) element.
+            Here :math:`n` is the number of displacements and :math:`m` 2 times
+            the number of harmonics to be solved for.
 
         **kwargs : string, float, variable
             **kwargs is a packed set of keyword arguments with 3 required
@@ -477,33 +478,42 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 at which the is desired.
 
                 3. `n_har`: an integer representing the number of harmonics.
-                Note that `m` above is equal to 1 + 2 * `n_har`.
+                Note that `m` above is equal to 2 * `n_har`.
 
         Returns
         -------
-        e : array_like
-            2d array of numerical error of presumed solution(s) `x`.
+        e : float array
+            2d array of numerical errors of presumed solution(s) `X`. Error
+            between first (or second) derivative via Fourier analysis and via
+            solution of the governing equation.
 
         Notes
         -----
         `function` and `omega` are not separately defined arguments so as to
-        enable algebraic solver functions to call `hb_time_err` cleanly.
+        enable algebraic solver functions to call `hb_err` cleanly.
 
         The algorithm is as follows:
+            1. X is prepended with a zero vector (to represent the constant
+               value)
+            2. `x` is calculated via an inverse `numpy.fft.rfft`
             1. The velocity and accelerations are calculated in the same shape
                as `x` as `vel` and `accel`.
             3. Each column of `x` and `v` are sent with `t`, `omega`, and other
                `**kwargs** to `function` one at a time with the results
                agregated into the columns of `accel_num`.
-            4. The difference between `accel_num` and `accel` is reshaped to be
+            4. The rfft is taken of `accel_num` and `accel`.
+            5. The first column is stripped out of both `accel_num_freq and
+               `accel_freq`.
+            4. The difference between `accel_num_freq` and `accel_req` is reshaped to be
                :math:`n \\times m` by 1 and returned as the vector error used
                by the numerical algebraic equation solver.
+
         """
         nonlocal params  # Will stay out of global/conflicts
         n_har = params['n_har']
         omega = params['omega']
         time = params['time']
-        m = 1 + 2 * n_har
+        m = 2 * n_har
         vel = harmonic_deriv(omega, x)
         if eqform is 'second_order':
             accel = harmonic_deriv(omega, vel)
@@ -539,17 +549,19 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         return e
 
     try:
-        x = globals()[method](hb_err, x0, **kwargs)
+        x = globals()[method](hb_err, X0, **kwargs)
     except:
-        x = x0  # np.full([x0.shape[0],x0.shape[1]],np.nan)
+        x = x0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         amps = np.full([x0.shape[0], ], np.nan)
         phases = np.full([x0.shape[0], ], np.nan)
-        e = hb_err(x)  # np.full([x0.shape[0],x0.shape[1]],np.nan)
+        e = hb_err(x)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
     else:
         xhar = fftp.fft(x) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
-        e = hb_err(x)
+        e = hb_err(X)
+
+#   Rebuild x from x
 
     if realify is True:
         x = np.real(x)
