@@ -569,14 +569,11 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 #-----------------
 # through Here- above expand times!
 #-------------------
-    print('hmm')
-    X = globals()[method](hb_err, X0, **kwargs)
     try:
         X = globals()[method](hb_err, X0, **kwargs)
-        print('again')
-        X = globals()[method](hb_err, X, **kwargs)
+        print('tried')
     except:
-        print('except')
+        print('excepted')
         X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
