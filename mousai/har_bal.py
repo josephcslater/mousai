@@ -283,7 +283,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, mask_constant=True, eqform='second_order',
-            params={}, realify=True, **kwargs):
+            params={}, realify=True, num_time_steps = 3, **kwargs):
     r"""Harmonic balance solver for first and second order ODEs.
 
     Obtains the solution of a first-order and second-order differential
@@ -372,6 +372,9 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         Force the returned results to be real.
     mask_constant : boolean, optional
         Force the constant term of the series representation to be zero.
+    num_time_steps : int, default = 3
+        number of time steps to use in time histories for derivative
+        calculations.
     other : any
         Other keyword arguments available to nonlinear solvers in
         `scipy.optimize.nonlin
@@ -419,8 +422,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
            (default `newton_krylov`) to be minimized by the solver.
 
     Options to the nonlinear solvers can be passed in by \*\*kwargs.
-    """
 
+    """
     # Initial conditions exist?
     if x0 is None:
         if num_variables is not None:
@@ -448,8 +451,11 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['omega'] = omega
     params['n_har'] = num_harmonics
 
+    X0 = fftp.rfft(x0)
+    if mask_constant is True:
+        X0 = X0[:,1:]
 
-#   Need to make X0, initial guess in frequency domain (nxm, m even)
+    params['mask_constant'] = mask_constant
 
     def hb_err(X):
         # r"""Array (vector) of hamonic balance second order algebraic errors.
@@ -513,7 +519,14 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         n_har = params['n_har']
         omega = params['omega']
         time = params['time']
+        mask_constant = params['mask_constant']
+        if mask_constant is True:
+            X = np.hstack((np.zeros_like(X[:,0]) , X))
+
+        x = fftp.irfft(X)
+        time_e, x = time_history(time, x, num_time_points=num_time_steps)
         m = 2 * n_har
+
         vel = harmonic_deriv(omega, x)
         if eqform is 'second_order':
             accel = harmonic_deriv(omega, vel)
@@ -546,22 +559,29 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         else:
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
+        e_fft = fftp.fft(e)
+        e_fft_condensed = condense_fft(e_fft, num_harmonics)
+        e = fft_to_rfft(e_fft_condensed)
+        if mask_constant is True:
+            e = e[:,1:]
         return e
-
+#-----------------
+# through Here- above expand times!
+#-------------------
     try:
-        x = globals()[method](hb_err, X0, **kwargs)
+        X = globals()[method](hb_err, X0, **kwargs)
     except:
-        x = x0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
-        amps = np.full([x0.shape[0], ], np.nan)
-        phases = np.full([x0.shape[0], ], np.nan)
-        e = hb_err(x)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
+        X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
+        amps = np.full([X0.shape[0], ], np.nan)
+        phases = np.full([X0.shape[0], ], np.nan)
+        e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
     else:
-        xhar = fftp.fft(x) * 2 / len(time)
+        xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         e = hb_err(X)
 
-#   Rebuild x from x
+    x = fftp.irfft(X)
 
     if realify is True:
         x = np.real(x)
