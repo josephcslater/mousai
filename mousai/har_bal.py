@@ -654,6 +654,9 @@ def harmonic_deriv(omega, r):
 
     """
     n = r.shape[1]
+    if n%2 == 0:
+        print('Needs to be updated for even number of time points.')
+        print('Quick fix, make num_time_steps odd.')
     omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
     omega_whole = np.append(np.conj(omega_half[-1:0:-1]), omega_half)
     r_freq = fftp.fft(r)
