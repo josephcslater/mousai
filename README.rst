@@ -10,9 +10,12 @@ Mousai
 
 .. image:: https://travis-ci.org/josephcslater/mousai.svg?branch=master
     :target: https://travis-ci.org/josephcslater/mousai
-    
-.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg 
+
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
    :target: https://saythanks.io/to/josephcslater
+
+.. image:: https://img.shields.io/badge/patreon-donate-yellow.svg
+   :target: https://www.patreon.com/josephcslater
 
 Python-based Harmonic Balance solvers and relevant tools.
 
