@@ -4,12 +4,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.2.5 documentation</title>
+    <title>Harmonic Balance Tools (mousai.har_bal) &#8212; Mousai 0.3 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -24,7 +32,8 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head><body>
+  </head>
+  <body>
   
 
     <div class="document">
@@ -33,8 +42,26 @@
           <div class="body" role="main">
             
   <div class="section" id="harmonic-balance-tools-mousai-har-bal">
-<h1>Harmonic Balance Tools (<code class="xref py py-mod docutils literal notranslate"><span class="pre">mousai.har_bal</span></code>)<a class="headerlink" href="#harmonic-balance-tools-mousai-har-bal" title="Permalink to this headline">¶</a></h1>
+<h1>Harmonic Balance Tools (<code class="xref py py-mod docutils literal"><span class="pre">mousai.har_bal</span></code>)<a class="headerlink" href="#harmonic-balance-tools-mousai-har-bal" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="module-har_bal"></span><dl class="function">
+<dt id="har_bal.condense_fft">
+<code class="descclassname">har_bal.</code><code class="descname">condense_fft</code><span class="sig-paren">(</span><em>X_full</em>, <em>num_harmonics</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#condense_fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.condense_fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create equivalent amplitude reduced-size FFT from longer FFT.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="har_bal.duff_osc">
+<code class="descclassname">har_bal.</code><code class="descname">duff_osc</code><span class="sig-paren">(</span><em>x</em>, <em>v</em>, <em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#duff_osc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.duff_osc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duffing oscillator acceleration.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="har_bal.fft_to_rfft">
+<code class="descclassname">har_bal.</code><code class="descname">fft_to_rfft</code><span class="sig-paren">(</span><em>X_real</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#fft_to_rfft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.fft_to_rfft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch from complex form fft form to SciPy rfft form.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="har_bal.harmonic_deriv">
 <code class="descclassname">har_bal.</code><code class="descname">harmonic_deriv</code><span class="sig-paren">(</span><em>omega</em>, <em>r</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#harmonic_deriv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.harmonic_deriv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Derivative of a harmonic function using frequency methods.</p>
@@ -76,6 +103,172 @@ The 1 axis (each row) corresponds to a time history.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="har_bal.hb_freq">
+<code class="descclassname">har_bal.</code><code class="descname">hb_freq</code><span class="sig-paren">(</span><em>sdfunc</em>, <em>x0=None</em>, <em>omega=1</em>, <em>method='newton_krylov'</em>, <em>num_harmonics=1</em>, <em>num_variables=None</em>, <em>mask_constant=True</em>, <em>eqform='second_order'</em>, <em>params={}</em>, <em>realify=True</em>, <em>num_time_steps=51</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#hb_freq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.hb_freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Harmonic balance solver for first and second order ODEs.</p>
+<p>Obtains the solution of a first-order and second-order differential
+equation under the presumption that the solution is harmonic using an
+algebraic time method.</p>
+<p>Returns <cite>t</cite> (time), <cite>x</cite> (displacement), <cite>v</cite> (velocity), and <cite>a</cite>
+(acceleration) response of a first or second order linear ordinary
+differential equation defined by
+<span class="math">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span> or
+<span class="math">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span>.</p>
+<p>For the state space form, the function <cite>sdfunc</cite> should have the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>  <span class="c1"># `omega` will be put into the dictionary</span>
+                             <span class="c1"># for you</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>   <span class="c1"># The time value is available as</span>
+                             <span class="c1"># `cur_time` in the dictionary</span>
+    <span class="n">x_dot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                      <span class="p">[</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
+    <span class="k">return</span> <span class="n">xdot</span>
+</pre></div>
+</div>
+<p>In a state space form solution, the function must take the states and the
+<cite>params</cite> dictionary. This dictionary should be used to obtain the
+prescribed response frequency and the current time. These plus any other
+parameters are used to calculate the state derivatives which are returned
+by the function.</p>
+<p>For the second order form the function <cite>sdfunc</cite> should have the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>  <span class="c1"># `omega` will be put into the dictionary</span>
+                             <span class="c1"># for you</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>   <span class="c1"># The time value is available as</span>
+                             <span class="c1"># `cur_time` in the dictionary</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
+</pre></div>
+</div>
+<p>In a second-order form solution the function must take the states and the
+<cite>params</cite> dictionary. This dictionary should be used to obtain the
+prescribed response frequency and the current time. These plus any other
+parameters are used to calculate the state derivatives which are returned
+by the function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sdfunc</strong> : function</p>
+<blockquote>
+<div><p>For <cite>eqform=’first_order’</cite>, name of function that returns <strong>column
+vector</strong> first derivative given <cite>x</cite>, <cite>omega</cite> and **kwargs. This is
+<em>NOT</em> a string.</p>
+<p><span class="math">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span></p>
+<p>For <cite>eqform=’second_order’</cite>, name of function that returns <strong>column
+vector</strong> second derivative given <cite>x</cite>, <cite>v</cite>, <cite>omega</cite> and **kwargs. This
+is <em>NOT</em> a string.</p>
+<p><span class="math">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span></p>
+</div></blockquote>
+<p><strong>x0</strong> : array_like, somewhat optional</p>
+<blockquote>
+<div><p>n x m array where n is the number of equations and m is the number of
+values representing the repeating solution.
+It is required that <span class="math">\(m = 1 + 2 num_{harmonics}\)</span>. (we will
+generalize allowable default values later.)</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>assumed fundamental response frequency in radians per second.</p>
+</div></blockquote>
+<p><strong>method</strong> : str, optional</p>
+<blockquote>
+<div><p>Name of optimization method to be used.</p>
+</div></blockquote>
+<p><strong>num_harmonics</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of harmonics to presume. The <cite>omega</cite> = 0 constant term is always
+presumed to exist. Minimum (and default) is 1. If num_harmonics*2+1
+exceeds the number of columns of <cite>x0</cite> then <cite>x0</cite> will be expanded, using
+Fourier analaysis, to include additional harmonics with the starting
+presumption of zero values.</p>
+</div></blockquote>
+<p><strong>num_variables</strong> : int, somewhat optional</p>
+<blockquote>
+<div><p>Number of states for a state space model, or number of generalized
+dispacements for a second order form.
+If <cite>x0</cite> is defined, num_variables is inferred. An error will result if
+both <cite>x0</cite> and num_variables are left out of the function call.
+<cite>num_variables</cite> must be defined if <cite>x0</cite> is not.</p>
+</div></blockquote>
+<p><strong>eqform</strong> : str, optional</p>
+<blockquote>
+<div><p><cite>second_order</cite> or <cite>first_order</cite>. (<cite>second order</cite> is default)</p>
+</div></blockquote>
+<p><strong>params</strong> : dict, optional</p>
+<blockquote>
+<div><p>Dictionary of parameters needed by sdfunc.</p>
+</div></blockquote>
+<p><strong>realify</strong> : boolean, optional</p>
+<blockquote>
+<div><p>Force the returned results to be real.</p>
+</div></blockquote>
+<p><strong>mask_constant</strong> : boolean, optional</p>
+<blockquote>
+<div><p>Force the constant term of the series representation to be zero.</p>
+</div></blockquote>
+<p><strong>num_time_steps</strong> : int, default = 51</p>
+<blockquote>
+<div><p>number of time steps to use in time histories for derivative
+calculations.</p>
+</div></blockquote>
+<p><strong>other</strong> : any</p>
+<blockquote>
+<div><p>Other keyword arguments available to nonlinear solvers in
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a>.
+See Notes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t, x, e, amps, phases</strong> : array_like</p>
+<blockquote>
+<div><p>time, displacement history (time steps along columns), errors,</p>
+</div></blockquote>
+<p><strong>amps</strong> : float array</p>
+<blockquote>
+<div><p>amplitudes of displacement (primary harmonic) in column vector format.</p>
+</div></blockquote>
+<p><strong>phases</strong> : float array</p>
+<blockquote class="last">
+<div><p>amplitudes of displacement (primary harmonic) in column vector format.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Calls a linear algebra function from
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a> with
+<cite>newton_krylov</cite> as the default.</p>
+<p>Evaluates the differential equation/s at evenly spaced points in time. Each
+point in time yields a single equation. One harmonic plus the constant term
+results in 3 points in time over the cycle.</p>
+<p>Solver should gently “walk” solution up to get to nonlinearities for hard
+nonlinearities.</p>
+<dl class="docutils">
+<dt>Algorithm:</dt>
+<dd><ol class="first last arabic simple">
+<li>calls <cite>hb_time_err</cite> with x as the variable to solve for.</li>
+<li><cite>hb_time_err</cite> uses a Fourier representation of x to obtain
+velocities (after an inverse FFT) then calls <cite>sdfunc</cite> to determine
+accelerations.</li>
+<li>Accelerations are also obtained using a Fourier representation of x</li>
+<li>Error in the accelerations (or state derivatives) are the functional
+error used by the nonlinear algebraic solver
+(default <cite>newton_krylov</cite>) to be minimized by the solver.</li>
+</ol>
+</dd>
+</dl>
+<p>Options to the nonlinear solvers can be passed in by **kwargs.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mousai</span> <span class="k">as</span> <span class="nn">ms</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span>
+<span class="gp">... </span>                                   <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="har_bal.hb_so">
 <code class="descclassname">har_bal.</code><code class="descname">hb_so</code><span class="sig-paren">(</span><em>sdfunc</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#hb_so"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.hb_so" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deprecated function name. Use hb_time.</p>
@@ -88,13 +281,13 @@ The 1 axis (each row) corresponds to a time history.</p>
 <p>Obtains the solution of a first-order and second-order differential
 equation under the presumption that the solution is harmonic using an
 algebraic time method.</p>
-<p>Returns t (time), x (displacement), v (velocity), and a (acceleration)
-response of a second order linear ordinary differential
-equation defined by
-<span class="math notranslate">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span> or
-<span class="math notranslate">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span>.</p>
-<p>For the state space form, the function <code class="docutils literal notranslate"><span class="pre">sdfunc</span></code> should have the form:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
+<p>Returns <cite>t</cite> (time), <cite>x</cite> (displacement), <cite>v</cite> (velocity), and <cite>a</cite>
+(acceleration) response of a first- or second- order linear ordinary
+differential equation defined by
+<span class="math">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span> or
+<span class="math">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span>.</p>
+<p>For the state space form, the function <cite>sdfunc</cite> should have the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc_ss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>  <span class="c1"># `omega` will be put into the dictionary</span>
                              <span class="c1"># for you</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>   <span class="c1"># The time value is available as</span>
@@ -103,12 +296,12 @@ equation defined by
 </pre></div>
 </div>
 <p>In a state space form solution, the function must take the states and the
-<code class="docutils literal notranslate"><span class="pre">params</span></code> dictionary. This dictionary should be used to obtain the
+<cite>params</cite> dictionary. This dictionary should be used to obtain the
 prescribed response frequency and the current time. These plus any other
 parameters are used to calculate the state derivatives which are returned
 by the function.</p>
-<p>For the second order form the function <code class="docutils literal notranslate"><span class="pre">sdfunc</span></code> should have the form:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
+<p>For the second order form the function <cite>sdfunc</cite> should have the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">duff_osc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>  <span class="c1"># params is a dictionary of parameters</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>  <span class="c1"># `omega` will be put into the dictionary</span>
                              <span class="c1"># for you</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>   <span class="c1"># The time value is available as</span>
@@ -117,7 +310,7 @@ by the function.</p>
 </pre></div>
 </div>
 <p>In a second-order form solution the function must take the states and the
-<code class="docutils literal notranslate"><span class="pre">params</span></code> dictionary. This dictionary should be used to obtain the
+<cite>params</cite> dictionary. This dictionary should be used to obtain the
 prescribed response frequency and the current time. These plus any other
 parameters are used to calculate the state derivatives which are returned
 by the function.</p>
@@ -127,20 +320,20 @@ by the function.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sdfunc</strong> : function</p>
 <blockquote>
-<div><p>For <code class="docutils literal notranslate"><span class="pre">eqform='first_order'</span></code>, name of function that returns <strong>column
+<div><p>For <cite>eqform=’first_order’</cite>, name of function that returns <strong>column
 vector</strong> first derivative given <cite>x</cite>, <cite>omega</cite> and **kwargs. This is
 <em>NOT</em> a string.</p>
-<p><span class="math notranslate">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span></p>
-<p>For <code class="docutils literal notranslate"><span class="pre">eqform='second_order'</span></code>, name of function that returns <strong>column
+<p><span class="math">\(\dot{\mathbf{x}}=f(\mathbf{x},\omega)\)</span></p>
+<p>For <cite>eqform=’second_order’</cite>, name of function that returns <strong>column
 vector</strong> second derivative given <cite>x</cite>, <cite>v</cite>, <cite>omega</cite> and **kwargs. This
 is <em>NOT</em> a string.</p>
-<p><span class="math notranslate">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span></p>
+<p><span class="math">\(\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)\)</span></p>
 </div></blockquote>
 <p><strong>x0</strong> : array_like, somewhat optional</p>
 <blockquote>
 <div><p>n x m array where n is the number of equations and m is the number of
 values representing the repeating solution.
-It is required that <span class="math notranslate">\(m = 1 + 2 num_{harmonics}\)</span>. (we will
+It is required that <span class="math">\(m = 1 + 2 num_{harmonics}\)</span>. (we will
 generalize allowable default values later.)</p>
 </div></blockquote>
 <p><strong>omega</strong> : float</p>
@@ -169,7 +362,7 @@ both <cite>x0</cite> and num_variables are left out of the function call.
 </div></blockquote>
 <p><strong>eqform</strong> : str, optional</p>
 <blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">second_order</span></code> or <code class="docutils literal notranslate"><span class="pre">first_order</span></code>. (second order is default)</p>
+<div><p><cite>second_order</cite> or <cite>first_order</cite>. (second order is default)</p>
 </div></blockquote>
 <p><strong>params</strong> : dict, optional</p>
 <blockquote>
@@ -183,11 +376,11 @@ both <cite>x0</cite> and num_variables are left out of the function call.
 <blockquote>
 <div><p>Other keyword arguments available to nonlinear solvers in
 <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a>.
-See Notes.</p>
+See <a href="#id4"><span class="problematic" id="id5">`Notes`_</span></a>.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">t, x, e, amps, phases: array_like</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>t, x, e, amps, phases</strong> : array_like</p>
 <blockquote>
 <div><p>time, displacement history (time steps along columns), errors,</p>
 </div></blockquote>
@@ -206,7 +399,7 @@ See Notes.</p>
 <p class="rubric">Notes</p>
 <p>Calls a linear algebra function from
 <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html">scipy.optimize.nonlin</a> with
-<code class="docutils literal notranslate"><span class="pre">newton_krylov</span></code> as the default.</p>
+<cite>newton_krylov</cite> as the default.</p>
 <p>Evaluates the differential equation/s at evenly spaced points in time. Each
 point in time yields a single equation. One harmonic plus the constant term
 results in 3 points in time over the cycle.</p>
@@ -222,16 +415,24 @@ accelerations.</li>
 <li>Accelerations are also obtained using a Fourier representation of x</li>
 <li>Error in the accelerations (or state derivatives) are the functional
 error used by the nonlinear algebraic solver
-(default <code class="docutils literal notranslate"><span class="pre">newton_krylov</span></code>) to be minimized by the solver.</li>
+(default <cite>newton_krylov</cite>) to be minimized by the solver.</li>
 </ol>
 </dd>
 </dl>
 <p>Options to the nonlinear solvers can be passed in by **kwargs.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mousai</span> <span class="k">as</span> <span class="nn">ms</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mousai</span> <span class="k">as</span> <span class="nn">ms</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_time</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span>
+<span class="gp">... </span>                                   <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.7</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="function">
+<dt id="har_bal.rfft_to_fft">
+<code class="descclassname">har_bal.</code><code class="descname">rfft_to_fft</code><span class="sig-paren">(</span><em>X_real</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/har_bal.html#rfft_to_fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#har_bal.rfft_to_fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch from SciPy real fft form to complex fft form.</p>
 </dd></dl>
 
 <dl class="function">
@@ -244,7 +445,7 @@ error used by the nonlinear algebraic solver
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, v, F</strong> : array_like</p>
 <blockquote>
-<div><p><span class="math notranslate">\(n\times 1\)</span> arrays of current displacement, velocity, and Force.</p>
+<div><p><span class="math">\(n\times 1\)</span> arrays of current displacement, velocity, and Force.</p>
 </div></blockquote>
 <p><strong>M, C, K</strong> : array_like</p>
 <blockquote>
@@ -254,14 +455,14 @@ error used by the nonlinear algebraic solver
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
 <blockquote class="last">
-<div><p><span class="math notranslate">\(n\\times 1\)</span> acceleration vector</p>
+<div><p><span class="math">\(n\\times 1\)</span> acceleration vector</p>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">M</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">K</span>
@@ -325,10 +526,16 @@ values representing the repeating solution.</p>
 <p>The implication of this function is that the higher harmonics that
 were not determined in the solution are zero. This is indeed the assumption
 made when setting up the harmonic balance solution. Whether this is a valid
-assumption is something that the user must judge when performing the
+assumption is something that the user must judge when obtaining the
 solution.</p>
 <p class="rubric">Examples</p>
-<p>Needs an example.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mousai</span> <span class="k">as</span> <span class="nn">ms</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.34996499</span><span class="p">,</span>  <span class="mf">1.36053998</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.11828552</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span>        <span class="p">,</span> <span class="mf">2.991993</span>  <span class="p">,</span> <span class="mf">5.98398601</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t_full</span><span class="p">,</span> <span class="n">x_full</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">num_time_points</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -360,14 +567,12 @@ solution.</p>
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
   <div role="note" aria-label="source link">
@@ -385,7 +590,7 @@ solution.</p>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
