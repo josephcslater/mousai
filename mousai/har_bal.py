@@ -1,8 +1,9 @@
-import scipy as sp
+"""Harmonic balance solvers and other related tools."""
+import warnings
 import numpy as np
+import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
-import warnings
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 
@@ -29,7 +30,8 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                      # for you
             t = params['cur_time']   # The time value is available as
                                      # `cur_time` in the dictionary
-            return np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
+            xdot = np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
+            return xdot
 
     In a state space form solution, the function must take the states and the
     `params` dictionary. This dictionary should be used to obtain the
@@ -227,7 +229,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         time = params['time']
         m = 1 + 2 * n_har
         vel = harmonic_deriv(omega, x)
-        if eqform is 'second_order':
+        if eqform == 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = np.zeros_like(accel)
 
@@ -327,7 +329,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     prescribed response frequency and the current time. These plus any other
     parameters are used to calculate the state derivatives which are returned
     by the function.
-
 
     Parameters
     ----------
@@ -458,6 +459,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['mask_constant'] = mask_constant
 
     def hb_err(X):
+        """Return errors in equation eval versus derivative calculation."""
         # r"""Array (vector) of hamonic balance second order algebraic errors.
         #
         # Given a set of second order equations
@@ -516,7 +518,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         #"""
         nonlocal params  # Will stay out of global/conflicts
-        n_har = params['n_har']
         omega = params['omega']
         time = params['time']
         mask_constant = params['mask_constant']
@@ -531,7 +532,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         # print('vel = ', vel)
         m = num_time_steps
 
-        if eqform is 'second_order':
+        if eqform == 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = np.zeros_like(accel)
 
@@ -624,20 +625,16 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 def hb_so(sdfunc, **kwargs):
     """Deprecated function name. Use hb_time."""
-
     message = 'hb_so has been deprecated. Please use hb_time or an alternaative.'
     warnings.warn(message, DeprecationWarning)
     return hb_time(sdfunc, kwargs)
 
 
 def harmonic_deriv(omega, r):
-    r"""Derivative of a harmonic function using frequency methods.
-
-    Returns the derivatives of a harmonic function
+    r"""Returns derivative of a harmonic function using frequency methods.
 
     Parameters
     ----------
-
     omega: float
         Fundamendal frequency, in rad/sec, of repeating signal
     r: array_like
@@ -647,14 +644,9 @@ def harmonic_deriv(omega, r):
 
     Returns
     -------
-
     s: array_like
         Function derivatives.
         The 1 axis (each row) corresponds to a time history.
-
-    Notes
-    -----
-    At this time, the length of the time histories *must be an odd integer*.
 
     Examples
     --------
@@ -708,8 +700,8 @@ def solmf(x, v, M, C, K, F):
     >>> print(a)
         [[-0.95]
          [ 1.6 ]]
-    """
 
+    """
     return -la.solve(M, C @ v + K @ x - F)
 
 
