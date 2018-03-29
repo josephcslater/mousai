@@ -6,6 +6,7 @@ import warnings
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 
+
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, eqform='second_order', params={}, realify=True,
             **kwargs):
@@ -96,7 +97,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         Other keyword arguments available to nonlinear solvers in
         `scipy.optimize.nonlin
         <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_.
-        See `Notes`_.
+        See `Notes`.
 
     Returns
     -------
@@ -578,9 +579,10 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     try:
         X = globals()[method](hb_err, X0, **kwargs)
-        #print('tried')
+        # print('tried')
     except:
-        print('Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
+        print(
+            'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
         X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         if mask_constant is True:
             # print(mask_constant)
@@ -602,7 +604,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         phases = np.angle(xhar[:, 1])
         e = hb_err(X)
 
-    #if mask_constant is True:
+    # if mask_constant is True:
     #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
     # print('\n\n\n\n', X)
@@ -674,7 +676,7 @@ def harmonic_deriv(omega, r):
     """
     s = np.zeros_like(r)
     for i in np.arange(r.shape[0]):
-        s[i,:] = fftp.diff(r[i,:]) * omega
+        s[i, :] = fftp.diff(r[i, :]) * omega
     return np.real(s)
 
 
@@ -783,8 +785,8 @@ def time_history(t, x, realify=True, num_time_points=200):
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
     X_red = np.hstack((X_full[:, 0:(num_harmonics + 1)],
-                      X_full[:, -1:-(num_harmonics + 1):-1]))\
-                      * (2 * num_harmonics + 1) / X_full[0, :].size
+                       X_full[:, -1:-(num_harmonics + 1):-1]))\
+        * (2 * num_harmonics + 1) / X_full[0, :].size
     return X_red
 
 
