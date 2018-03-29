@@ -582,19 +582,24 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         X = globals()[method](hb_err, X0, **kwargs)
         #print('tried')
     except:
-        print('excepted')
+        print('excepted- search failed')
         X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
         e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
     else:
+        # print(X)
+        if mask_constant is True:
+            X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
+        # print(X)
         xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
+        # print('amps = ', amps, X.shape)
         phases = np.angle(xhar[:, 1])
         e = hb_err(X)
 
-    if mask_constant is True:
-        X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
+    #if mask_constant is True:
+    #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
     # print('\n\n\n\n', X)
     # print(e)
