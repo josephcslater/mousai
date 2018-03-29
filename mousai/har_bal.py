@@ -6,7 +6,6 @@ import warnings
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 
-
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, eqform='second_order', params={}, realify=True,
             **kwargs):
@@ -525,9 +524,14 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
-        m = 2 * n_har
+#        m = 2 * n_har
+        xtemp = x
+        # print('x = ', xtemp)
 
         vel = harmonic_deriv(omega, x)
+        # print('vel = ', vel)
+        m = num_time_steps
+
         if eqform is 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = np.zeros_like(accel)
@@ -536,13 +540,15 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
                 # might be able to be commented out, left as example
-                t = time[i]
-                params['cur_time'] = time[i]  # loops
+                t = time_e[i]
+                params['cur_time'] = time_e[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
             e = accel_from_deriv - accel
+            # print('accel from derive = ', accel_from_deriv)
+            # print('accel = ', accel)
             # print(e)
         elif eqform == 'first_order':
 
@@ -550,8 +556,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                t = time[i]
-                params['cur_time'] = time[i]
+                t = time_e[i]
+                params['cur_time'] = time_e[i]
                 # Note that everything in params can be accessed within
                 # `function`.
                 vel_from_deriv[:, i] =\
@@ -571,12 +577,10 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         #print('e ', e, ' X ', X)
         #print('1 eval')
         return e
-#-----------------
-# through Here- above expand times!
-#-------------------
+
     try:
         X = globals()[method](hb_err, X0, **kwargs)
-        print('tried')
+        #print('tried')
     except:
         print('excepted')
         X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
@@ -592,10 +596,10 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     if mask_constant is True:
         X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
-    print('\n\n\n\n', X)
-    print(e)
-    amps = np.sqrt(X[:, 1]**2 + X[:, 2]**2)
-    phases = np.arctan2(X[:, 2], X[:, 1])
+    # print('\n\n\n\n', X)
+    # print(e)
+    # amps = np.sqrt(X[:, 1]**2 + X[:, 2]**2)
+    # phases = np.arctan2(X[:, 2], X[:, 1])
     # e = hb_err(X)
 
     x = fftp.irfft(X)
@@ -769,8 +773,9 @@ def time_history(t, x, realify=True, num_time_points=200):
 
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
-    X_red = X_full[:, 0:(2 * num_harmonics + 1)] * \
-        (2 * num_harmonics + 1) / X_full[0, :].size
+    X_red = np.hstack((X_full[:, 0:(num_harmonics + 1)],
+                      X_full[:, -1:-(num_harmonics + 1):-1]))\
+                      * (2 * num_harmonics + 1) / X_full[0, :].size
     return X_red
 
 
