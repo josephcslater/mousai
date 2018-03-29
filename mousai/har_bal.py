@@ -392,7 +392,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     Examples
     --------
     >>> import mousai as ms
-    >>> t, x, e, amps, phases = ms.hb_time(ms.duff_osc,
+    >>> t, x, e, amps, phases = ms.hb_freq(ms.duff_osc,
     ...                                    np.array([[0,1,-1]]),
     ...                                    omega = 0.7)
 
@@ -525,8 +525,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
 #        m = 2 * n_har
-        xtemp = x
-        # print('x = ', xtemp)
 
         vel = harmonic_deriv(omega, x)
         # print('vel = ', vel)
