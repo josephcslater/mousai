@@ -22,7 +22,7 @@ __title__ = 'mousai'
 # 1) Version may have other than numerical digits after decimal point.
 # 2) 1.11 is actually a higher release than 1.2 (confusing).
 # 3) Let's just increment with single digits.
-__version__ = '0.2.5'
+__version__ = '0.3'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'
