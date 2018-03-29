@@ -330,12 +330,9 @@ def harmonic_deriv(omega, r):
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
     """
-    n = r.shape[1]
-    omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
-    omega_whole = np.append(np.conj(omega_half[-1:0:-1]), omega_half)
-    r_freq = fftp.fft(r)
-    s_freq = r_freq * omega_whole
-    s = fftp.ifft(s_freq)
+    s = np.zeros_like(r)
+    for i in np.arange(r.shape[0]):
+        s[i,:] = fftp.diff(r[i,:]) * omega
     return np.real(s)
 
 
