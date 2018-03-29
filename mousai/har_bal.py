@@ -659,11 +659,9 @@ def harmonic_deriv(omega, r):
     [<matplotlib.line...]
 
     """
-    n = r.shape[1]
-    omega_whole = -np.arange(n) * omega * 1j
-    r_freq = fftp.fft(r)
-    s_freq = r_freq * omega_whole
-    s = fftp.ifft(s_freq) * 2 / n
+
+    for i in np.arange(r.shape[0]):
+        s[i,:] = fftp.diff(r[i,:])
     return np.real(s)
 
 
