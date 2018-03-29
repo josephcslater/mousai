@@ -7,7 +7,6 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 
 
-
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, eqform='second_order', params={}, realify=True,
             **kwargs):
@@ -235,7 +234,8 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                t = time[i] # might be able to be commented out, left as example
+                # might be able to be commented out, left as example
+                t = time[i]
                 params['cur_time'] = time[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
@@ -283,7 +283,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, mask_constant=True, eqform='second_order',
-            params={}, realify=True, num_time_steps = 3, **kwargs):
+            params={}, realify=True, num_time_steps=51, **kwargs):
     r"""Harmonic balance solver for first and second order ODEs.
 
     Obtains the solution of a first-order and second-order differential
@@ -372,7 +372,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         Force the returned results to be real.
     mask_constant : boolean, optional
         Force the constant term of the series representation to be zero.
-    num_time_steps : int, default = 3
+    num_time_steps : int, default = 51
         number of time steps to use in time histories for derivative
         calculations.
     other : any
@@ -453,7 +453,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     X0 = fftp.rfft(x0)
     if mask_constant is True:
-        X0 = X0[:,1:]
+        X0 = X0[:, 1:]
 
     params['mask_constant'] = mask_constant
 
@@ -521,7 +521,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         time = params['time']
         mask_constant = params['mask_constant']
         if mask_constant is True:
-            X = np.hstack((np.zeros_like(X[:,0]).reshape(-1,1), X))
+            X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
@@ -535,13 +535,15 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                t = time[i] # might be able to be commented out, left as example
+                # might be able to be commented out, left as example
+                t = time[i]
                 params['cur_time'] = time[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
             e = accel_from_deriv - accel
+            # print(e)
         elif eqform == 'first_order':
 
             vel_from_deriv = np.zeros_like(vel)
@@ -560,11 +562,14 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
         e_fft = fftp.fft(e)
+        # print(e_fft)
         e_fft_condensed = condense_fft(e_fft, num_harmonics)
+        # print(e_fft_condensed)
         e = fft_to_rfft(e_fft_condensed)
         if mask_constant is True:
-            e = e[:,1:]
-        print(e)
+            e = e[:, 1:]
+        #print('e ', e, ' X ', X)
+        #print('1 eval')
         return e
 #-----------------
 # through Here- above expand times!
@@ -585,11 +590,12 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         e = hb_err(X)
 
     if mask_constant is True:
-        X = np.hstack((np.zeros_like(X[:,0]).reshape(-1,1), X))
+        X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
-    print(X)
-    amps = np.sqrt(X[:, 1]**2+X[:,2]**2)
-    phases = np.arctan2(X[:,2], X[:, 1])
+    print('\n\n\n\n', X)
+    print(e)
+    amps = np.sqrt(X[:, 1]**2 + X[:, 2]**2)
+    phases = np.arctan2(X[:, 2], X[:, 1])
     # e = hb_err(X)
 
     x = fftp.irfft(X)
@@ -654,14 +660,10 @@ def harmonic_deriv(omega, r):
 
     """
     n = r.shape[1]
-    if n%2 == 0:
-        print('Needs to be updated for even number of time points.')
-        print('Quick fix, make num_time_steps odd.')
-    omega_half = -np.arange((n - 1) / 2 + 1) * omega * 2j / (n - 2)
-    omega_whole = np.append(np.conj(omega_half[-1:0:-1]), omega_half)
+    omega_whole = -np.arange(n) * omega * 1j
     r_freq = fftp.fft(r)
     s_freq = r_freq * omega_whole
-    s = fftp.ifft(s_freq)
+    s = fftp.ifft(s_freq) * 2 / n
     return np.real(s)
 
 
@@ -702,7 +704,7 @@ def duff_osc(x, v, params):
     """Duffing oscillator acceleration."""
     omega = params['omega']
     t = params['cur_time']
-    acceleration = np.array([[-x - .001 * x**3. - 0.2 * v + np.sin(omega * t)]])
+    acceleration = np.array([[-x - .1 * x**3. - 0.2 * v + np.sin(omega * t)]])
     return acceleration
 
 
@@ -769,7 +771,8 @@ def time_history(t, x, realify=True, num_time_points=200):
 
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
-    X_red = X_full[:, 0:(2*num_harmonics + 1)]*(2*num_harmonics+1)/X_full[0,:].size
+    X_red = X_full[:, 0:(2 * num_harmonics + 1)] * \
+        (2 * num_harmonics + 1) / X_full[0, :].size
     return X_red
 
 
