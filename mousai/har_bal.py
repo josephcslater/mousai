@@ -119,6 +119,12 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Notes
     -----
+    .. seealso::
+
+       ``hb_freq``
+
+    This method is not reliable for a low number of harmonics.
+
     Calls a linear algebra function from
     `scipy.optimize.nonlin
     <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
@@ -132,8 +138,8 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     nonlinearities.
 
     Algorithm:
-        1. calls `hb_time_err` with x as the variable to solve for.
-        2. `hb_time_err` uses a Fourier representation of x to obtain
+        1. calls `hb_err` with `x` as the variable to solve for.
+        2. `hb_err` uses a Fourier representation of `x` to obtain
            velocities (after an inverse FFT) then calls `sdfunc` to determine
            accelerations.
         3. Accelerations are also obtained using a Fourier representation of x
@@ -141,7 +147,8 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
            error used by the nonlinear algebraic solver
            (default `newton_krylov`) to be minimized by the solver.
 
-    Options to the nonlinear solvers can be passed in by \*\*kwargs.
+    Options to the nonlinear solvers can be passed in by \*\*kwargs (keyward
+    arguments) identical to those available to the nonlinear solver.
 
     """
     # Initial conditions exist?
@@ -400,14 +407,21 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     Notes
     -----
+    .. seealso::
+
+       `hb_time`
+
     Calls a linear algebra function from
     `scipy.optimize.nonlin
     <https://docs.scipy.org/doc/scipy/reference/optimize.nonlin.html>`_ with
     `newton_krylov` as the default.
 
-    Evaluates the differential equation/s at evenly spaced points in time. Each
-    point in time yields a single equation. One harmonic plus the constant term
-    results in 3 points in time over the cycle.
+    Evaluates the differential equation/s at evenly spaced points in time
+    defined by the user (default 51). Uses error in FFT of derivative
+    (acceeration or state equations) calculated based on:
+
+    1. governing equations
+    2. derivative of `x` (second derivative for state method)
 
     Solver should gently "walk" solution up to get to nonlinearities for hard
     nonlinearities.
