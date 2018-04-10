@@ -102,3 +102,4 @@ ENV/
 /.project
 
 Untitled*.ipynb
+*.sublime-workspace
