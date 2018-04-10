@@ -490,8 +490,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         # X : float array
         #     X is an :math:`n \\times m` by 1 array of sp.fft.rfft
         #     fft coefficients lacking the constant (first) element.
-        #     Here :math:`n` is the number of displacements and :math:`m` 2 times
-        #     the number of harmonics to be solved for.
+        #     Here :math:`n` is the number of displacements and :math:`m` 2
+        #     times the number of harmonics to be solved for.
         #
         # **kwargs : string, float, variable
         #     **kwargs is a packed set of keyword arguments with 3 required
@@ -521,16 +521,16 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         #     1. X is prepended with a zero vector (to represent the constant
         #        value)
         #     2. `x` is calculated via an inverse `numpy.fft.rfft`
-        #     1. The velocity and accelerations are calculated in the same shape
-        #        as `x` as `vel` and `accel`.
-        #     3. Each column of `x` and `v` are sent with `t`, `omega`, and other
-        #        `**kwargs** to `function` one at a time with the results
+        #     1. The velocity and accelerations are calculated in the same
+        #        shape as `x` as `vel` and `accel`.
+        #     3. Each column of `x` and `v` are sent with `t`, `omega`, and
+        #        other `**kwargs** to `function` one at a time with the results
         #        agregated into the columns of `accel_num`.
         #     4. The rfft is taken of `accel_num` and `accel`.
         #     5. The first column is stripped out of both `accel_num_freq and
         #        `accel_freq`.
 
-        #"""
+        # """
         nonlocal params  # Will stay out of global/conflicts
         omega = params['omega']
         time = params['time']
@@ -588,8 +588,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         e = fft_to_rfft(e_fft_condensed)
         if mask_constant is True:
             e = e[:, 1:]
-        #print('e ', e, ' X ', X)
-        #print('1 eval')
+        # print('e ', e, ' X ', X)
+        # print('1 eval')
         return e
 
     try:
@@ -639,7 +639,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 def hb_so(sdfunc, **kwargs):
     """Deprecated function name. Use hb_time."""
-    message = 'hb_so has been deprecated. Please use hb_time or an alternaative.'
+    message = 'hb_so is deprecated. Please use hb_time or an alternative.'
     warnings.warn(message, DeprecationWarning)
     return hb_time(sdfunc, kwargs)
 
