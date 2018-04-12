@@ -277,6 +277,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.full([x0.shape[0], ], np.nan)
         phases = np.full([x0.shape[0], ], np.nan)
         e = hb_err(x)  # np.full([x0.shape[0],x0.shape[1]],np.nan)
+        raise
     else:
         xhar = fftp.fft(x) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
@@ -595,27 +596,23 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     try:
         X = globals()[method](hb_err, X0, **kwargs)
         # print('tried')
-    except:
+    except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
-        X = X0  # np.full([x0.shape[0],X0.shape[1]],np.nan)
+        print("""What ever error this is, please put into har_bal
+               after the excepts (2 of them)""")
+        X = X0
         if mask_constant is True:
-            # print(mask_constant)
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
         e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
-    else:
-        # print(X)
-        # print(X.shape)
+        raise
+    else:  # Runs if there are no errors
         if mask_constant is True:
-            # print(mask_constant)
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        # print(X)
         xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
-        # print('amps = ', amps, X.shape)
         phases = np.angle(xhar[:, 1])
         e = hb_err(X)
 
