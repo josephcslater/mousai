@@ -10,11 +10,11 @@ Installation is made easy with ``pip`` (or ``pip3``), with releases as we have t
 to create a full first release. Much of it works already, but we certainly need
 issue reports (on `github <http://github.com/josephcslater/mousai>`_).
 
-To install::
+To install tyoe::
 
   pip install --user mousai
 
-where ``--user`` isn't necessary if you are using a locally installed version of Python such as `Anaconda <https://www.continuum.io/downloads>`_.
+at your  command prompt (**not the python prompt**) where ``--user`` isn't necessary if you are using a locally installed version of Python such as `Anaconda <https://www.continuum.io/downloads>`_.
 
 To run, I recommend you open a `Jupyter`_ notebook by using ``jupyter notebook`` and then type::
 
@@ -29,7 +29,7 @@ The usage documentation is far behind the current code, while the reference is w
 
 If you wish to stay current with the software, fork the repository, then clone it to your desktop.
 
-Then, in the root directory of ``mousai``, type::
+Then, in the root directory of ``mousai``, **at the command prompt (not Python prompt)** type::
 
   pip install -e .
 
