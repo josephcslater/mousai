@@ -561,7 +561,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
-            e = accel_from_deriv - accel
+            e = (accel_from_deriv - accel)/np.max(np.abs(accel))
+            #print(accel)
             # print('accel from derive = ', accel_from_deriv)
             # print('accel = ', accel)
             # print(e)
@@ -578,7 +579,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 vel_from_deriv[:, i] =\
                     params['function'](x[:, i], params)[:, 0]
 
-            e = vel_from_deriv - vel
+            e = (vel_from_deriv - vel)/np.max(np.abs(vel))
         else:
             print('eqform cannot have a value of ', eqform)
             return 0, 0, 0, 0, 0
