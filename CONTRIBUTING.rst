@@ -43,3 +43,8 @@ See `twine notes <https://packaging.python.org/distributing/#working-in-developm
 
 Once travis-ci checking is done, release checking will be unecessary. 
 Still needs work on travis-ci.
+
+Debugging/writing
+-----------------
+
+Please avoid using `print` and instead use `logging <https://inventwithpython.com/blog/2012/04/06/stop-using-print-for-debugging-a-5-minute-quickstart-guide-to-pythons-logging-module/>`_. 
