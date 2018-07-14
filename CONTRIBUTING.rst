@@ -48,3 +48,7 @@ Debugging/writing
 -----------------
 
 Please avoid using `print` and instead use `logging <https://inventwithpython.com/blog/2012/04/06/stop-using-print-for-debugging-a-5-minute-quickstart-guide-to-pythons-logging-module/>`_. 
+
+See the top of `har_bal.py` for the `logging` commands. The `logging.debug` should be used in place of a `print` statement.
+
+Uncommenting the appropriately commentes line will turn off all debuging output. Please do this before commits to the main branch. 
