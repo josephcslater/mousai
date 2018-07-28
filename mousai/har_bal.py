@@ -1,11 +1,24 @@
 """Harmonic balance solvers and other related tools."""
 import warnings
+# import logging
 import numpy as np
 import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
+from pprint import pformat
+
+
+# logging.basicConfig(level=print)
+# Use `logging.debug` in place of print.
+# for instance logging.debug(pformat('e {} X {}'.format(e,X)))
+
+# This will output only info and warnings
+# logging.basicConfig(level=logging.INFO)
+
+# This will output only warnings
+# logging.basicConfig(level=logging.WARNING)
 
 
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
@@ -171,7 +184,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         x0 = np.real(x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
-        print("`sdfunc` is expected to be a function name, not a string")
+        print("sdfunc is expected to be a function name, not a string")
     params['function'] = sdfunc  # function that returns SO derivative
     time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
@@ -266,7 +279,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
             e = vel_from_deriv - vel
         else:
-            print('eqform cannot have a value of ', eqform)
+            print('eqform cannot have a value of {}', eqform)
             return 0, 0, 0, 0, 0
         return e
 
@@ -444,6 +457,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     if x0 is None:
         if num_variables is not None:
             x0 = np.zeros((num_variables, 1 + num_harmonics * 2))
+            x0 = x0 + np.random.randn(*x0.shape)
         else:
             print('Error: Must either define number of variables or initial\
                   guess for x.')
@@ -460,7 +474,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         x0 = np.real(x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
-        print("`sdfunc` is expected to be a function name, not a string")
+        print("sdfunc is expected to be a function name, not a string")
     params['function'] = sdfunc  # function that returns SO derivative
     time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
@@ -561,11 +575,14 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
-            e = (accel_from_deriv - accel)/np.max(np.abs(accel))
+            e = (accel_from_deriv - accel)#/np.max(np.abs(accel))
+
+            states = accel
+
             #print(accel)
             # print('accel from derive = ', accel_from_deriv)
             # print('accel = ', accel)
-            # print(e)
+            #
         elif eqform == 'first_order':
 
             vel_from_deriv = np.zeros_like(vel)
@@ -579,43 +596,73 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 vel_from_deriv[:, i] =\
                     params['function'](x[:, i], params)[:, 0]
 
-            e = (vel_from_deriv - vel)/np.max(np.abs(vel))
+            e = (vel_from_deriv - vel)# /np.max(np.abs(vel))
+
+            states = vel
         else:
-            print('eqform cannot have a value of ', eqform)
+            print('eqform cannot have a value of {}', eqform)
             return 0, 0, 0, 0, 0
+
+        states_fft = fftp.fft(states)
+
         e_fft = fftp.fft(e)
+
         # print(e_fft)
+
+        states_fft_condensed = condense_fft(states_fft, num_harmonics)
+
         e_fft_condensed = condense_fft(e_fft, num_harmonics)
         # print(e_fft_condensed)
+        rfft_states_condensed = fft_to_rfft(states_fft_condensed)
+
         e = fft_to_rfft(e_fft_condensed)
+        # print(e)
         if mask_constant is True:
             e = e[:, 1:]
-        # print('e ', e, ' X ', X)
+
+        #print('errors = ', np.max(np.abs(e)), 'states = ', np.max(np.abs(rfft_states_condensed)))
+        e = e/np.max(np.abs(rfft_states_condensed))
+        # print(e)
+        #print('e ', e, ' X ', X)
+        # print(pformat('e {} X {}'.format(e,X)))
         # print('1 eval')
         return e
 
     try:
         X = globals()[method](hb_err, X0, **kwargs)
-        # print('tried')
+        print('tried. Correct error is above. ')
+        print(X)
+        e = hb_err(X)
+        print('e = {}', e)
+        print ('X should be the same')
+        #print('X is ', X)
+        #X = globals()[method](hb_err, X, **kwargs)
+        #print('tried')
+        #print('X is ', X)
+        xhar = rfft_to_fft(X) * 2 / len(time)
+        amps = np.absolute(xhar[:, 1])
+        phases = np.angle(xhar[:, 1])
+        if mask_constant is True:
+            X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
+            print('')
     except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
         print("""What ever error this is, please put into har_bal
                after the excepts (2 of them)""")
         X = X0
+        print(mask_constant)
         if mask_constant is True:
+            e = hb_err(X)
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
+        else:
+            e = hb_err(X)
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
-        e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
+
+        #e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         raise
-    else:  # Runs if there are no errors
-        if mask_constant is True:
-            X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        xhar = rfft_to_fft(X) * 2 / len(time)
-        amps = np.absolute(xhar[:, 1])
-        phases = np.angle(xhar[:, 1])
-        e = hb_err(X)
+
 
     # if mask_constant is True:
     #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
@@ -625,6 +672,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     # amps = np.sqrt(X[:, 1]**2 + X[:, 2]**2)
     # phases = np.arctan2(X[:, 2], X[:, 1])
     # e = hb_err(X)
+#     print('\n X is ', X)
 
     x = fftp.irfft(X)
 
@@ -643,7 +691,7 @@ def hb_so(sdfunc, **kwargs):
 
 
 def harmonic_deriv(omega, r):
-    r"""Returns derivative of a harmonic function using frequency methods.
+    r"""Return derivative of a harmonic function using frequency methods.
 
     Parameters
     ----------
@@ -685,7 +733,7 @@ def harmonic_deriv(omega, r):
 
 
 def solmf(x, v, M, C, K, F):
-    r"""Acceleration of second order linear matrix system.
+    r"""Returns acceleration of second order linear matrix system.
 
     Parameters
     ----------
@@ -725,7 +773,90 @@ def duff_osc(x, v, params):
     return acceleration
 
 
-def time_history(t, x, realify=True, num_time_points=200):
+def time_history(t, x, num_time_points=200, realify=True):
+    r"""Generate refined time history from harmonic balance solution.
+
+    Harmonic balance solutions presume a limited number of harmonics in the
+    solution. The result is that the time history is usually a very limited
+    number of values. Plotting these results implies that the solution isn't
+    actually a continuous one. This function fills in the gaps using the
+    harmonics obtained in the solution.
+
+    Parameters
+    ----------
+    t: array_like
+        1 x m array where m is the number of
+        values representing the repeating solution.
+    x: array_like
+        n x m array where m is the number of equations and m is the number of
+        values representing the repeating solution.
+    realify: boolean
+        Force the returned results to be real.
+    num_time_points: int
+        number of points desired in the "smooth" time history.
+
+    Returns
+    -------
+    t: array_like
+        1 x num_time_points array.
+    x: array_like
+        n x num_time_points array.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> import mousai as ms
+    >>> x = np.array([[-0.34996499,  1.36053998, -1.11828552]])
+    >>> t = np.array([0.        , 2.991993  , 5.98398601])
+    >>> t_full, x_full = ms.time_history(t, x, num_time_points=300)
+
+    Notes
+    -----
+    The implication of this function is that the higher harmonics that
+    were not determined in the solution are zero. This is indeed the assumption
+    made when setting up the harmonic balance solution. Whether this is a valid
+    assumption is something that the user must judge when obtaining the
+    solution.
+
+    """
+    dt = t[1]
+    t_length = t.size
+    t = np.linspace(0, t_length * dt, num_time_points, endpoint=False)
+    x_freq = fftp.fft(x)
+    x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
+    # print(x_zeros.shape())
+    x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
+    # print(x_freq)
+    # x_freq = np.hstack((x_freq, x_zeros))
+    # print(x_freq)
+    x = fftp.ifft(x_freq) * num_time_points / t_length
+    if realify == True:
+        x = np.real(x)
+    else:
+        print('x was real')
+    return t, x
+
+
+def condense_fft(X_full, num_harmonics):
+    """Create equivalent amplitude reduced-size FFT from longer FFT."""
+    X_red = np.hstack((X_full[:, 0:(num_harmonics + 1)],
+                       X_full[:, -1:-(num_harmonics + 1):-1]))\
+        * (2 * num_harmonics + 1) / X_full[0, :].size
+    return X_red
+
+
+def rfft_to_fft(X_real):
+    """Switch from SciPy real fft form to complex fft form."""
+    X = fftp.fft(fftp.irfft(X_real))
+    return X
+
+
+def fft_to_rfft(X):
+    """Switch from complex form fft form to SciPy rfft form."""
+    X_real = fftp.rfft(np.real(fftp.ifft(X)))
+    return X_real
+
+def time_history_r(t, x, num_time_points=200, realify=True):
     r"""Generate refined time history from harmonic balance solution.
 
     Harmonic balance solutions presume a limited number of harmonics in the
@@ -777,30 +908,12 @@ def time_history(t, x, realify=True, num_time_points=200):
     x_freq = fftp.fft(x)
     x_zeros = sp.zeros((x.shape[0], t.size - x.shape[1]))
     x_freq = sp.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
+    # print(x_freq)
+    # x_freq = np.hstack((x_freq, x_zeros))
+    # print(x_freq)
     x = fftp.ifft(x_freq) * num_time_points / t_length
-    if realify is True:
-        x = sp.real(x)
+    if realify == True:
+        x = np.real(x)
     else:
         print('x was real')
-
     return t, x
-
-
-def condense_fft(X_full, num_harmonics):
-    """Create equivalent amplitude reduced-size FFT from longer FFT."""
-    X_red = np.hstack((X_full[:, 0:(num_harmonics + 1)],
-                       X_full[:, -1:-(num_harmonics + 1):-1]))\
-        * (2 * num_harmonics + 1) / X_full[0, :].size
-    return X_red
-
-
-def rfft_to_fft(X_real):
-    """Switch from SciPy real fft form to complex fft form."""
-    X = fftp.fft(fftp.irfft(X_real))
-    return X
-
-
-def fft_to_rfft(X_real):
-    """Switch from complex form fft form to SciPy rfft form."""
-    X_complex = fftp.rfft(np.real(fftp.ifft(X_real)))
-    return X_complex
