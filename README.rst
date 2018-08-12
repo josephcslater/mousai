@@ -16,6 +16,10 @@ Mousai
 
 .. image:: https://img.shields.io/badge/patreon-donate-yellow.svg
    :target: https://www.patreon.com/josephcslater
+   
+.. image:: http://pepy.tech/badge/mousai
+   :target: http://pepy.tech/project/mousai
+   :alt: PyPi Download stats
 
 Python-based Harmonic Balance solvers and relevant tools.
 
