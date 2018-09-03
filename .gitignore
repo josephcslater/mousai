@@ -107,3 +107,4 @@ Untitled*.ipynb
 .pytest_cache/v/cache/lastfailed
 .pytest_cache/README.md
 *.py~
+.pytest_cache/v/cache/nodeids
