@@ -616,7 +616,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         e = hb_err(X)
         if mask_constant is True:
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
     except:  # Catches and raises errors- needs actual error listed.
