@@ -108,3 +108,4 @@ Untitled*.ipynb
 .pytest_cache/README.md
 *.py~
 .pytest_cache/v/cache/nodeids
+Notebooks/fft_tools.ipynb

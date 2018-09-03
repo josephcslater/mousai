@@ -7,7 +7,6 @@ import scipy.fftpack as fftp
 import scipy.linalg as la
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
-from pprint import pformat
 
 
 # logging.basicConfig(level=print)
@@ -575,11 +574,11 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
                                                             params)[:, 0]
-            e = (accel_from_deriv - accel)#/np.max(np.abs(accel))
+            e = (accel_from_deriv - accel)  # /np.max(np.abs(accel))
 
             states = accel
 
-            #print(accel)
+            # print(accel)
             # print('accel from derive = ', accel_from_deriv)
             # print('accel = ', accel)
             #
@@ -596,32 +595,34 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 vel_from_deriv[:, i] =\
                     params['function'](x[:, i], params)[:, 0]
 
-            e = (vel_from_deriv - vel)# /np.max(np.abs(vel))
+            e = (vel_from_deriv - vel)  # /np.max(np.abs(vel))
 
             states = vel
         else:
             print('eqform cannot have a value of {}', eqform)
             return 0, 0, 0, 0, 0
 
-        states_fft = fftp.fft(states)
+        states_fft = fftp.rfft(states)
 
-        e_fft = fftp.fft(e)
+        e_fft = fftp.rfft(e)
 
         # print(e_fft)
 
-        states_fft_condensed = condense_fft(states_fft, num_harmonics)
+        states_fft_condensed = condense_rfft(states_fft, num_harmonics)
 
-        e_fft_condensed = condense_fft(e_fft, num_harmonics)
+        e_fft_condensed = condense_rfft(e_fft, num_harmonics)
         # print(e_fft_condensed)
-        rfft_states_condensed = fft_to_rfft(states_fft_condensed)
+        #rfft_states_condensed = fft_to_rfft(states_fft_condensed)
 
-        e = fft_to_rfft(e_fft_condensed)
+        #e = fft_to_rfft(e_fft_condensed)
+
+        e = e_fft_condensed
         # print(e)
         if mask_constant is True:
             e = e[:, 1:]
 
         #print('errors = ', np.max(np.abs(e)), 'states = ', np.max(np.abs(rfft_states_condensed)))
-        e = e/np.max(np.abs(rfft_states_condensed))
+        e = e / np.max(np.abs(states_fft_condensed))
         # print(e)
         #print('e ', e, ' X ', X)
         # print(pformat('e {} X {}'.format(e,X)))
@@ -630,21 +631,18 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     try:
         X = globals()[method](hb_err, X0, **kwargs)
-        print('tried. Correct error is above. ')
-        print(X)
         e = hb_err(X)
-        print('e = {}', e)
-        print ('X should be the same')
         #print('X is ', X)
         #X = globals()[method](hb_err, X, **kwargs)
-        #print('tried')
+        # print('tried')
         #print('X is ', X)
         xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         if mask_constant is True:
+            #print('constant term forced to be zero')
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-            print('')
+            #print('')
     except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
@@ -660,9 +658,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.full([X0.shape[0], ], np.nan)
         phases = np.full([X0.shape[0], ], np.nan)
 
-        #e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
+        # e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         raise
-
 
     # if mask_constant is True:
     #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
@@ -845,6 +842,23 @@ def condense_fft(X_full, num_harmonics):
     return X_red
 
 
+def condense_rfft(X_full, num_harmonics):
+    """Return real fft with fewer harmonics."""
+    X_len = X_full.shape[1]
+    X_red = X_full[:, :(num_harmonics) * 2 + 1] / \
+        X_len * (1 + 2 * num_harmonics)
+    return X_red
+
+
+def expand_rfft(X, num_harmonics):
+    """Return real fft with mor harmonics."""
+    X_len = X.shape[1]
+    cur_num_harmonics = (X_len - 1) / 2
+    X_expanded = np.hstack((X, np.zeros((X.shape[0], int(
+        2 * (num_harmonics - cur_num_harmonics)))))) / X_len * (1 + 2 * num_harmonics)
+    return X_expanded
+
+
 def rfft_to_fft(X_real):
     """Switch from SciPy real fft form to complex fft form."""
     X = fftp.fft(fftp.irfft(X_real))
@@ -855,6 +869,7 @@ def fft_to_rfft(X):
     """Switch from complex form fft form to SciPy rfft form."""
     X_real = fftp.rfft(np.real(fftp.ifft(X)))
     return X_real
+
 
 def time_history_r(t, x, num_time_points=200, realify=True):
     r"""Generate refined time history from harmonic balance solution.
