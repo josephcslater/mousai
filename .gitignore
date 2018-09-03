@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.pytext_cache/
 
 
 
@@ -103,3 +104,6 @@ ENV/
 
 Untitled*.ipynb
 *.sublime-workspace
+.pytest_cache/v/cache/lastfailed
+.pytest_cache/README.md
+*.py~
