@@ -786,6 +786,7 @@ def time_history(t, x, num_time_points=200, realify=True):
     t_length = t.size
     t = np.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
+    print(x)
     x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
     # print(x_zeros.shape())
     x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
@@ -793,7 +794,7 @@ def time_history(t, x, num_time_points=200, realify=True):
     # x_freq = np.hstack((x_freq, x_zeros))
     # print(x_freq)
     x = fftp.ifft(x_freq) * num_time_points / t_length
-    if realify == True:
+    if realify is True:
         x = np.real(x)
     else:
         print('x was real')
@@ -820,8 +821,11 @@ def expand_rfft(X, num_harmonics):
     """Return real fft with mor harmonics."""
     X_len = X.shape[1]
     cur_num_harmonics = (X_len - 1) / 2
-    X_expanded = np.hstack((X, np.zeros((X.shape[0], int(
-        2 * (num_harmonics - cur_num_harmonics)))))) / X_len * (1 + 2 * num_harmonics)
+    X_expanded = np.hstack((X / X_len * (1 + 2 * num_harmonics),
+                            np.zeros((X.shape[0],
+                                      int(2 * (num_harmonics
+                                               - cur_num_harmonics))))
+                            ))
     return X_expanded
 
 
@@ -893,7 +897,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     # x_freq = np.hstack((x_freq, x_zeros))
     # print(x_freq)
     x = fftp.ifft(x_freq) * num_time_points / t_length
-    if realify == True:
+    if realify is True:
         x = np.real(x)
     else:
         print('x was real')
