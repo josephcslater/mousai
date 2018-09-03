@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Duffing Oscillator Solution &#8212; Mousai 0.3 documentation</title>
+    <title>Duffing Oscillator Solution Using Frequency Domain Residuals &#8212; Mousai 0.3.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -32,13 +24,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   
@@ -207,21 +200,21 @@ div.nboutput div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 </style>
-<div class="section" id="Duffing-Oscillator-Solution">
-<h1>Duffing Oscillator Solution<a class="headerlink" href="#Duffing-Oscillator-Solution" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="Duffing-Oscillator-Solution-Using-Frequency-Domain-Residuals">
+<h1>Duffing Oscillator Solution Using Frequency Domain Residuals<a class="headerlink" href="#Duffing-Oscillator-Solution-Using-Frequency-Domain-Residuals" title="Permalink to this headline">¶</a></h1>
 <p>This notebook uses the newer solver. This solver minimizes frequency
-domain error. <code class="docutils literal"><span class="pre">hb_freq</span></code> can also ignore the constant term
-(<span class="math">\(\omega = 0\)</span>) in the solution process. The error in Fourier
+domain error. <code class="docutils literal notranslate"><span class="pre">hb_freq</span></code> can also ignore the constant term
+(<span class="math notranslate nohighlight">\(\omega = 0\)</span>) in the solution process. The error in Fourier
 Series of the state-equation calculated state derivative as compared to
 that obtained by taking the derivative of the input state. Any variety
 of time points may be used to ensure substantial averaging over a single
 cycle.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [100]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
@@ -243,14 +236,14 @@ The autoreload extension is already loaded. To reload it, use:
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [101]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Test that all is working.</span>
 <span class="c1"># f_tol adjusts accuracy. This is smaller than reasonable, but illustrative of usage.</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-12</span><span class="p">)</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">f_tol</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -261,18 +254,18 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[-0.06274296 -1.23406989]]
-Constant term of FFT of signal should be zero:  0j
+Equation errors (should be zero):  [[3.31477797e-15 1.09027241e-14]]
+Constant term of FFT of signal should be zero:  (-1.6653345369377348e-16+0j)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [102]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Using more harmonics.</span>
-<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Equation errors (should be zero): &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -283,54 +276,62 @@ Constant term of FFT of signal should be zero:  0j
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Equation errors (should be zero):  [[ 2.76738526e-02 -3.20355056e+00 -3.40004141e+00  1.19027876e+00
-  -1.17654286e-03 -1.74367098e-02  1.17238348e-01 -1.03000252e-02
-  -1.17654286e-03 -1.74367098e-02 -3.40004141e+00  1.19027876e+00
-   2.76738526e-02 -3.20355056e+00]]
-Constant term of FFT of signal should be zero:  (-4.180683577104105e-16+0j)
+Equation errors (should be zero):  [[-7.46635675e-07  1.43600922e-06]]
+Constant term of FFT of signal should be zero:  (8.326672684688674e-17+0j)
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[103]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[7.46635675e-07, 1.43600922e-06]])
+</pre></div>
+</div>
 </div>
 <p>Sometimes we can improve just by restarting from the prior end point.
 Sometimes, we just think it’s improved.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [104]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">duff_osc</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span> <span class="mi">7</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Errors: &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Errors:  [[ 2.76740537e-02 -3.20355061e+00 -3.40004206e+00  1.19027880e+00
-  -1.17698835e-03 -1.74367133e-02  1.17240227e-01 -1.03001660e-02
-  -1.17698835e-03 -1.74367133e-02 -3.40004206e+00  1.19027880e+00
-   2.76740537e-02 -3.20355061e+00]]
-Constant term of FFT of signal should be zero:  (-1.5092094240998222e-16+0j)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/Users/jslater/anaconda3/lib/python3.6/site-packages/scipy/optimize/nonlin.py:474: RuntimeWarning: invalid value encountered in double_scalars
-  and dx_norm/self.x_rtol &lt;= x_norm))
+Errors:  [[ 2.58053387e-08 -1.57420453e-07  4.03435235e-11  4.58437185e-12
+  -6.59875968e-09  2.08141165e-09  4.97125418e-11 -1.13236714e-10
+  -4.00440922e-10 -6.77031226e-08 -7.71574752e-11  1.07091196e-10
+   5.28102872e-08  7.21072898e-08]]
+Constant term of FFT of signal should be zero:  (-2.463307335887066e-16+0j)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [105]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="c1"># Let&#39;s get a smoother response</span>
 <span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
@@ -344,22 +345,22 @@ Constant term of FFT of signal should be zero:  (-1.5092094240998222e-16+0j)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The average for this problem is known to be zero, we got 7.401486830834377e-18
+The average for this problem is known to be zero, we got -7.401486830834377e-18
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_7_1.png" src="../../_images/tutorial_demos_Duffing_frequency_7_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_8_1.png" src="../../_images/tutorial_demos_Duffing_frequency_8_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [106]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">duff_osc2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
@@ -368,12 +369,12 @@ The average for this problem is known to be zero, we got 7.401486830834377e-18
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [53]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [107]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">amps</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
@@ -389,26 +390,31 @@ The average for this problem is known to be zero, we got 7.401486830834377e-18
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[2.46514443] [[-0.04861553  2.15877027 -2.11015474]] [[-5.83386348e-04 -1.47208515e+00]]
-Constant term of FFT of signal should be zero:  (-2.5673907444456745e-16+0j)
+[2.46438843] [[-0.04816055  0.95031796  1.79345444  2.33265262  2.4632571   2.15851606
+   1.48008193  0.5547736  -0.46041308 -1.40119713 -2.10905762 -2.45282919
+  -2.36338798 -1.85917961 -1.03882854]] [[ 7.58880069e-08 -4.92394640e-06 -5.12492802e-10  4.55729522e-10
+  -1.59320950e-07 -2.24039161e-06  8.99241320e-09  8.21786790e-09
+   1.80846194e-08  1.12039572e-07  3.36844695e-08  2.86271689e-09
+   2.37337183e-07  6.55548378e-08]]
+Constant term of FFT of signal should be zero:  (3.3306690738754696e-16+0j)
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_9_1.png" src="../../_images/tutorial_demos_Duffing_frequency_9_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_10_1.png" src="../../_images/tutorial_demos_Duffing_frequency_10_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [108]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
-<span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
+<span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
     <span class="c1">#print(i,freq,x)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -417,6 +423,7 @@ Constant term of FFT of signal should be zero:  (-2.5673907444456745e-16+0j)
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">amps</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">except</span><span class="p">:</span>
         <span class="n">amp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">nan</span>
+<span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">omega</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">amp</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">amp</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -426,16 +433,423 @@ Constant term of FFT of signal should be zero:  (-2.5673907444456745e-16+0j)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+Excepted- search failed for omega = 0.1050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1196 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1341 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1487 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1633 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1779 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1924 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2070 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2216 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2362 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2507 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2653 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2799 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2944 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3090 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3236 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3382 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3527 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3673 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3819 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3965 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4110 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4256 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4402 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4547 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4693 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4839 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4985 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5130 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5276 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5422 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5568 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5713 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5859 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6005 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6151 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6296 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6442 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6588 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6733 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6879 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7025 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7171 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7316 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7462 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7608 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7754 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7899 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.8045 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9759 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9904 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 3.0050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+[[ 0.105              nan]
+ [ 0.11957286         nan]
+ [ 0.13414573         nan]
+ [ 0.14871859         nan]
+ [ 0.16329146         nan]
+ [ 0.17786432         nan]
+ [ 0.19243719         nan]
+ [ 0.20701005         nan]
+ [ 0.22158291         nan]
+ [ 0.23615578         nan]
+ [ 0.25072864         nan]
+ [ 0.26530151         nan]
+ [ 0.27987437         nan]
+ [ 0.29444724         nan]
+ [ 0.3090201          nan]
+ [ 0.32359296         nan]
+ [ 0.33816583         nan]
+ [ 0.35273869         nan]
+ [ 0.36731156         nan]
+ [ 0.38188442         nan]
+ [ 0.39645729         nan]
+ [ 0.41103015         nan]
+ [ 0.42560302         nan]
+ [ 0.44017588         nan]
+ [ 0.45474874         nan]
+ [ 0.46932161         nan]
+ [ 0.48389447         nan]
+ [ 0.49846734         nan]
+ [ 0.5130402          nan]
+ [ 0.52761307         nan]
+ [ 0.54218593         nan]
+ [ 0.55675879         nan]
+ [ 0.57133166         nan]
+ [ 0.58590452         nan]
+ [ 0.60047739         nan]
+ [ 0.61505025         nan]
+ [ 0.62962312         nan]
+ [ 0.64419598         nan]
+ [ 0.65876884         nan]
+ [ 0.67334171         nan]
+ [ 0.68791457         nan]
+ [ 0.70248744         nan]
+ [ 0.7170603          nan]
+ [ 0.73163317         nan]
+ [ 0.74620603         nan]
+ [ 0.76077889         nan]
+ [ 0.77535176         nan]
+ [ 0.78992462         nan]
+ [ 0.80449749         nan]
+ [ 0.81907035  2.62533157]
+ [ 0.83364322  2.76029614]
+ [ 0.84821608  2.90689245]
+ [ 0.86278894  3.06564032]
+ [ 0.87736181  3.23686365]
+ [ 0.89193467  3.42062599]
+ [ 0.90650754  3.61668661]
+ [ 0.9210804   3.82448198]
+ [ 0.93565327  4.04314047]
+ [ 0.95022613  4.27153101]
+ [ 0.96479899  4.50833848]
+ [ 0.97937186  4.75215267]
+ [ 0.99394472  5.0015558 ]
+ [ 1.00851759  5.25519624]
+ [ 1.02309045  5.51184157]
+ [ 1.03766332  5.77040958]
+ [ 1.05223618  6.02998002]
+ [ 1.06680905  6.28979196]
+ [ 1.08138191  6.54923173]
+ [ 1.09595477  6.80781592]
+ [ 1.11052764  7.06517264]
+ [ 1.1251005   7.32102307]
+ [ 1.13967337  7.57516457]
+ [ 1.15424623  7.82745589]
+ [ 1.1688191   8.07780457]
+ [ 1.18339196  8.3261565 ]
+ [ 1.19796482  8.5724874 ]
+ [ 1.21253769  8.81679587]
+ [ 1.22711055  9.0590979 ]
+ [ 1.24168342  9.2994225 ]
+ [ 1.25625628  9.53780821]
+ [ 1.27082915  9.77430042]
+ [ 1.28540201 10.00894925]
+ [ 1.29997487 10.24180788]
+ [ 1.31454774 10.4729313 ]
+ [ 1.3291206  10.70237534]
+ [ 1.34369347 10.93019593]
+ [ 1.35826633 11.15644854]
+ [ 1.3728392  11.38111418]
+ [ 1.38741206 11.60438064]
+ [ 1.40198492 11.82623705]
+ [ 1.41655779 12.04673357]
+ [ 1.43113065 12.26591873]
+ [ 1.44570352 12.4838393 ]
+ [ 1.46027638 12.70054034]
+ [ 1.47484925 12.91606516]
+ [ 1.48942211 13.13045536]
+ [ 1.50399497 13.34375084]
+ [ 1.51856784 13.55598988]
+ [ 1.5331407  13.76720913]
+ [ 1.54771357 13.97744372]
+ [ 1.56228643 14.18672731]
+ [ 1.5768593  14.3950921 ]
+ [ 1.59143216 14.60256897]
+ [ 1.60600503 14.80918746]
+ [ 1.62057789 15.01497589]
+ [ 1.63515075 15.21996142]
+ [ 1.64972362 15.42417011]
+ [ 1.66429648 15.62762705]
+ [ 1.67886935 15.83035656]
+ [ 1.69344221 16.03238252]
+ [ 1.70801508 16.23372929]
+ [ 1.72258794 16.43442387]
+ [ 1.7371608  16.63441974]
+ [ 1.75173367 16.83382998]
+ [ 1.76630653 17.03263938]
+ [ 1.7808794  17.23089283]
+ [ 1.79545226 17.42850075]
+ [ 1.81002513 17.62562433]
+ [ 1.82459799 17.8221529 ]
+ [ 1.83917085 18.01819593]
+ [ 1.85374372 18.21374612]
+ [ 1.86831658 18.4087612 ]
+ [ 1.88288945 18.60330092]
+ [ 1.89746231 18.79744056]
+ [ 1.91203518 18.99103279]
+ [ 1.92660804 19.18427165]
+ [ 1.9411809  19.37700725]
+ [ 1.95575377 19.56932889]
+ [ 1.97032663 19.76124915]
+ [ 1.9848995  19.9527751 ]
+ [ 1.99947236 20.14391491]
+ [ 2.01404523 20.33467354]
+ [ 2.02861809 20.52506855]
+ [ 2.04319095 20.71510344]
+ [ 2.05776382 20.90478692]
+ [ 2.07233668 21.09412746]
+ [ 2.08690955 21.28313322]
+ [ 2.10148241 21.47181209]
+ [ 2.11605528 21.6601717 ]
+ [ 2.13062814 21.84821943]
+ [ 2.14520101 22.03596242]
+ [ 2.15977387 22.22340739]
+ [ 2.17434673 22.41056141]
+ [ 2.1889196  22.59743075]
+ [ 2.20349246 22.78402165]
+ [ 2.21806533 22.97034019]
+ [ 2.23263819 23.15639224]
+ [ 2.24721106 23.34218341]
+ [ 2.26178392 23.52771933]
+ [ 2.27635678 23.71300527]
+ [ 2.29092965 23.89804639]
+ [ 2.30550251 24.08284768]
+ [ 2.32007538 24.26741402]
+ [ 2.33464824 24.45175008]
+ [ 2.34922111 24.63586041]
+ [ 2.36379397 24.81974942]
+ [ 2.37836683 25.00342138]
+ [ 2.3929397  25.1868804 ]
+ [ 2.40751256 25.3701305 ]
+ [ 2.42208543 25.55317552]
+ [ 2.43665829 25.73601924]
+ [ 2.45123116 25.91866527]
+ [ 2.46580402 26.10111709]
+ [ 2.48037688 26.2833781 ]
+ [ 2.49494975 26.46545157]
+ [ 2.50952261 26.64734063]
+ [ 2.52409548 26.82904833]
+ [ 2.53866834 27.01057757]
+ [ 2.55324121 27.19193119]
+ [ 2.56781407 27.37311183]
+ [ 2.58238693 27.55412211]
+ [ 2.5969598  27.73496979]
+ [ 2.61153266 27.9156421 ]
+ [ 2.62610553 28.09615638]
+ [ 2.64067839 28.27650963]
+ [ 2.65525126 28.45670002]
+ [ 2.66982412 28.63673625]
+ [ 2.68439698 28.81661413]
+ [ 2.69896985 28.99634014]
+ [ 2.71354271 29.17591096]
+ [ 2.72811558 29.35533023]
+ [ 2.74268844 29.53459868]
+ [ 2.75726131 29.71371689]
+ [ 2.77183417 29.89268432]
+ [ 2.78640704 30.07150277]
+ [ 2.8009799  30.25017034]
+ [ 2.81555276 30.42868635]
+ [ 2.83012563 30.60705024]
+ [ 2.84469849 30.7852594 ]
+ [ 2.85927136 30.96331076]
+ [ 2.87384422 31.14120086]
+ [ 2.88841709 31.31892347]
+ [ 2.90298995 31.49647097]
+ [ 2.91756281 31.67383294]
+ [ 2.93213568 31.85099411]
+ [ 2.94670854 32.02802991]
+ [ 2.96128141 32.20488021]
+ [ 2.97585427         nan]
+ [ 2.99042714         nan]
+ [ 3.005              nan]]
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[54]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[108]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11e43dc18&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a45f710&gt;]
 </pre></div>
 </div>
 </div>
@@ -443,18 +857,74 @@ Excepted- search failed for omega = 3.0050 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_10_2.png" src="../../_images/tutorial_demos_Duffing_frequency_10_2.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_11_2.png" src="../../_images/tutorial_demos_Duffing_frequency_11_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [55]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [110]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">amps</span><span class="p">,</span> <span class="n">phases</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">omega</span> <span class="o">=</span> <span class="mf">1.1</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39; amps = {}</span><span class="se">\n</span><span class="s1"> x = {}</span><span class="se">\n</span><span class="s1"> e = {}</span><span class="se">\n</span><span class="s1"> phases = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amps</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">phases</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Constant term of FFT of signal should be zero: &#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">.</span><span class="n">fftp</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">time</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">time_history</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">xc</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ amps = [6.87938913]
+ x = [[-0.52058566  6.20093581 -5.68035015]]
+ e = [[-3.83538149e-09  1.45558470e-08]]
+ phases = [-0.07574565]
+Constant term of FFT of signal should be zero:  (1.1102230246251565e-16+0j)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_demos_Duffing_frequency_12_1.png" src="../../_images/tutorial_demos_Duffing_frequency_12_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [111]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">phases</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[111]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([-0.07574565])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [112]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">omega</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
 <span class="n">amp</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
     <span class="c1">#print(i,freq,x)</span>
     <span class="c1">#print(sp.average(x))</span>
@@ -469,12 +939,115 @@ Excepted- search failed for omega = 3.0050 rad/s.
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[55]:
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Excepted- search failed for omega = 0.1050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1376 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.1702 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2028 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2353 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.2679 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3005 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3331 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3657 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.3983 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4308 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4634 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.4960 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5286 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5612 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.5938 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6263 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6589 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.6915 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7241 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7567 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 0.7893 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9724 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 3.0050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[112]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11e515438&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a428208&gt;]
 </pre></div>
 </div>
 </div>
@@ -482,18 +1055,18 @@ Excepted- search failed for omega = 3.0050 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_11_1.png" src="../../_images/tutorial_demos_Duffing_frequency_11_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_14_2.png" src="../../_images/tutorial_demos_Duffing_frequency_14_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [113]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">omegal</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">.</span><span class="mo">03</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">200</span>
 <span class="n">ampl</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">omegal</span><span class="p">)</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">omegal</span><span class="p">):</span>
     <span class="c1"># Here we try to obtain solutions, but if they don&#39;t work,</span>
     <span class="c1"># we ignore them by inserting `np.nan` values.</span>
@@ -512,30 +1085,151 @@ Excepted- search failed for omega = 3.0050 rad/s.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+Excepted- search failed for omega = 3.0050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 3.0000 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9950 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9900 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9850 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9800 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9750 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9700 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9650 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9600 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9550 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9500 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9450 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9400 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9350 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9300 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9250 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9200 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9150 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9100 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9050 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
+Excepted- search failed for omega = 2.9000 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1700 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1650 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1600 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1550 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1500 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1450 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1400 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1350 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1300 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1250 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1200 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 Excepted- search failed for omega = 1.1150 rad/s.
-Excepted- search failed for omega = 1.1100 rad/s.
-Excepted- search failed for omega = 1.1050 rad/s.
-Excepted- search failed for omega = 1.1000 rad/s.
+What ever error this is, please put into har_bal
+               after the excepts (2 of them)
+True
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[56]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[113]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11e62d128&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a18a278&gt;]
 </pre></div>
 </div>
 </div>
@@ -543,15 +1237,15 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_12_2.png" src="../../_images/tutorial_demos_Duffing_frequency_12_2.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_15_2.png" src="../../_images/tutorial_demos_Duffing_frequency_15_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [114]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegal</span><span class="p">,</span><span class="n">ampl</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="n">amp</span><span class="p">)</span>
 <span class="c1">#plt.axis([0,3, 0, 10.5])</span>
@@ -559,12 +1253,12 @@ Excepted- search failed for omega = 1.1000 rad/s.
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[57]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[114]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11bc11eb8&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a2f3fd0&gt;]
 </pre></div>
 </div>
 </div>
@@ -572,36 +1266,36 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_13_1.png" src="../../_images/tutorial_demos_Duffing_frequency_13_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_16_1.png" src="../../_images/tutorial_demos_Duffing_frequency_16_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [115]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">newton_krylov</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [116]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">duff_amp_resid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">mu</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="n">sigma</span><span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">8</span><span class="o">*</span><span class="n">alpha</span><span class="o">/</span><span class="n">omega_0</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="p">(</span><span class="n">k</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span><span class="o">/</span><span class="n">omega_0</span><span class="o">**</span><span class="mi">2</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [117]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">mu</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># damping</span>
 <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># excitation amplitude</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.9</span> <span class="c1">#detuning</span>
@@ -611,31 +1305,31 @@ Excepted- search failed for omega = 1.1000 rad/s.
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [118]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="o">-.</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[118]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array(-0.54786912)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [119]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">sigmas</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
 <span class="n">amplitudes</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sigmas</span><span class="p">)</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">newton_krylov</span><span class="p">(</span><span class="n">duff_amp_resid</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -652,12 +1346,12 @@ Excepted- search failed for omega = 1.1000 rad/s.
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[119]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11b06e8d0&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x119f66080&gt;]
 </pre></div>
 </div>
 </div>
@@ -665,15 +1359,15 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_18_1.png" src="../../_images/tutorial_demos_Duffing_frequency_18_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_21_1.png" src="../../_images/tutorial_demos_Duffing_frequency_21_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [120]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">sigmas</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
 <span class="n">sigmasr</span> <span class="o">=</span> <span class="n">sigmas</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">amplitudesr</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sigmas</span><span class="p">)</span>
@@ -696,17 +1390,17 @@ Excepted- search failed for omega = 1.1000 rad/s.
 </div>
 <div class="stderr output_area docutils container">
 <div class="highlight"><pre>
-/Users/jslater/anaconda3/lib/python3.6/site-packages/scipy/optimize/nonlin.py:474: RuntimeWarning: invalid value encountered in double_scalars
+/Users/jslater/anaconda3/lib/python3.6/site-packages/scipy/optimize/nonlin.py:476: RuntimeWarning: invalid value encountered in double_scalars
   and dx_norm/self.x_rtol &lt;= x_norm))
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[120]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11b30a240&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a1b4320&gt;]
 </pre></div>
 </div>
 </div>
@@ -714,27 +1408,27 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_19_2.png" src="../../_images/tutorial_demos_Duffing_frequency_19_2.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_22_2.png" src="../../_images/tutorial_demos_Duffing_frequency_22_2.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [121]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmasr</span><span class="p">,</span><span class="n">amplitudesr</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">,</span><span class="n">amplitudes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[121]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x11a7c1860&gt;]
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x11a8ed4e0&gt;]
 </pre></div>
 </div>
 </div>
@@ -742,7 +1436,7 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorial_demos_Duffing_frequency_20_1.png" src="../../_images/tutorial_demos_Duffing_frequency_20_1.png" />
+<img alt="../../_images/tutorial_demos_Duffing_frequency_23_1.png" src="../../_images/tutorial_demos_Duffing_frequency_23_1.png" />
 </div>
 </div>
 </div>
@@ -750,18 +1444,18 @@ Excepted- search failed for omega = 1.1000 rad/s.
 <h1>Using lambda functions<a class="headerlink" href="#Using-lambda-functions" title="Permalink to this headline">¶</a></h1>
 <p>As an aside, we can use a lambda function to solve a simple equation
 without much hassle. For example,
-<span class="math">\(\ddot{x} + 0.1\dot{x}+ x + 0.1 x^3 = \sin(0.7t)\)</span></p>
+<span class="math notranslate nohighlight">\(\ddot{x} + 0.1\dot{x}+ x + 0.1 x^3 = \sin(0.7t)\)</span></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [122]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">duff_osc2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;omega&#39;</span><span class="p">]</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="p">)]])</span>
-<span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="n">duff_osc2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="mf">0.7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -771,36 +1465,37 @@ without much hassle. For example,
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[1.47671439]
+[1.47671412]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [123]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.7</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span> <span class="n">sp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">hb_freq</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">v</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="n">x</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span><span class="o">-.</span><span class="mi">1</span><span class="o">*</span><span class="n">v</span><span class="o">+</span><span class="mi">1</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.7</span><span class="o">*</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">])]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]]),</span> <span class="o">.</span><span class="mi">7</span><span class="p">,</span> <span class="n">num_harmonics</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">a</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[123]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>array([1.47671439])
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([1.47671412])
 </pre></div>
 </div>
 </div>
 <p>Two things to note: 1. Remember that the lambda function has to return
-an <code class="docutils literal"><span class="pre">n</span> <span class="pre">by</span> <span class="pre">1</span></code> array. 2. Time must be referenced as params[‘cur_time’]</p>
+an <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">by</span> <span class="pre">1</span></code> array. 2. Time must be referenced as params[‘cur_time’]</p>
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -826,12 +1521,14 @@ an <code class="docutils literal"><span class="pre">n</span> <span class="pre">b
 
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
   <div role="note" aria-label="source link">
@@ -849,8 +1546,8 @@ an <code class="docutils literal"><span class="pre">n</span> <span class="pre">b
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
       
       |
       <a href="../../_sources/tutorial/demos/Duffing_frequency.ipynb.txt"

@@ -16,9 +16,13 @@ Mousai: A Set of Harmonic Balance Solvers
 
 .. image:: https://img.shields.io/pypi/v/mousai.svg
    :target: https://img.shields.io/pypi/v/mousai
-
+   
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg 
+   :target: https://saythanks.io/to/josephcslater
 
 Joseph C. Slater
+
+Please skim the tutorial for usage. In summary, create a function that could be used for numerical integration by SciPy. If the excitation is harmonic, get to the solution faster by apply Harmonic Balance. 
 
 Table of Contents
 -----------------

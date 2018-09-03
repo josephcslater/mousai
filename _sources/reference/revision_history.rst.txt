@@ -1,9 +1,13 @@
 Revision History
 ________________
 
+0.3
+~~~
+Better logging now provided via `individual release documents <https://github.com/josephcslater/mousai/tree/master/release_notes>`_.
+
 0.2
 ~~~
-Travis CI tests work. 
+Travis CI tests work.
 
 0.2.a1
 ~~~~~~
