@@ -554,10 +554,9 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
-#        m = 2 * n_har
 
         vel = harmonic_deriv(omega, x)
-        # print('vel = ', vel)
+
         m = num_time_steps
 
         if eqform == 'second_order':
@@ -578,17 +577,13 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
             states = accel
 
-            # print(accel)
-            # print('accel from derive = ', accel_from_deriv)
-            # print('accel = ', accel)
-            #
         elif eqform == 'first_order':
 
             vel_from_deriv = np.zeros_like(vel)
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
-                t = time_e[i]
+                # t = time_e[i]
                 params['cur_time'] = time_e[i]
                 # Note that everything in params can be accessed within
                 # `function`.
@@ -606,43 +601,24 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         e_fft = fftp.rfft(e)
 
-        # print(e_fft)
-
         states_fft_condensed = condense_rfft(states_fft, num_harmonics)
 
-        e_fft_condensed = condense_rfft(e_fft, num_harmonics)
-        # print(e_fft_condensed)
-        #rfft_states_condensed = fft_to_rfft(states_fft_condensed)
+        e = condense_rfft(e_fft, num_harmonics)
 
-        #e = fft_to_rfft(e_fft_condensed)
-
-        e = e_fft_condensed
-        # print(e)
         if mask_constant is True:
             e = e[:, 1:]
 
-        #print('errors = ', np.max(np.abs(e)), 'states = ', np.max(np.abs(rfft_states_condensed)))
         e = e / np.max(np.abs(states_fft_condensed))
-        # print(e)
-        #print('e ', e, ' X ', X)
-        # print(pformat('e {} X {}'.format(e,X)))
-        # print('1 eval')
         return e
 
     try:
         X = globals()[method](hb_err, X0, **kwargs)
         e = hb_err(X)
-        #print('X is ', X)
-        #X = globals()[method](hb_err, X, **kwargs)
-        # print('tried')
-        #print('X is ', X)
         xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
         phases = np.angle(xhar[:, 1])
         if mask_constant is True:
-            #print('constant term forced to be zero')
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-            #print('')
     except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
@@ -660,16 +636,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         # e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         raise
-
-    # if mask_constant is True:
-    #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-
-    # print('\n\n\n\n', X)
-    # print(e)
-    # amps = np.sqrt(X[:, 1]**2 + X[:, 2]**2)
-    # phases = np.arctan2(X[:, 2], X[:, 1])
-    # e = hb_err(X)
-#     print('\n X is ', X)
 
     x = fftp.irfft(X)
 
