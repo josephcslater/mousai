@@ -16,7 +16,7 @@ Mousai
 
 .. image:: https://img.shields.io/badge/patreon-donate-yellow.svg
    :target: https://www.patreon.com/josephcslater
-   
+
 .. image:: http://pepy.tech/badge/mousai
    :target: http://pepy.tech/project/mousai
    :alt: PyPi Download stats
@@ -42,6 +42,8 @@ The manual is still under development, but the Tutorial provides two examples of
 The Reference section of the manual illustrates supporting code for building out more time-refined solutions, finding velocities from displacements, and specifics on function calls.
 
 Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation.
+
+Please see `release notes <https://github.com/josephcslater/mousai/tree/master/release_notes>`_ for updates, fixes, and plans. 
 
 If you use this for any work, please cite it as:
 `Slater, Joseph C., "Mousai: An Open Source Harmonic Balance Solver for Nonlinear Systems," 13th ASME Dayton Engineering Sciences Symposium, Oct. 30, 2017, Dayton, OH. <https://josephcslater.github.io/DESS2017/#/>`_
