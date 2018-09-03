@@ -786,13 +786,9 @@ def time_history(t, x, num_time_points=200, realify=True):
     t_length = t.size
     t = np.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
-    print(x)
     x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
-    # print(x_zeros.shape())
     x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
-    # print(x_freq)
-    # x_freq = np.hstack((x_freq, x_zeros))
-    # print(x_freq)
+
     x = fftp.ifft(x_freq) * num_time_points / t_length
     if realify is True:
         x = np.real(x)
@@ -803,9 +799,9 @@ def time_history(t, x, num_time_points=200, realify=True):
 
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
-    X_red = np.hstack((X_full[:, 0:(num_harmonics + 1)],
-                       X_full[:, -1:-(num_harmonics + 1):-1]))\
-        * (2 * num_harmonics + 1) / X_full[0, :].size
+    X_red = (np.hstack((X_full[:, 0:(num_harmonics + 1)],
+                        X_full[:, -1:-(num_harmonics + 1):-1]))
+             * (2 * num_harmonics + 1) / X_full[0, :].size)
     return X_red
 
 
