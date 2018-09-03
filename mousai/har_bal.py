@@ -567,7 +567,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
                 # might be able to be commented out, left as example
-                t = time_e[i]
+                # t = time_e[i]
                 params['cur_time'] = time_e[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
@@ -614,11 +614,13 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     try:
         X = globals()[method](hb_err, X0, **kwargs)
         e = hb_err(X)
-        xhar = rfft_to_fft(X) * 2 / len(time)
-        amps = np.absolute(xhar[:, 1])
-        phases = np.angle(xhar[:, 1])
         if mask_constant is True:
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
+        xhar = rfft_to_fft(X) * 2 / len(time)
+        amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
+        phases = np.arctan2(X[:, 1], -X[:, 2])
+        #if mask_constant is True:
+        #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
     except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
@@ -626,13 +628,11 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                after the excepts (2 of them)""")
         X = X0
         print(mask_constant)
+        e = hb_err(X)
         if mask_constant is True:
-            e = hb_err(X)
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        else:
-            e = hb_err(X)
-        amps = np.full([X0.shape[0], ], np.nan)
-        phases = np.full([X0.shape[0], ], np.nan)
+        amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
+        phases = np.arctan2(X[:, 1], -X[:, 2])
 
         # e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         raise
