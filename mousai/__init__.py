@@ -24,7 +24,7 @@ __title__ = 'mousai'
 # 3) Let's just increment with single digits.
 
 # Moved to Semantic Versioning. 0.3 was last non-semantic release.
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __author__ = 'Joseph C. Slater'
 __license__ = 'BSD-3-Clause'
 __copyright__ = 'Copyright 2017 Joseph C. Slater'

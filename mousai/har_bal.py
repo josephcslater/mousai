@@ -619,8 +619,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         xhar = rfft_to_fft(X) * 2 / len(time)
         amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
-        #if mask_constant is True:
-        #    X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
     except:  # Catches and raises errors- needs actual error listed.
         print(
             'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
@@ -634,7 +632,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
 
-        # e = hb_err(X)  # np.full([x0.shape[0],X0.shape[1]],np.nan)
         raise
 
     x = fftp.irfft(X)
@@ -696,7 +693,7 @@ def harmonic_deriv(omega, r):
 
 
 def solmf(x, v, M, C, K, F):
-    r"""Returns acceleration of second order linear matrix system.
+    r"""Return acceleration of second order linear matrix system.
 
     Parameters
     ----------
