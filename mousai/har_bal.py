@@ -328,7 +328,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                      # `cur_time` in the dictionary
             x_dot = np.array([[x[1]],
                               [-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
-            return xdot
+            return x_dot
 
     In a state space form solution, the function must take the states and the
     `params` dictionary. This dictionary should be used to obtain the
@@ -897,7 +897,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     return t, x
 
 def _function_to_mousai(sdfunc):
-    '''Convert scipy.integrate functions to Mousai form.
+    """Convert scipy.integrate functions to Mousai form.
 
     The form of the function returning state derivatives is
     `sdfunc(x, t, params)` where `x` are the current states as an `n` by `1`
@@ -909,7 +909,27 @@ def _function_to_mousai(sdfunc):
     inspect package to determine the form of the function being used and to
     wrap it in Mousai form.
 
-    '''
+    Parameters
+    ----------
+    sdfunc : function
+        function in SciPy integrator form (`integrate.ode`_ or `solve_ivp`_)
+
+    Returns
+    -------
+    new_function : function
+        function in Mousai form (accepting inputs like a standard Mousai
+        function)
+
+    Notes
+    -----
+    .. seealso::
+
+       ``old_mousai_to_new_mousai``
+
+    .. integrate.ode : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
+    .. solve_ivp : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
+
+    """
 
     sig = inspect.signature(sdfunc)
 
@@ -918,23 +938,54 @@ def _function_to_mousai(sdfunc):
     if len(call_parameters) == 2:
         if call_parameters[0] is 't' or call_parameters[0] is 'time':
             # t and x must be swapped, params available in over-scope
-            def newfunction(x, t, params{}):
+            def newfunction(x, t, params={}):
                 for k, v in params.items():
                     exec("%s = %s" % (k, v))
                 return sdfunc(t, x)
         else: # params available in overscope
-            def newfunction(x, t, params{}):
+            def newfunction(x, t, params={}):
                 for k, v in params.items():
                     exec("%s = %s" % (k, v))
                 return sdfunc(x, t)
     else:
         if call_parameters[0] is 't' or call_parameters[0] is 'time':
             # t and x must be swapped, params available in over-scope
-            def newfunction(x, t, params{}):
+            def newfunction(x, t, params={}):
                 other_params = [params[x] for x in call_parameters]
                 return sdfunc(t, x, *other_params)
         else:  # params available in overscope
-            def newfunction(x, t, params{}):
+            def newfunction(x, t, params={}):
                 other_params = [params[x] for x in call_parameters]
                 return sdfunc(x, t, *other_params)
     return newfunction
+
+
+def old_mousai_to_new_mousai(function):
+    """Return derivative function converted to new Mousai format.
+
+    The original format for the Mousai derivative function was
+    `sdfunc(x, params)`. This is inconsistent with the SciPy integration
+    functions. To act more as expected, the standard from 0.4.0 on will take
+    the form `sdfunc(x, t, params)`.
+
+    Parameters
+    ----------
+    sdfunc : function
+        function in old Mousai form. `sdfunc(y, params)`
+
+    Returns
+    -------
+    new_sdfunc : function
+        function in new Mousai form. `sdfunc(y, t, params)`
+
+    Notes
+    -----
+    .. seealso::
+
+       ``_function_to_mousai``
+
+    """
+    def new_sdfunc(x, t, params):
+        params['cur_time'] = t
+        return function(x, params)
+    return new_sdfunc
