@@ -40,7 +40,7 @@ setup(name='mousai',
       keywords=['harmonic balance', 'numerical solvers',
                 'vibration', 'oscillation'],
       install_requires=["numpy >= 1.12.0", "scipy >= 0.18.0",
-                        "matplotlib >= 2.0.0", "inspect"],
+                        "matplotlib >= 2.0.0"],
       setup_requires=['pytest-runner'],
       tests_require=['pytest']
       )

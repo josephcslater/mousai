@@ -896,6 +896,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
         print('x was real')
     return t, x
 
+
 def _function_to_mousai(sdfunc):
     """Convert scipy.integrate functions to Mousai form.
 
@@ -912,7 +913,7 @@ def _function_to_mousai(sdfunc):
     Parameters
     ----------
     sdfunc : function
-        function in SciPy integrator form (`integrate.ode`_ or `solve_ivp`_)
+        function in SciPy integrator form (`odeint`_ or `solve_ivp`_)
 
     Returns
     -------
@@ -925,8 +926,10 @@ def _function_to_mousai(sdfunc):
     .. seealso::
 
        ``old_mousai_to_new_mousai``
+       ``mousai_to_odeint``
+       ``mousai_to_solve_ivp``
 
-    .. integrate.ode : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
+    .. odeint : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
     .. solve_ivp : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
 
     """
@@ -983,9 +986,103 @@ def old_mousai_to_new_mousai(function):
     .. seealso::
 
        ``_function_to_mousai``
+       ``mousai_to_odeint``
+       ``mousai_to_solve_ivp``
 
     """
     def new_sdfunc(x, t, params):
         params['cur_time'] = t
         return function(x, params)
     return new_sdfunc
+
+
+def mousai_to_solve_ivp(sdfunc, params):
+    """Return function callable from solve_ipv given Mousai sdfunc.
+
+    Parameters
+    ----------
+    sdfunc : function
+        Mousai-style function returning state derivatives.
+    params : dictionary
+        dictionary of parameters used by `sdfunc`.
+
+    Returns
+    -------
+    solve_ivp_function : function
+        function ordered to work with `solve_ivp`_
+
+    Notes
+    -----
+
+    The ability to pass parameters was deprecated in the new SciPy integrators:
+    `https://stackoverflow.com/questions/48245765/pass-args-for-solve-ivp-new-scipy-ode-api`
+    `https://github.com/scipy/scipy/issues/8352`
+
+    .. seealso::
+
+       ``_function_to_mousai``
+       ``old_mousai_to_new_mousai``
+       ``mousai_to_odeint``
+
+    .. solve_ivp : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
+
+    """
+    sig = inspect.signature(sdfunc)
+
+    call_parameters = list(sig.parameters.keys())
+
+    if len(call_parameters) == 2:
+        sdfunc = old_mousai_to_new_mousai(sdfunc)
+        print("""Warning. The two-argument form of Mousai derivsative functions
+                 is deprecated.""")
+
+    def solve_ivp_function(t, y):
+        return sdfunc(y, t, params)
+
+    return solve_ivp_function
+
+
+def mousai_to_odeint(sdfunc, params):
+    """Return function callable from solve_ipv given Mousai a sdfunc.
+
+    Parameters
+    ----------
+    sdfunc : function
+        Mousai-style function returning state derivatives.
+    params : dictionary
+        dictionary of parameters used by `sdfunc`.
+
+    Returns
+    -------
+    odeint_function : function
+        function ordered to work with `odeint`_
+
+    Notes
+    -----
+    .. seealso::
+
+       ``_function_to_mousai``
+       ``old_mousai_to_new_mousai``
+       ``mousai_to_solve_ivp``
+
+    .. odeint : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html#scipy.integrate.odeint
+
+    """
+    sig = inspect.signature(sdfunc)
+
+    call_parameters = list(sig.parameters.keys())
+
+    if len(call_parameters) == 2:
+        sdfunc = old_mousai_to_new_mousai(sdfunc)
+        print("""Warning. The two-argument form of Mousai derivative ⁠⁠\
+                 functions is deprecated.""")
+
+    if 'sdfunc_params' not in globals():
+        print("Define your parameters in the user created `sdfunc_params`",
+              "dictionary.")
+        sdfunc_params = {}
+
+    def odeint_function(y, t):
+        return sdfunc(y, t, params=sdfunc_params)
+
+    return odeint_function
