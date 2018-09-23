@@ -5,6 +5,7 @@ import numpy as np
 import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
+import inspect
 from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
     excitingmixing, linearmixing, diagbroyden
 
@@ -45,7 +46,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             xdot = np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
             return xdot
 
-    In a state space form solution, the function must take the states and the
+    In a state space form solution, the function must accept the states and the
     `params` dictionary. This dictionary should be used to obtain the
     prescribed response frequency and the current time. These plus any other
     parameters are used to calculate the state derivatives which are returned
@@ -894,3 +895,46 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     else:
         print('x was real')
     return t, x
+
+def _function_to_mousai(sdfunc):
+    '''Convert scipy.integrate functions to Mousai form.
+
+    The form of the function returning state derivatives is
+    `sdfunc(x, t, params)` where `x` are the current states as an `n` by `1`
+    array, `t` is a scalar, and `params` is a dictionary of parameters, one of
+    which must be `omega`. This is inconsistent with the SciPy numerical
+    integrators for good cause, but can make simultaneous usage diffucult.
+
+    This function returns a function compatible with Mousai by using the
+    inspect package to determine the form of the function being used and to
+    wrap it in Mousai form.
+
+    '''
+
+    sig = inspect.signature(sdfunc)
+
+    call_parameters = list(sig.parameters.keys())
+
+    if len(call_parameters) == 2:
+        if call_parameters[0] is 't' or call_parameters[0] is 'time':
+            # t and x must be swapped, params available in over-scope
+            def newfunction(x, t, params{}):
+                for k, v in params.items():
+                    exec("%s = %s" % (k, v))
+                return sdfunc(t, x)
+        else: # params available in overscope
+            def newfunction(x, t, params{}):
+                for k, v in params.items():
+                    exec("%s = %s" % (k, v))
+                return sdfunc(x, t)
+    else:
+        if call_parameters[0] is 't' or call_parameters[0] is 'time':
+            # t and x must be swapped, params available in over-scope
+            def newfunction(x, t, params{}):
+                other_params = [params[x] for x in call_parameters]
+                return sdfunc(t, x, *other_params)
+        else:  # params available in overscope
+            def newfunction(x, t, params{}):
+                other_params = [params[x] for x in call_parameters]
+                return sdfunc(x, t, *other_params)
+    return newfunction

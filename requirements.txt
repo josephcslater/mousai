@@ -3,3 +3,4 @@ scipy >= 0.18.0
 matplotlib >= 2.0.0
 sphinx >= 1.6.0
 ipython >= 5.8.0
+inspect
