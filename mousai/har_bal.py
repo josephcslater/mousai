@@ -897,7 +897,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     return t, x
 
 
-def _function_to_mousai(sdfunc):
+def function_to_mousai(sdfunc):
     """Convert scipy.integrate functions to Mousai form.
 
     The form of the function returning state derivatives is
@@ -929,8 +929,8 @@ def _function_to_mousai(sdfunc):
        ``mousai_to_odeint``
        ``mousai_to_solve_ivp``
 
-    .. odeint : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
-    .. solve_ivp : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
+    .. _`odeint` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
+    .. _`solve_ivp` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
 
     """
 
@@ -997,7 +997,7 @@ def old_mousai_to_new_mousai(function):
 
 
 def mousai_to_solve_ivp(sdfunc, params):
-    """Return function callable from solve_ipv given Mousai sdfunc.
+    """Return function callable from solve_ivp given Mousai sdfunc.
 
     Parameters
     ----------
@@ -1024,8 +1024,6 @@ def mousai_to_solve_ivp(sdfunc, params):
        ``old_mousai_to_new_mousai``
        ``mousai_to_odeint``
 
-    .. solve_ivp : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
-
     """
     sig = inspect.signature(sdfunc)
 
@@ -1043,7 +1041,7 @@ def mousai_to_solve_ivp(sdfunc, params):
 
 
 def mousai_to_odeint(sdfunc, params):
-    """Return function callable from solve_ipv given Mousai a sdfunc.
+    """Return function callable from solve_ivp given Mousai a sdfunc.
 
     Parameters
     ----------
@@ -1064,8 +1062,6 @@ def mousai_to_odeint(sdfunc, params):
        ``_function_to_mousai``
        ``old_mousai_to_new_mousai``
        ``mousai_to_solve_ivp``
-
-    .. odeint : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html#scipy.integrate.odeint
 
     """
     sig = inspect.signature(sdfunc)
