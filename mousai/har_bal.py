@@ -925,9 +925,9 @@ def function_to_mousai(sdfunc):
     -----
     .. seealso::
 
-       ``old_mousai_to_new_mousai``
-       ``mousai_to_odeint``
-       ``mousai_to_solve_ivp``
+       * ``old_mousai_to_new_mousai``
+       * ``mousai_to_odeint``
+       * ``mousai_to_solve_ivp``
 
     .. _`odeint` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
     .. _`solve_ivp` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
@@ -985,9 +985,9 @@ def old_mousai_to_new_mousai(function):
     -----
     .. seealso::
 
-       ``_function_to_mousai``
-       ``mousai_to_odeint``
-       ``mousai_to_solve_ivp``
+       * ``function_to_mousai``
+       * ``mousai_to_odeint``
+       * ``mousai_to_solve_ivp``
 
     """
     def new_sdfunc(x, t, params):
@@ -1020,9 +1020,9 @@ def mousai_to_solve_ivp(sdfunc, params):
 
     .. seealso::
 
-       ``_function_to_mousai``
-       ``old_mousai_to_new_mousai``
-       ``mousai_to_odeint``
+       * ``function_to_mousai``
+       * ``old_mousai_to_new_mousai``
+       * ``mousai_to_odeint``
 
     """
     sig = inspect.signature(sdfunc)
@@ -1059,9 +1059,9 @@ def mousai_to_odeint(sdfunc, params):
     -----
     .. seealso::
 
-       ``_function_to_mousai``
-       ``old_mousai_to_new_mousai``
-       ``mousai_to_solve_ivp``
+       * ``function_to_mousai``
+       * ``old_mousai_to_new_mousai``
+       * ``mousai_to_solve_ivp``
 
     """
     sig = inspect.signature(sdfunc)
