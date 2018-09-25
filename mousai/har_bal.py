@@ -72,7 +72,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     sdfunc : function
         For `eqform='first_order'`, name of function that returns **column
         vector** first derivative given `x`, and a dictionry of parameters.
-        This is *NOT* a string.
+        This is *NOT* a string (not the name of the function).
 
         :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`
 
@@ -360,8 +360,8 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     ----------
     sdfunc : function
         For `eqform='first_order'`, name of function that returns **column
-        vector** first derivative given `x`, `omega` and \*\*kwargs. This is
-        *NOT* a string.
+        vector** first derivative given `x`, and a dictionry of parameters.
+        This is *NOT* a string (not the name of the function).
 
         :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`
 
