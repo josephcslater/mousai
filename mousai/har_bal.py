@@ -71,14 +71,14 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     ----------
     sdfunc : function
         For `eqform='first_order'`, name of function that returns **column
-        vector** first derivative given `x`, `omega` and \*\*kwargs. This is
-        *NOT* a string.
+        vector** first derivative given `x`, and a dictionry of parameters.
+        This is *NOT* a string.
 
         :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`
 
         For `eqform='second_order'`, name of function that returns **column
-        vector** second derivative given `x`, `v`, `omega` and \*\*kwargs. This
-        is *NOT* a string.
+        vector** second derivative given `x`, `v`, and a dictionary of
+        parameters. This is *NOT* a string.
 
         :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`
     x0 : array_like, somewhat optional
@@ -160,7 +160,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
            error used by the nonlinear algebraic solver
            (default `newton_krylov`) to be minimized by the solver.
 
-    Options to the nonlinear solvers can be passed in by \*\*kwargs (keyward
+    Options to the nonlinear solvers can be passed in by \*\*kwargs (keyword
     arguments) identical to those available to the nonlinear solver.
 
     """
@@ -210,14 +210,19 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             number of times per cycle at which the displacement is guessed
             (minimum of 3)
 
-        **kwargs : string, float, variable
-            **kwargs is a packed set of keyword arguments with 3 required
-            arguments.
-                1. `function`: a string name of the function which returned
-                the numerically calculated acceleration.
+        params : dictionary
+            Because this function will be called by one of the scipy.optimize
+            root finders, it must be a function of only `x`. However, for
+            generality it need to be built based on user defined variables.
+            These variables must be in the scope of memory when the function is
+            created. For conveience they are stored in the variable `params`.
+
+                1. `function`: the function which returns the numerically
+                calculated state derivatives (or second derivatives) given the
+                states (or states and first derivatives).
 
                 2. `omega`: which is the defined fundamental harmonic
-                at which the is desired.
+                at which the solution is desired.
 
                 3. `n_har`: an integer representing the number of harmonics.
                 Note that `m` above is equal to 1 + 2 * `n_har`.
@@ -232,14 +237,15 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         `function` and `omega` are not separately defined arguments so as to
         enable algebraic solver functions to call `hb_time_err` cleanly.
 
-        The algorithm is as follows:
-            1. The velocity and accelerations are calculated in the same shape
-               as `x` as `vel` and `accel`.
+        The algorithm is broadly as follows:
+            1. The velocity or accelerations are calculated in the same shape
+               as `x` as the variables `vel` and `accel`, one column for each
+               time step.
             3. Each column of `x` and `v` are sent with `t`, `omega`, and other
-               `**kwargs** to `function` one at a time with the results
+               `**kwargs** to `function` with the results
                agregated into the columns of `accel_num`.
-            4. The difference between `accel_num` and `accel` is reshaped to be
-               :math:`n \\times m` by 1 and returned as the vector error used
+            4. The difference between `accel_num` and `accel` or
+               `velocity_num` and `velocity` represent the error used
                by the numerical algebraic equation solver.
 
         """
@@ -265,7 +271,6 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                                             params)[:, 0]
             e = accel_from_deriv - accel
         elif eqform == 'first_order':
-
             vel_from_deriv = np.zeros_like(vel)
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
