@@ -48,4 +48,4 @@ Please see `release notes <https://github.com/josephcslater/mousai/tree/master/r
 If you use this for any work, please cite it as:
 `Slater, Joseph C., "Mousai: An Open Source Harmonic Balance Solver for Nonlinear Systems," 13th ASME Dayton Engineering Sciences Symposium, Oct. 30, 2017, Dayton, OH. <https://josephcslater.github.io/DESS2017/#/>`_
 
-Like this module, `buy me a coffee! <buymeacoff.ee/s6BCSuEiU>`_
+Like this module, `buy me a coffee! <https://www.buymeacoffee.com/s6BCSuEiU>`_
