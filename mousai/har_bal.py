@@ -950,7 +950,7 @@ def function_to_mousai(sdfunc):
                 for k, v in params.items():
                     exec("%s = %s" % (k, v))
                 return sdfunc(t, x)
-        else: # params available in overscope
+        else:  # params available in overscope
             def newfunction(x, t, params={}):
                 for k, v in params.items():
                     exec("%s = %s" % (k, v))
@@ -1018,7 +1018,6 @@ def mousai_to_solve_ivp(sdfunc, params):
 
     Notes
     -----
-
     The ability to pass parameters was deprecated in the new SciPy integrators:
     `https://stackoverflow.com/questions/48245765/pass-args-for-solve-ivp-new-scipy-ode-api`
     `https://github.com/scipy/scipy/issues/8352`
