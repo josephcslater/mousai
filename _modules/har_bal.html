@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>har_bal &#8212; Mousai 0.3.1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -13,7 +11,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -40,6 +39,7 @@
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sp</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fftp</span>
 <span class="kn">import</span> <span class="nn">scipy.linalg</span> <span class="k">as</span> <span class="nn">la</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">newton_krylov</span><span class="p">,</span> <span class="n">anderson</span><span class="p">,</span> <span class="n">broyden1</span><span class="p">,</span> <span class="n">broyden2</span><span class="p">,</span> \
     <span class="n">excitingmixing</span><span class="p">,</span> <span class="n">linearmixing</span><span class="p">,</span> <span class="n">diagbroyden</span>
 
@@ -80,7 +80,7 @@
 <span class="sd">            xdot = np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])</span>
 <span class="sd">            return xdot</span>
 
-<span class="sd">    In a state space form solution, the function must take the states and the</span>
+<span class="sd">    In a state space form solution, the function must accept the states and the</span>
 <span class="sd">    `params` dictionary. This dictionary should be used to obtain the</span>
 <span class="sd">    prescribed response frequency and the current time. These plus any other</span>
 <span class="sd">    parameters are used to calculate the state derivatives which are returned</span>
@@ -105,14 +105,14 @@
 <span class="sd">    ----------</span>
 <span class="sd">    sdfunc : function</span>
 <span class="sd">        For `eqform=&#39;first_order&#39;`, name of function that returns **column</span>
-<span class="sd">        vector** first derivative given `x`, `omega` and \*\*kwargs. This is</span>
-<span class="sd">        *NOT* a string.</span>
+<span class="sd">        vector** first derivative given `x`, and a dictionry of parameters.</span>
+<span class="sd">        This is *NOT* a string (not the name of the function).</span>
 
 <span class="sd">        :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`</span>
 
 <span class="sd">        For `eqform=&#39;second_order&#39;`, name of function that returns **column</span>
-<span class="sd">        vector** second derivative given `x`, `v`, `omega` and \*\*kwargs. This</span>
-<span class="sd">        is *NOT* a string.</span>
+<span class="sd">        vector** second derivative given `x`, `v`, and a dictionary of</span>
+<span class="sd">        parameters. This is *NOT* a string.</span>
 
 <span class="sd">        :math:`\ddot{\mathbf{x}}=f(\mathbf{x},\mathbf{v},\omega)`</span>
 <span class="sd">    x0 : array_like, somewhat optional</span>
@@ -194,7 +194,7 @@
 <span class="sd">           error used by the nonlinear algebraic solver</span>
 <span class="sd">           (default `newton_krylov`) to be minimized by the solver.</span>
 
-<span class="sd">    Options to the nonlinear solvers can be passed in by \*\*kwargs (keyward</span>
+<span class="sd">    Options to the nonlinear solvers can be passed in by \*\*kwargs (keyword</span>
 <span class="sd">    arguments) identical to those available to the nonlinear solver.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -244,14 +244,19 @@
 <span class="sd">            number of times per cycle at which the displacement is guessed</span>
 <span class="sd">            (minimum of 3)</span>
 
-<span class="sd">        **kwargs : string, float, variable</span>
-<span class="sd">            **kwargs is a packed set of keyword arguments with 3 required</span>
-<span class="sd">            arguments.</span>
-<span class="sd">                1. `function`: a string name of the function which returned</span>
-<span class="sd">                the numerically calculated acceleration.</span>
+<span class="sd">        params : dictionary</span>
+<span class="sd">            Because this function will be called by one of the scipy.optimize</span>
+<span class="sd">            root finders, it must be a function of only `x`. However, for</span>
+<span class="sd">            generality it need to be built based on user defined variables.</span>
+<span class="sd">            These variables must be in the scope of memory when the function is</span>
+<span class="sd">            created. For conveience they are stored in the variable `params`.</span>
+
+<span class="sd">                1. `function`: the function which returns the numerically</span>
+<span class="sd">                calculated state derivatives (or second derivatives) given the</span>
+<span class="sd">                states (or states and first derivatives).</span>
 
 <span class="sd">                2. `omega`: which is the defined fundamental harmonic</span>
-<span class="sd">                at which the is desired.</span>
+<span class="sd">                at which the solution is desired.</span>
 
 <span class="sd">                3. `n_har`: an integer representing the number of harmonics.</span>
 <span class="sd">                Note that `m` above is equal to 1 + 2 * `n_har`.</span>
@@ -266,14 +271,15 @@
 <span class="sd">        `function` and `omega` are not separately defined arguments so as to</span>
 <span class="sd">        enable algebraic solver functions to call `hb_time_err` cleanly.</span>
 
-<span class="sd">        The algorithm is as follows:</span>
-<span class="sd">            1. The velocity and accelerations are calculated in the same shape</span>
-<span class="sd">               as `x` as `vel` and `accel`.</span>
+<span class="sd">        The algorithm is broadly as follows:</span>
+<span class="sd">            1. The velocity or accelerations are calculated in the same shape</span>
+<span class="sd">               as `x` as the variables `vel` and `accel`, one column for each</span>
+<span class="sd">               time step.</span>
 <span class="sd">            3. Each column of `x` and `v` are sent with `t`, `omega`, and other</span>
-<span class="sd">               `**kwargs** to `function` one at a time with the results</span>
+<span class="sd">               `**kwargs** to `function` with the results</span>
 <span class="sd">               agregated into the columns of `accel_num`.</span>
-<span class="sd">            4. The difference between `accel_num` and `accel` is reshaped to be</span>
-<span class="sd">               :math:`n \\times m` by 1 and returned as the vector error used</span>
+<span class="sd">            4. The difference between `accel_num` and `accel` or</span>
+<span class="sd">               `velocity_num` and `velocity` represent the error used</span>
 <span class="sd">               by the numerical algebraic equation solver.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -299,7 +305,6 @@
                                                             <span class="n">params</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">accel_from_deriv</span> <span class="o">-</span> <span class="n">accel</span>
         <span class="k">elif</span> <span class="n">eqform</span> <span class="o">==</span> <span class="s1">&#39;first_order&#39;</span><span class="p">:</span>
-
             <span class="n">vel_from_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">vel</span><span class="p">)</span>
             <span class="c1"># Should subtract in place below to save memory for large problems</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
@@ -362,7 +367,7 @@
 <span class="sd">                                     # `cur_time` in the dictionary</span>
 <span class="sd">            x_dot = np.array([[x[1]],</span>
 <span class="sd">                              [-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])</span>
-<span class="sd">            return xdot</span>
+<span class="sd">            return x_dot</span>
 
 <span class="sd">    In a state space form solution, the function must take the states and the</span>
 <span class="sd">    `params` dictionary. This dictionary should be used to obtain the</span>
@@ -389,8 +394,8 @@
 <span class="sd">    ----------</span>
 <span class="sd">    sdfunc : function</span>
 <span class="sd">        For `eqform=&#39;first_order&#39;`, name of function that returns **column</span>
-<span class="sd">        vector** first derivative given `x`, `omega` and \*\*kwargs. This is</span>
-<span class="sd">        *NOT* a string.</span>
+<span class="sd">        vector** first derivative given `x`, and a dictionry of parameters.</span>
+<span class="sd">        This is *NOT* a string (not the name of the function).</span>
 
 <span class="sd">        :math:`\dot{\mathbf{x}}=f(\mathbf{x},\omega)`</span>
 
@@ -651,7 +656,6 @@
         <span class="n">e</span> <span class="o">=</span> <span class="n">hb_err</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">mask_constant</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">X</span><span class="p">))</span>
-        <span class="n">xhar</span> <span class="o">=</span> <span class="n">rfft_to_fft</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
         <span class="n">amps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
     <span class="k">except</span><span class="p">:</span>  <span class="c1"># Catches and raises errors- needs actual error listed.</span>
@@ -930,6 +934,192 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x was real&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="function_to_mousai"><a class="viewcode-back" href="../reference/mousai.html#har_bal.function_to_mousai">[docs]</a><span class="k">def</span> <span class="nf">function_to_mousai</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert scipy.integrate functions to Mousai form.</span>
+
+<span class="sd">    The form of the function returning state derivatives is</span>
+<span class="sd">    `sdfunc(x, t, params)` where `x` are the current states as an `n` by `1`</span>
+<span class="sd">    array, `t` is a scalar, and `params` is a dictionary of parameters, one of</span>
+<span class="sd">    which must be `omega`. This is inconsistent with the SciPy numerical</span>
+<span class="sd">    integrators for good cause, but can make simultaneous usage diffucult.</span>
+
+<span class="sd">    This function returns a function compatible with Mousai by using the</span>
+<span class="sd">    inspect package to determine the form of the function being used and to</span>
+<span class="sd">    wrap it in Mousai form.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sdfunc : function</span>
+<span class="sd">        function in SciPy integrator form (`odeint`_ or `solve_ivp`_)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    new_function : function</span>
+<span class="sd">        function in Mousai form (accepting inputs like a standard Mousai</span>
+<span class="sd">        function)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">       * ``old_mousai_to_new_mousai``</span>
+<span class="sd">       * ``mousai_to_odeint``</span>
+<span class="sd">       * ``mousai_to_solve_ivp``</span>
+
+<span class="sd">    .. _`odeint` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode</span>
+<span class="sd">    .. _`solve_ivp` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">)</span>
+
+    <span class="n">call_parameters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">call_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;t&#39;</span> <span class="ow">or</span> <span class="n">call_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+            <span class="c1"># t and x must be swapped, params available in over-scope</span>
+            <span class="k">def</span> <span class="nf">newfunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># params available in overscope</span>
+            <span class="k">def</span> <span class="nf">newfunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">exec</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">call_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;t&#39;</span> <span class="ow">or</span> <span class="n">call_parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+            <span class="c1"># t and x must be swapped, params available in over-scope</span>
+            <span class="k">def</span> <span class="nf">newfunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+                <span class="n">other_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">call_parameters</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">other_params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># params available in overscope</span>
+            <span class="k">def</span> <span class="nf">newfunction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+                <span class="n">other_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">params</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">call_parameters</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="n">other_params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">newfunction</span></div>
+
+
+<div class="viewcode-block" id="old_mousai_to_new_mousai"><a class="viewcode-back" href="../reference/mousai.html#har_bal.old_mousai_to_new_mousai">[docs]</a><span class="k">def</span> <span class="nf">old_mousai_to_new_mousai</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return derivative function converted to new Mousai format.</span>
+
+<span class="sd">    The original format for the Mousai derivative function was</span>
+<span class="sd">    `sdfunc(x, params)`. This is inconsistent with the SciPy integration</span>
+<span class="sd">    functions. To act more as expected, the standard from 0.4.0 on will take</span>
+<span class="sd">    the form `sdfunc(x, t, params)`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sdfunc : function</span>
+<span class="sd">        function in old Mousai form. `sdfunc(y, params)`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    new_sdfunc : function</span>
+<span class="sd">        function in new Mousai form. `sdfunc(y, t, params)`</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">       * ``function_to_mousai``</span>
+<span class="sd">       * ``mousai_to_odeint``</span>
+<span class="sd">       * ``mousai_to_solve_ivp``</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">new_sdfunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;cur_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_sdfunc</span></div>
+
+
+<div class="viewcode-block" id="mousai_to_solve_ivp"><a class="viewcode-back" href="../reference/mousai.html#har_bal.mousai_to_solve_ivp">[docs]</a><span class="k">def</span> <span class="nf">mousai_to_solve_ivp</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return function callable from solve_ivp given Mousai sdfunc.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sdfunc : function</span>
+<span class="sd">        Mousai-style function returning state derivatives.</span>
+<span class="sd">    params : dictionary</span>
+<span class="sd">        dictionary of parameters used by `sdfunc`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    solve_ivp_function : function</span>
+<span class="sd">        function ordered to work with `solve_ivp`_</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The ability to pass parameters was deprecated in the new SciPy integrators:</span>
+<span class="sd">    `https://stackoverflow.com/questions/48245765/pass-args-for-solve-ivp-new-scipy-ode-api`</span>
+<span class="sd">    `https://github.com/scipy/scipy/issues/8352`</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">       * ``function_to_mousai``</span>
+<span class="sd">       * ``old_mousai_to_new_mousai``</span>
+<span class="sd">       * ``mousai_to_odeint``</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">)</span>
+
+    <span class="n">call_parameters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">sdfunc</span> <span class="o">=</span> <span class="n">old_mousai_to_new_mousai</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Warning. The two-argument form of Mousai derivsative functions</span>
+<span class="s2">                 is deprecated.&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">solve_ivp_function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">solve_ivp_function</span></div>
+
+
+<div class="viewcode-block" id="mousai_to_odeint"><a class="viewcode-back" href="../reference/mousai.html#har_bal.mousai_to_odeint">[docs]</a><span class="k">def</span> <span class="nf">mousai_to_odeint</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return function callable from solve_ivp given Mousai a sdfunc.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sdfunc : function</span>
+<span class="sd">        Mousai-style function returning state derivatives.</span>
+<span class="sd">    params : dictionary</span>
+<span class="sd">        dictionary of parameters used by `sdfunc`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    odeint_function : function</span>
+<span class="sd">        function ordered to work with `odeint`_</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">       * ``function_to_mousai``</span>
+<span class="sd">       * ``old_mousai_to_new_mousai``</span>
+<span class="sd">       * ``mousai_to_solve_ivp``</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">)</span>
+
+    <span class="n">call_parameters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">call_parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">sdfunc</span> <span class="o">=</span> <span class="n">old_mousai_to_new_mousai</span><span class="p">(</span><span class="n">sdfunc</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Warning. The two-argument form of Mousai derivative ⁠⁠</span><span class="se">\</span>
+<span class="s2">                 functions is deprecated.&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;sdfunc_params&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Define your parameters in the user created `sdfunc_params`&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dictionary.&quot;</span><span class="p">)</span>
+        <span class="n">sdfunc_params</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="nf">odeint_function</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sdfunc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">sdfunc_params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">odeint_function</span></div>
 </pre></div>
 
           </div>
@@ -958,13 +1148,11 @@
 
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -977,8 +1165,8 @@
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

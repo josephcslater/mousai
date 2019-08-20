@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Mousai: An Open-Source General Purpose Harmonic Balance Solver &#8212; Mousai 0.3.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -13,7 +11,8 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Duffing Oscillator Solution" href="Duffing.html" />
@@ -257,27 +256,27 @@ The autoreload extension is already loaded. To reload it, use:
 ordinary differential equations with solutions that can be represented
 by Fourier Series:</p>
 <ul class="simple">
-<li><strong>Limit cycle oscillation of wings/blades</strong></li>
-<li>Flapping motion of birds/insects/ornithopters</li>
-<li>Flagellum (threadlike cellular structures that enable bacteria etc.
-to swim)</li>
-<li>Shaft rotation, especially including rubbing or nonlinear bearing
-contacts</li>
-<li><strong>Engines</strong></li>
-<li>Radio/sonar/radar electronics</li>
-<li>Wireless power transmission</li>
-<li>Power converters</li>
-<li>Boat/ship motions and interactions</li>
-<li><strong>Cardio systems</strong> (heart/arteries/veins)</li>
-<li>Ultrasonic systems transversing nonlinear media</li>
-<li>Responses of composite materials or materials with cracks</li>
-<li>Near buckling behavior of vibrating columns</li>
-<li>Nonlinearities in power systems</li>
-<li><strong>Energy harvesting systems</strong></li>
-<li><strong>Wind turbines</strong></li>
-<li>Radio Frequency Integrated Circuits</li>
-<li><strong>Any system with nonlinear coatings/friction damping, air damping,
-etc.</strong></li>
+<li><p><strong>Limit cycle oscillation of wings/blades</strong></p></li>
+<li><p>Flapping motion of birds/insects/ornithopters</p></li>
+<li><p>Flagellum (threadlike cellular structures that enable bacteria etc.
+to swim)</p></li>
+<li><p>Shaft rotation, especially including rubbing or nonlinear bearing
+contacts</p></li>
+<li><p><strong>Engines</strong></p></li>
+<li><p>Radio/sonar/radar electronics</p></li>
+<li><p>Wireless power transmission</p></li>
+<li><p>Power converters</p></li>
+<li><p>Boat/ship motions and interactions</p></li>
+<li><p><strong>Cardio systems</strong> (heart/arteries/veins)</p></li>
+<li><p>Ultrasonic systems transversing nonlinear media</p></li>
+<li><p>Responses of composite materials or materials with cracks</p></li>
+<li><p>Near buckling behavior of vibrating columns</p></li>
+<li><p>Nonlinearities in power systems</p></li>
+<li><p><strong>Energy harvesting systems</strong></p></li>
+<li><p><strong>Wind turbines</strong></p></li>
+<li><p>Radio Frequency Integrated Circuits</p></li>
+<li><p><strong>Any system with nonlinear coatings/friction damping, air damping,
+etc.</strong></p></li>
 </ul>
 <p>These can all be observed in a quick literature search on ‘Harmonic
 Balance’.</p>
@@ -285,35 +284,38 @@ Balance’.</p>
 <div class="section" id="Why-(did-I)-write-Mousai?">
 <h2>Why (did I) write Mousai?<a class="headerlink" href="#Why-(did-I)-write-Mousai?" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>The ability to code harmonic balance seems to be publishable by
-itself<ul>
-<li>It’s not research- it’s just application of a known family of
-technique</li>
+<li><p>The ability to code harmonic balance seems to be publishable by
+itself</p>
+<ul>
+<li><p>It’s not research- it’s just application of a known family of
+technique</p></li>
 </ul>
 </li>
-<li>A limited number of people have this knowledge and skill<ul>
-<li>Most cannot access this technique</li>
-<li>“Research effort” is spent coding the technique, not doing
-research</li>
+<li><p>A limited number of people have this knowledge and skill</p>
+<ul>
+<li><p>Most cannot access this technique</p></li>
+<li><p>“Research effort” is spent coding the technique, not doing
+research</p></li>
 </ul>
 </li>
 </ul>
 <div class="section" id="Why-write-Mousai?-(continued)">
 <h3>Why write Mousai? (continued)<a class="headerlink" href="#Why-write-Mousai?-(continued)" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Matlab command eig unleashed power to the masses<ul>
-<li>Very few papers are published on eigensolutions- they have to be
-better than <code class="docutils literal notranslate"><span class="pre">eig</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers
-written in <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">Fortran</span></code></li>
-<li>Undergraduates with no practical understanding of the algorithms
-easily solve problems that were intractable a few decades ago.</li>
-<li><em>Access</em> and <em>ease of use</em> of such techniques enable <em>greater
-science</em> and <em>greater research</em>.</li>
-<li>The real world is nonlinear, but <strong>linear analysis dominates
-because the tools are easier to use</strong>.</li>
-<li>With <code class="docutils literal notranslate"><span class="pre">Mousai</span></code>, an undergraduate can solve a nonlinear harmonic
-response problem easier then a PhD can today.</li>
+<li><p>Matlab command eig unleashed power to the masses</p>
+<ul>
+<li><p>Very few papers are published on eigensolutions- they have to be
+better than <code class="docutils literal notranslate"><span class="pre">eig</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">eig</span></code> only provides simple access to high-end eigensolvers
+written in <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">Fortran</span></code></p></li>
+<li><p>Undergraduates with no practical understanding of the algorithms
+easily solve problems that were intractable a few decades ago.</p></li>
+<li><p><em>Access</em> and <em>ease of use</em> of such techniques enable <em>greater
+science</em> and <em>greater research</em>.</p></li>
+<li><p>The real world is nonlinear, but <strong>linear analysis dominates
+because the tools are easier to use</strong>.</p></li>
+<li><p>With <code class="docutils literal notranslate"><span class="pre">Mousai</span></code>, an undergraduate can solve a nonlinear harmonic
+response problem easier then a PhD can today.</p></li>
 </ul>
 </li>
 </ul>
@@ -324,8 +326,8 @@ response problem easier then a PhD can today.</li>
 <div class="section" id="Linear-Solution">
 <h3>Linear Solution<a class="headerlink" href="#Linear-Solution" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Most dynamics systems can be modeled as a first order differential
-equation</li>
+<li><p>Most dynamics systems can be modeled as a first order differential
+equation</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \begin{equation}\ddot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))\end{equation}</div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">Use</span> <span class="n">finite</span> <span class="n">differences</span>
@@ -334,13 +336,14 @@ equation</li>
 </pre></div>
 </div>
 <ul class="simple">
-<li>This is the common <em>State-Space</em> form: -solutions exceedingly well
-known if it is linear</li>
-<li>Finding the oscillatory response, after dissipation of the transient
-response, requires <strong>long</strong> time marching.<ul>
-<li>Without damping, this may not even been feasible.</li>
-<li>With damping, tens, hundreds, or thousands of cycles, therefore
-thousands of times steps at minimum.</li>
+<li><p>This is the common <em>State-Space</em> form: -solutions exceedingly well
+known if it is linear</p></li>
+<li><p>Finding the oscillatory response, after dissipation of the transient
+response, requires <strong>long</strong> time marching.</p>
+<ul>
+<li><p>Without damping, this may not even been feasible.</p></li>
+<li><p>With damping, tens, hundreds, or thousands of cycles, therefore
+thousands of times steps at minimum.</p></li>
 </ul>
 </li>
 </ul>
@@ -360,35 +363,35 @@ at the frequency <span class="math notranslate nohighlight">\(\omega\)</span>.</
 <div class="section" id="Nonlinear-solution">
 <h3>Nonlinear solution<a class="headerlink" href="#Nonlinear-solution" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>For a nonlinear system in the frequency domain we assume a Fourier
-series solution</li>
+<li><p>For a nonlinear system in the frequency domain we assume a Fourier
+series solution</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \begin{equation}\mathbf{z}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t}\end{equation}</div><ul class="simple">
-<li><span class="math notranslate nohighlight">\(N=1\)</span> for a single harmonic. <span class="math notranslate nohighlight">\(n=0\)</span> is the constant term.</li>
-<li>This can be substituted into the governing equation to find
-<span class="math notranslate nohighlight">\(\dot{\mathbf{z}}(t)\)</span>:</li>
+<li><p><span class="math notranslate nohighlight">\(N=1\)</span> for a single harmonic. <span class="math notranslate nohighlight">\(n=0\)</span> is the constant term.</p></li>
+<li><p>This can be substituted into the governing equation to find
+<span class="math notranslate nohighlight">\(\dot{\mathbf{z}}(t)\)</span>:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \begin{equation}\dot{\mathbf{z}}(t)=\mathbf{f}(\mathbf{z}(t),\mathbf{u}(t))\end{equation}</div><ul class="simple">
-<li>This is actually a function call to a Finite Element Package, CFD,
-Matlab function, - whatever your solver uses to get derivatives</li>
-<li>We can also find <span class="math notranslate nohighlight">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
-the Fourier Series:</li>
+<li><p>This is actually a function call to a Finite Element Package, CFD,
+Matlab function, - whatever your solver uses to get derivatives</p></li>
+<li><p>We can also find <span class="math notranslate nohighlight">\(\dot{\mathbf{z}}(t)\)</span> from the derivative of
+the Fourier Series:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \begin{equation}\dot{\mathbf{z}}(t)=\lim_{N\to\infty}\sum_{n=-N}^{N}j n \omega\mathbf{Z}_n e^{j n \omega t}\end{equation}</div><ul class="simple">
-<li>The difference between these methods is zero when
-<span class="math notranslate nohighlight">\(\mathbf{Z}_n\)</span> are correct.</li>
+<li><p>The difference between these methods is zero when
+<span class="math notranslate nohighlight">\(\mathbf{Z}_n\)</span> are correct.</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \begin{equation}\mathbf{0} \approx\sum_{n=-N}^{N}j n\omega \mathbf{Z}_n e^{j n \omega t}-\mathbf{f}\left(\sum_{n=-N}^{N}\mathbf{Z}_n e^{j n \omega t},\mathbf{u}(t)\right)\end{equation}</div><ul class="simple">
-<li>These operations are wrapped inside a function that returns this
-error</li>
-<li>This function is used by a Newton-Krylov nonlinear algebraic solver.</li>
-<li>Calls any solver in the SciPy family of solvers with the ability to
+<li><p>These operations are wrapped inside a function that returns this
+error</p></li>
+<li><p>This function is used by a Newton-Krylov nonlinear algebraic solver.</p></li>
+<li><p>Calls any solver in the SciPy family of solvers with the ability to
 easily pass through parameters to the solver <em>and</em> to the external
-derivative evaluator.</li>
+derivative evaluator.</p></li>
 </ul>
 </div>
 </div>
@@ -785,8 +788,8 @@ Velocity amplitude is  0.09469563544416415
 <div class="section" id="Too-much-Coulomb-friction-can-increase-the-response.">
 <h4>Too much Coulomb friction can increase the response.<a class="headerlink" href="#Too-much-Coulomb-friction-can-increase-the-response." title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>Did you know that?</li>
-<li>This damping shifted resonance.</li>
+<li><p>Did you know that?</p></li>
+<li><p>This damping shifted resonance.</p></li>
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -844,52 +847,66 @@ Velocity amplitude is  0.09469563544416415
 <div class="section" id="How-to-get-this?">
 <h2>How to get this?<a class="headerlink" href="#How-to-get-this?" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Install Scientific Python from
-<a class="reference external" href="https://www.scipy.org/install.html">SciPy.org</a><ul>
-<li>AFRL: See your tech support to get the Enthought distribution
-installed</li>
+<li><p>Install Scientific Python from
+<a class="reference external" href="https://www.scipy.org/install.html">SciPy.org</a></p>
+<ul>
+<li><p>AFRL: See your tech support to get the Enthought distribution
+installed</p></li>
 </ul>
 </li>
-<li>See the Mousai <a class="reference external" href="https://josephcslater.github.io/mousai/index.html">documents
+<li><p>See the Mousai <a class="reference external" href="https://josephcslater.github.io/mousai/index.html">documents
 for</a>
-installation instructions<ul>
-<li><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">mousai</span></code></li>
-<li>AFRL: Talk to me- install is easy if I send you the files.</li>
+installation instructions</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">mousai</span></code></p></li>
+<li><p>AFRL: Talk to me- install is easy if I send you the files.</p></li>
 </ul>
 </li>
-<li>See <a class="reference external" href="https://github.com/josephcslater/mousai">Mousai on GitHub</a>
-(<a class="reference external" href="https://github.com/josephcslater/mousai">https://github.com/josephcslater/mousai</a>)</li>
+<li><p>See <a class="reference external" href="https://github.com/josephcslater/mousai">Mousai on GitHub</a>
+(<a class="reference external" href="https://github.com/josephcslater/mousai">https://github.com/josephcslater/mousai</a>)</p></li>
 </ul>
 </div>
 <div class="section" id="Conclusions">
 <h2>Conclusions<a class="headerlink" href="#Conclusions" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Nonlinear frequency solutions are within reach of undergraduates</li>
-<li>Installation is trivial</li>
-<li>Already in use (GitHub logs indicate dozens of users)</li>
-<li>Custom special case and proprietary solvers such as BDamper can be
-replaced for free</li>
-<li>Research potential is about to be unleashed</li>
+<li><p>Nonlinear frequency solutions are within reach of undergraduates</p></li>
+<li><p>Installation is trivial</p></li>
+<li><p>Already in use (GitHub logs indicate dozens of users)</p></li>
+<li><p>Custom special case and proprietary solvers such as BDamper can be
+replaced for free</p></li>
+<li><p>Research potential is about to be unleashed</p></li>
 </ul>
 </div>
 <div class="section" id="Future">
 <h2>Future<a class="headerlink" href="#Future" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Add time-averaging method<ul>
-<li>currently requires high number of harmonics for non-smooth systems</li>
+<li><p>Add time-averaging method</p>
+<ul>
+<li><p>currently requires high number of harmonics for non-smooth systems</p></li>
 </ul>
 </li>
-<li>Add masking of known harmonics (average is often fixed and known)</li>
-<li>Automated sweep control</li>
-<li>Branch following</li>
-<li>Condense the one-line method</li>
-<li>Evaluate on large scale problems<ul>
-<li>Currently attempting to hook to ANSYS</li>
+<li><p>Add masking of known harmonics (average is often fixed and known)</p></li>
+<li><p>Automated sweep control</p></li>
+<li><p>Branch following</p></li>
+<li><p>Condense the one-line method</p></li>
+<li><p>Evaluate on large scale problems</p>
+<ul>
+<li><p>Currently attempting to hook to ANSYS</p></li>
 </ul>
 </li>
-<li>Parallelize</li>
-<li>Leverage CUDA</li>
+<li><p>Parallelize</p></li>
+<li><p>Leverage CUDA</p></li>
 </ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -920,13 +937,11 @@ replaced for free</li>
 
 
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -946,8 +961,8 @@ replaced for free</li>
       &copy;2017, Joseph C. Slater.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../_sources/tutorial/demos/Theory_and_Examples.ipynb.txt"
