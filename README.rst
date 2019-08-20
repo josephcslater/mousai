@@ -23,6 +23,9 @@ Mousai
 
 .. image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/josephcslater/mousai/tree/master/docs/tutorial/demos/master
+   
+.. image:: https://mybinder.org/badge.svg
+   :target: https://mybinder.org/v2/gh/josephcslater/mousai/binder
 
 Python-based Harmonic Balance solvers and relevant tools.
 
