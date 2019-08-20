@@ -94,4 +94,4 @@ binder:
 	git pull origin master
 	git commit -a -m "Binder pages"; true
 	git push origin; true
-	ghp-import -n -p -b binder -m $(BDR_MSG) docs/tutorial/demos
+	ghp-import -n -p -b binder -m "Update binder" docs/tutorial/demos
