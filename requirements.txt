@@ -1,0 +1,9 @@
+mousai
+numpy
+scipy
+matplotlib
+sphinx
+ipython
+control
+vibration_toolbox
+xarray
