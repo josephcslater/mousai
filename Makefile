@@ -92,6 +92,6 @@ gh-pages:
 binder:
 	git checkout master
 	git pull origin master
-	git commit -a -m "Keep examples in sync"; true
+	git commit -a -m "Binder pages"; true
 	git push origin; true
 	ghp-import -n -p -b binder -m $(BDR_MSG) docs/tutorial/demos
