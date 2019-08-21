@@ -19,6 +19,10 @@ Mousai: A Set of Harmonic Balance Solvers
    
 .. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg 
    :target: https://saythanks.io/to/josephcslater
+   
+.. image:: https://mybinder.org/badge_logo.svg
+   :target: https://mybinder.org/v2/gh/josephcslater/mousai/tree/master/docs/tutorial/demos/master
+
 
 Joseph C. Slater
 
