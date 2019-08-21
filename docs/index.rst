@@ -7,21 +7,31 @@
 Mousai: A Set of Harmonic Balance Solvers
 =============================================
 
-.. .. include:: <isonum.txt>
+.. image:: https://badges.gitter.im/mousai_hb/Lobby.svg
+   :alt: Join the chat at https://gitter.im/mousai_hb/Lobby
+   :target: https://gitter.im/mousai_hb/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 .. image:: https://badge.fury.io/py/mousai.png/
-   :target: http://badge.fury.io/py/mousai
+    :target: http://badge.fury.io/py/mousai
 
 .. image:: https://travis-ci.org/josephcslater/mousai.svg?branch=master
-   :target: https://travis-ci.org/josephcslater/mousai
+    :target: https://travis-ci.org/josephcslater/mousai
 
-.. image:: https://img.shields.io/pypi/v/mousai.svg
-   :target: https://img.shields.io/pypi/v/mousai
-   
-.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg 
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
    :target: https://saythanks.io/to/josephcslater
-   
+
+.. image:: https://img.shields.io/badge/patreon-donate-yellow.svg
+   :target: https://www.patreon.com/josephcslater
+
+.. image:: http://pepy.tech/badge/mousai
+   :target: http://pepy.tech/project/mousai
+   :alt: PyPi Download stats
+
 .. image:: https://mybinder.org/badge_logo.svg
    :target: https://mybinder.org/v2/gh/josephcslater/mousai/tree/master/docs/tutorial/demos/master
+   
+.. image:: https://mybinder.org/badge.svg
+   :target: https://mybinder.org/v2/gh/josephcslater/mousai/binder
 
 
 Joseph C. Slater
