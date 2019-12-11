@@ -20,9 +20,6 @@ Mousai
 .. image:: http://pepy.tech/badge/mousai
    :target: http://pepy.tech/project/mousai
    :alt: PyPi Download stats
-
-.. image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/josephcslater/mousai/tree/master/docs/tutorial/demos/master
    
 .. image:: https://mybinder.org/badge.svg
    :target: https://mybinder.org/v2/gh/josephcslater/mousai/binder
