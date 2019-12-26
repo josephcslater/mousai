@@ -26,7 +26,7 @@ Mousai
 
 Python-based Harmonic Balance solvers and relevant tools.
 
-Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation, and a nice overview from my `Dayton Engineering Sciences Symposium 2017 presentation <https://josephcslater.github.io/mousai/_static/Theory_and_Examples.slides.html#/>`__.
+Please see the `manual <https://josephcslater.github.io/mousai/>`__ for usage and installation, and a nice overview from my `Dayton Engineering Sciences Symposium 2017 presentation <https://josephcslater.github.io/mousai/_static/Theory_and_Examples.slides.html#/>`__. You can play around with it by selecting the `launch binder <https://mybinder.org/v2/gh/josephcslater/mousai/binder>`_ button above.
 
 Mousai can solve sets of first-order and second-order ordinary differential equations written in state-space form (solved for acceleration for second-order form) subject to a harmonic excitation. All you need to provide is the name of a Python function which may simply be a wrapper to an external code. The function must accept:
 
