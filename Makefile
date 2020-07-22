@@ -88,3 +88,10 @@ gh-pages:
 	git push origin; true
 	make docs
 	ghp-import -n -p -m $(GHP_MSG) docs/_build/html
+
+binder:
+	git checkout master
+	git pull origin master
+	git commit -a -m "Binder pages"; true
+	git push origin; true
+	ghp-import -n -p -b binder -m "Update binder" docs/tutorial/demos
