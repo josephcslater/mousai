@@ -11,6 +11,17 @@ The easiest way is to:
 
     $ pip install -e .
 
+Submitting a pull request
+-------------------------
+
+If you make minor changes, before submitting a pull request (most likely via github), please::
+
+    $ git pull origin
+    
+Then run tests (``pytest`` above), then push to your github repository. 
+
+After that, please submit your pull request. 
+
 Testing Docstrings
 ------------------
 
