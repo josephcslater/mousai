@@ -944,7 +944,7 @@ def function_to_mousai(sdfunc):
     call_parameters = list(sig.parameters.keys())
 
     if len(call_parameters) == 2:
-        if call_parameters[0] is 't' or call_parameters[0] is 'time':
+        if call_parameters[0] == 't' or call_parameters[0] == 'time':
             # t and x must be swapped, params available in over-scope
             def newfunction(x, t, params={}):
                 for k, v in params.items():
@@ -956,7 +956,7 @@ def function_to_mousai(sdfunc):
                     exec("%s = %s" % (k, v))
                 return sdfunc(x, t)
     else:
-        if call_parameters[0] is 't' or call_parameters[0] is 'time':
+        if call_parameters[0] == 't' or call_parameters[0] == 'time':
             # t and x must be swapped, params available in over-scope
             def newfunction(x, t, params={}):
                 other_params = [params[x] for x in call_parameters]
