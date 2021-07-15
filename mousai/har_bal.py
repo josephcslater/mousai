@@ -43,7 +43,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                      # for you
             t = params['cur_time']   # The time value is available as
                                      # `cur_time` in the dictionary
-            xdot = np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
+            xdot = np.array([[x[1]],[-x[0]-.1*x[0]**3-.1*x[1]+1*np.sin(omega*t)]])
             return xdot
 
     In a state space form solution, the function must accept the states and the
@@ -59,7 +59,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                      # for you
             t = params['cur_time']   # The time value is available as
                                      # `cur_time` in the dictionary
-            return np.array([[-x-.1*x**3-.2*v+sin(omega*t)]])
+            return np.array([[-x-.1*x**3-.2*v+np.sin(omega*t)]])
 
     In a second-order form solution the function must take the states and the
     `params` dictionary. This dictionary should be used to obtain the
@@ -332,7 +332,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             t = params['cur_time']   # The time value is available as
                                      # `cur_time` in the dictionary
             x_dot = np.array([[x[1]],
-                              [-x[0]-.1*x[0]**3-.1*x[1]+1*sin(omega*t)]])
+                              [-x[0]-.1*x[0]**3-.1*x[1]+1*np.sin(omega*t)]])
             return x_dot
 
     In a state space form solution, the function must take the states and the
@@ -348,7 +348,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                                      # for you
             t = params['cur_time']   # The time value is available as
                                      # `cur_time` in the dictionary
-            return np.array([[-x-.1*x**3-.2*v+sin(omega*t)]])
+            return np.array([[-x-.1*x**3-.2*v+np.sin(omega*t)]])
 
     In a second-order form solution the function must take the states and the
     `params` dictionary. This dictionary should be used to obtain the
@@ -678,14 +678,14 @@ def harmonic_deriv(omega, r):
     >>> import matplotlib.pyplot as plt
     >>> from mousai import *
     >>> import scipy as sp
-    >>> from scipy import pi, sin, cos
+    >>> from numpy import pi, sin, cos
     >>> f = 2
     >>> omega = 2.*pi * f
     >>> numsteps = 11
-    >>> t = sp.arange(0,1/omega*2*pi,1/omega*2*pi/numsteps)
-    >>> x = sp.array([sin(omega*t)])
-    >>> v = sp.array([omega*cos(omega*t)])
-    >>> states = sp.append(x,v,axis = 0)
+    >>> t = np.arange(0,1/omega*2*pi,1/omega*2*pi/numsteps)
+    >>> x = np.array([sin(omega*t)])
+    >>> v = np.array([omega*cos(omega*t)])
+    >>> states = np.append(x,v,axis = 0)
     >>> state_derives = harmonic_deriv(omega,states)
     >>> plt.plot(t,states.T,t,state_derives.T,'x')
     [<matplotlib.line...]
@@ -887,10 +887,10 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     """
     dt = t[1]
     t_length = t.size
-    t = sp.linspace(0, t_length * dt, num_time_points, endpoint=False)
+    t = np.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
-    x_zeros = sp.zeros((x.shape[0], t.size - x.shape[1]))
-    x_freq = sp.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
+    x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
+    x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
     # print(x_freq)
     # x_freq = np.hstack((x_freq, x_zeros))
     # print(x_freq)
