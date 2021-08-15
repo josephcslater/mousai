@@ -728,8 +728,7 @@ def duff_osc(x, v, params):
 
     omega = params['omega']
     t = params['cur_time']
-    acceleration = np.array([[-x - .1 * x**3. - 0.2 * v + np.sin(omega * t)]])
-    return acceleration
+    return np.array([[-x - .1 * x**3. - 0.2 * v + np.sin(omega * t)]])  # returns acceleration
 
 
 def time_history(t, x, num_time_points=200, realify=True):
