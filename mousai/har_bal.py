@@ -1,14 +1,14 @@
 """Harmonic balance solvers and other related tools."""
+import inspect
 import warnings
+
 # import logging
 import numpy as np
 import scipy as sp
 import scipy.fftpack as fftp
 import scipy.linalg as la
-import inspect
-from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
-    excitingmixing, linearmixing, diagbroyden
-
+from scipy.optimize import (anderson, broyden1, broyden2, diagbroyden,
+                            excitingmixing, linearmixing, newton_krylov)
 
 # logging.basicConfig(level=print)
 # Use `logging.debug` in place of print.
