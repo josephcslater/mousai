@@ -254,6 +254,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         time = params['time']
         m = 1 + 2 * n_har
         vel = harmonic_deriv(omega, x)
+
         if eqform == 'second_order':
             accel = harmonic_deriv(omega, vel)
             accel_from_deriv = np.zeros_like(accel)
@@ -268,8 +269,10 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # `function`.
                 accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i], params)[:, 0]
             e = accel_from_deriv - accel
+
         elif eqform == 'first_order':
             vel_from_deriv = np.zeros_like(vel)
+
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
                 # This should enable t to be used for current time in loops
@@ -280,6 +283,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
 
             e = vel_from_deriv - vel
+
         else:
             print(f'eqform cannot have a value of {eqform}')
             return 0, 0, 0, 0, 0
@@ -287,12 +291,14 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     try:
         x = globals()[method](hb_err, x0, **kwargs)
+
     except Exception as exception:
         x = x0  # np.full([x0.shape[0],x0.shape[1]],np.nan)
         amps = np.full([x0.shape[0], ], np.nan)
         phases = np.full([x0.shape[0], ], np.nan)
         e = hb_err(x)  # np.full([x0.shape[0],x0.shape[1]],np.nan)
         raise
+
     else:
         xhar = fftp.fft(x) * 2 / len(time)
         amps = np.absolute(xhar[:, 1])
