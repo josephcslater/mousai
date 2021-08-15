@@ -795,8 +795,12 @@ def time_history(t, x, num_time_points=200, realify=True):
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
 
-    X_red = (np.hstack((X_full[:, 0:(num_harmonics + 1)], X_full[:, -1:-(num_harmonics + 1):-1])) * (2 * num_harmonics + 1) / X_full[0, :].size)
-    return X_red
+    # TODO: rename these variables. Were pulled from last line of code. This function was one line of code. Vars pulled out for readability
+    x_full_0 = X_full[:, 0:(num_harmonics + 1)]
+    x_full_1 = X_full[:, -1:-(num_harmonics + 1):-1]
+    hstack = np.hstack((x_full_0, x_full_1)) * (2 * num_harmonics + 1)
+
+    return (hstack / X_full[0, :].size)
 
 
 def condense_rfft(X_full, num_harmonics):
