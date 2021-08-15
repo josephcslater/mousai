@@ -816,6 +816,7 @@ def expand_rfft(X, num_harmonics):
 
     X_len = X.shape[1]
     cur_num_harmonics = (X_len - 1) / 2
+    # TODO: rename below vars. Were pulled from last line to improve readability
     data_type = int(2 * (num_harmonics - cur_num_harmonics))
     empty_array = np.zeros((X.shape[0], data_type))
     data = X / X_len * (1 + 2 * num_harmonics)
@@ -938,7 +939,7 @@ def function_to_mousai(sdfunc):
     call_parameters = list(sig.parameters.keys())
 
     if len(call_parameters) == 2:
-        if call_parameters[0] == 't' or call_parameters[0] == 'time':
+        if call_parameters[0].lower() in {'t', 'time'}:
             # t and x must be swapped, params available in over-scope
             def newfunction(x, t, params={}):
                 for k, v in params.items():
@@ -951,7 +952,7 @@ def function_to_mousai(sdfunc):
                 return sdfunc(x, t)
 
     else:
-        if call_parameters[0] == 't' or call_parameters[0] == 'time':
+        if call_parameters[0].lower() in {'t', 'time'}:
             # t and x must be swapped, params available in over-scope
             def newfunction(x, t, params={}):
                 other_params = [params[x] for x in call_parameters]
