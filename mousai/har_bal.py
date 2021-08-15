@@ -267,8 +267,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 params['cur_time'] = time[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
-                accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
-                                                            params)[:, 0]
+                accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i], params)[:, 0]
             e = accel_from_deriv - accel
         elif eqform == 'first_order':
             vel_from_deriv = np.zeros_like(vel)
@@ -279,8 +278,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 params['cur_time'] = time[i]
                 # Note that everything in params can be accessed within
                 # `function`.
-                vel_from_deriv[:, i] =\
-                    params['function'](x[:, i], params)[:, 0]
+                vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
 
             e = vel_from_deriv - vel
         else:
@@ -290,7 +288,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
     try:
         x = globals()[method](hb_err, x0, **kwargs)
-    except:
+    except Exception as exception:
         x = x0  # np.full([x0.shape[0],x0.shape[1]],np.nan)
         amps = np.full([x0.shape[0], ], np.nan)
         phases = np.full([x0.shape[0], ], np.nan)
@@ -302,7 +300,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         phases = np.angle(xhar[:, 1])
         e = hb_err(x)
 
-    if realify is True:
+    if realify:
         x = np.real(x)
     else:
         print('x was real')
@@ -464,8 +462,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             x0 = np.zeros((num_variables, 1 + num_harmonics * 2))
             x0 = x0 + np.random.randn(*x0.shape)
         else:
-            print('Error: Must either define number of variables or initial\
-                  guess for x.')
+            print('Error: Must either define number of variables or initial guess for x.')
             return
     elif num_harmonics is None:
         num_harmonics = int((x0.shape[1] - 1) / 2)
@@ -487,7 +484,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     params['n_har'] = num_harmonics
 
     X0 = fftp.rfft(x0)
-    if mask_constant is True:
+    if mask_constant:
         X0 = X0[:, 1:]
 
     params['mask_constant'] = mask_constant
@@ -555,7 +552,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         omega = params['omega']
         time = params['time']
         mask_constant = params['mask_constant']
-        if mask_constant is True:
+        if mask_constant:
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
 
         x = fftp.irfft(X)
@@ -577,8 +574,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 params['cur_time'] = time_e[i]  # loops
                 # Note that everything in params can be accessed within
                 # `function`.
-                accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i],
-                                                            params)[:, 0]
+                accel_from_deriv[:, i] = params['function'](x[:, i], vel[:, i], params)[:, 0]
             e = (accel_from_deriv - accel)  # /np.max(np.abs(accel))
 
             states = accel
@@ -611,7 +607,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         e = condense_rfft(e_fft, num_harmonics)
 
-        if mask_constant is True:
+        if mask_constant:
             e = e[:, 1:]
 
         e = e / np.max(np.abs(states_fft_condensed))
@@ -620,28 +616,26 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     try:
         X = globals()[method](hb_err, X0, **kwargs)
         e = hb_err(X)
-        if mask_constant is True:
+        if mask_constant:
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
+        amps = np.sqrt(X[:, 1] ** 2 + X[:, 2] ** 2) * 2 / X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
-    except:  # Catches and raises errors- needs actual error listed.
-        print(
-            'Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
-        print("""What ever error this is, please put into har_bal
-               after the excepts (2 of them)""")
+    except Exception as exception:  # Catches and raises errors- needs actual error listed.
+        print('Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
+        print('What ever error this is, please put into har_bal after the excepts (2 of them)')
         X = X0
         print(mask_constant)
         e = hb_err(X)
-        if mask_constant is True:
+        if mask_constant:
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
-        amps = np.sqrt(X[:, 1]**2+X[:, 2]**2)*2/X.shape[1]
+        amps = np.sqrt(X[:, 1] ** 2 + X[:, 2] ** 2) * 2 / X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
 
         raise
 
     x = fftp.irfft(X)
 
-    if realify is True:
+    if realify:
         x = np.real(x)
     else:
         print('x was real')
@@ -792,7 +786,7 @@ def time_history(t, x, num_time_points=200, realify=True):
     x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
 
     x = fftp.ifft(x_freq) * num_time_points / t_length
-    if realify is True:
+    if realify:
         x = np.real(x)
     else:
         print('x was real')
@@ -895,7 +889,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     # x_freq = np.hstack((x_freq, x_zeros))
     # print(x_freq)
     x = fftp.ifft(x_freq) * num_time_points / t_length
-    if realify is True:
+    if realify:
         x = np.real(x)
     else:
         print('x was real')
@@ -936,7 +930,6 @@ def function_to_mousai(sdfunc):
 
     .. _`odeint` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html#scipy.integrate.ode
     .. _`solve_ivp` : https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html#scipy.integrate.solve_ivp
-
     """
 
     sig = inspect.signature(sdfunc)
