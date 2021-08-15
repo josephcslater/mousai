@@ -469,8 +469,10 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         else:
             print('Error: Must either define number of variables or initial guess for x.')
             return
+
     elif num_harmonics is None:
         num_harmonics = int((x0.shape[1] - 1) / 2)
+
     elif 1 + 2 * num_harmonics > x0.shape[1]:
         x_freq = fftp.fft(x0)
         x_zeros = np.zeros((x0.shape[0], 1 + num_harmonics * 2 - x0.shape[1]))
@@ -482,6 +484,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
         print('sdfunc is expected to be a function name, not a string')
+
     params['function'] = sdfunc  # function that returns SO derivative
     time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
