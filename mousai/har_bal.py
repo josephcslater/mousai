@@ -807,8 +807,8 @@ def condense_rfft(X_full, num_harmonics):
     """Return real fft with fewer harmonics."""
 
     X_len = X_full.shape[1]
-    X_red = X_full[:, :(num_harmonics) * 2 + 1] / X_len * (1 + 2 * num_harmonics)
-    return X_red
+    x_full = X_full[:, :(num_harmonics) * 2 + 1]  # TODO: rename var. Was pulled from below line to improve readability
+    return x_full / X_len * (1 + 2 * num_harmonics)
 
 
 def expand_rfft(X, num_harmonics):
