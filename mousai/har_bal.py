@@ -565,9 +565,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
         x = fftp.irfft(X)
         time_e, x = time_history(time, x, num_time_points=num_time_steps)
-
         vel = harmonic_deriv(omega, x)
-
         m = num_time_steps
 
         if eqform == 'second_order':
@@ -588,7 +586,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             states = accel
 
         elif eqform == 'first_order':
-
             vel_from_deriv = np.zeros_like(vel)
             # Should subtract in place below to save memory for large problems
             for i in np.arange(m):
@@ -598,20 +595,15 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 # Note that everything in params can be accessed within
                 # `function`.
                 vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
-
             e = (vel_from_deriv - vel)  # /np.max(np.abs(vel))
-
             states = vel
         else:
             print(f'eqform cannot have a value of {eqform}')
             return 0, 0, 0, 0, 0
 
         states_fft = fftp.rfft(states)
-
         e_fft = fftp.rfft(e)
-
         states_fft_condensed = condense_rfft(states_fft, num_harmonics)
-
         e = condense_rfft(e_fft, num_harmonics)
 
         if mask_constant:
@@ -627,6 +619,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
         amps = np.sqrt(X[:, 1] ** 2 + X[:, 2] ** 2) * 2 / X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
+
     except Exception as exception:  # Catches and raises errors- needs actual error listed.
         print('Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
         print('Whatever error this is, please put into har_bal after the excepts (2 of them)')
@@ -637,7 +630,6 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             X = np.hstack((np.zeros_like(X[:, 0]).reshape(-1, 1), X))
         amps = np.sqrt(X[:, 1] ** 2 + X[:, 2] ** 2) * 2 / X.shape[1]
         phases = np.arctan2(X[:, 1], -X[:, 2])
-
         raise
 
     x = fftp.irfft(X)
