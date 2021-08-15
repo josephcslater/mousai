@@ -816,8 +816,10 @@ def expand_rfft(X, num_harmonics):
 
     X_len = X.shape[1]
     cur_num_harmonics = (X_len - 1) / 2
-    X_expanded = np.hstack((X / X_len * (1 + 2 * num_harmonics), np.zeros((X.shape[0], int(2 * (num_harmonics - cur_num_harmonics))))))
-    return X_expanded
+    data_type = int(2 * (num_harmonics - cur_num_harmonics))
+    empty_array = np.zeros((X.shape[0], data_type))
+    data = X / X_len * (1 + 2 * num_harmonics)
+    return np.hstack((data, empty_array))
 
 
 def rfft_to_fft(X_real):
