@@ -596,6 +596,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
             e = (vel_from_deriv - vel)  # /np.max(np.abs(vel))
             states = vel
+
         else:
             print(f'eqform cannot have a value of {eqform}')
             return 0, 0, 0, 0, 0
