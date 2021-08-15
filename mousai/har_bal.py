@@ -783,8 +783,8 @@ def time_history(t, x, num_time_points=200, realify=True):
     x_freq = fftp.fft(x)
     x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
     x_freq = np.insert(x_freq, [t_length - t_length // 2], x_zeros, axis=1)
-
     x = fftp.ifft(x_freq) * num_time_points / t_length
+
     if realify:
         x = np.real(x)
     else:
