@@ -825,15 +825,13 @@ def expand_rfft(X, num_harmonics):
 def rfft_to_fft(X_real):
     """Switch from SciPy real fft form to complex fft form."""
 
-    X = fftp.fft(fftp.irfft(X_real))
-    return X
+    return fftp.fft(fftp.irfft(X_real))
 
 
 def fft_to_rfft(X):
     """Switch from complex form fft form to SciPy rfft form."""
 
-    X_real = fftp.rfft(np.real(fftp.ifft(X)))
-    return X_real
+    return fftp.rfft(np.real(fftp.ifft(X)))
 
 
 def time_history_r(t, x, num_time_points=200, realify=True):
@@ -892,6 +890,7 @@ def time_history_r(t, x, num_time_points=200, realify=True):
     # x_freq = np.hstack((x_freq, x_zeros))
     # print(x_freq)
     x = fftp.ifft(x_freq) * num_time_points / t_length
+
     if realify:
         x = np.real(x)
     else:
@@ -936,7 +935,6 @@ def function_to_mousai(sdfunc):
     """
 
     sig = inspect.signature(sdfunc)
-
     call_parameters = list(sig.parameters.keys())
 
     if len(call_parameters) == 2:
@@ -951,6 +949,7 @@ def function_to_mousai(sdfunc):
                 for k, v in params.items():
                     exec("%s = %s" % (k, v))
                 return sdfunc(x, t)
+
     else:
         if call_parameters[0] == 't' or call_parameters[0] == 'time':
             # t and x must be swapped, params available in over-scope
@@ -961,6 +960,7 @@ def function_to_mousai(sdfunc):
             def newfunction(x, t, params={}):
                 other_params = [params[x] for x in call_parameters]
                 return sdfunc(x, t, *other_params)
+
     return newfunction
 
 
@@ -994,6 +994,7 @@ def old_mousai_to_new_mousai(function):
     def new_sdfunc(x, t, params):
         params['cur_time'] = t
         return function(x, params)
+
     return new_sdfunc
 
 
@@ -1026,7 +1027,6 @@ def mousai_to_solve_ivp(sdfunc, params):
     """
 
     sig = inspect.signature(sdfunc)
-
     call_parameters = list(sig.parameters.keys())
 
     if len(call_parameters) == 2:
@@ -1064,7 +1064,6 @@ def mousai_to_odeint(sdfunc, params):
     """
 
     sig = inspect.signature(sdfunc)
-
     call_parameters = list(sig.parameters.keys())
 
     if len(call_parameters) == 2:
