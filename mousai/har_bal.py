@@ -179,7 +179,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         x0 = np.real(x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
-        print("sdfunc is expected to be a function name, not a string")
+        print('sdfunc is expected to be a function name, not a string')
     params['function'] = sdfunc  # function that returns SO derivative
     time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
@@ -277,7 +277,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
             e = vel_from_deriv - vel
         else:
-            print('eqform cannot have a value of {}', eqform)
+            print(f'eqform cannot have a value of {eqform}')
             return 0, 0, 0, 0, 0
         return e
 
@@ -471,7 +471,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         x0 = np.real(x0)
     if isinstance(sdfunc, str):
         sdfunc = globals()[sdfunc]
-        print("sdfunc is expected to be a function name, not a string")
+        print('sdfunc is expected to be a function name, not a string')
     params['function'] = sdfunc  # function that returns SO derivative
     time = np.linspace(0, 2 * np.pi / omega, num=x0.shape[1], endpoint=False)
     params['time'] = time
@@ -590,7 +590,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
             states = vel
         else:
-            print('eqform cannot have a value of {}', eqform)
+            print(f'eqform cannot have a value of {eqform}')
             return 0, 0, 0, 0, 0
 
         states_fft = fftp.rfft(states)
@@ -616,7 +616,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         phases = np.arctan2(X[:, 1], -X[:, 2])
     except Exception as exception:  # Catches and raises errors- needs actual error listed.
         print('Excepted- search failed for omega = {:6.4f} rad/s.'.format(omega))
-        print('What ever error this is, please put into har_bal after the excepts (2 of them)')
+        print('Whatever error this is, please put into har_bal after the excepts (2 of them)')
         X = X0
         print(mask_constant)
         e = hb_err(X)
@@ -1021,8 +1021,7 @@ def mousai_to_solve_ivp(sdfunc, params):
 
     if len(call_parameters) == 2:
         sdfunc = old_mousai_to_new_mousai(sdfunc)
-        print("""Warning. The two-argument form of Mousai derivsative functions
-                 is deprecated.""")
+        print('Warning. The two-argument form of Mousai derivsative functions is deprecated.')
 
     def solve_ivp_function(t, y):
         return sdfunc(y, t, params)
@@ -1060,10 +1059,10 @@ def mousai_to_odeint(sdfunc, params):
 
     if len(call_parameters) == 2:
         sdfunc = old_mousai_to_new_mousai(sdfunc)
-        print("""Warning. The two-argument form of Mousai derivative ⁠⁠functions is deprecated.""")
+        print('Warning. The two-argument form of Mousai derivative ⁠⁠functions is deprecated.')
 
     if 'sdfunc_params' not in globals():
-        print("Define your parameters in the user created `sdfunc_params`", "dictionary.")
+        print('Define your parameters in the user created `sdfunc_params` dictionary.')
         sdfunc_params = {}
 
     def odeint_function(y, t):
