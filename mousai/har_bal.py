@@ -166,16 +166,14 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
         if num_variables is not None:
             x0 = np.zeros((num_variables, 1 + num_harmonics * 2))
         else:
-            print('Error: Must either define number of variables or initial\
-                  guess for x.')
+            print('Error: Must either define number of variables or initial guess for x.')
             return
     elif num_harmonics is None:
         num_harmonics = int((x0.shape[1] - 1) / 2)
     elif 1 + 2 * num_harmonics > x0.shape[1]:
         x_freq = fftp.fft(x0)
         x_zeros = np.zeros((x0.shape[0], 1 + num_harmonics * 2 - x0.shape[1]))
-        x_freq = np.insert(x_freq, [x0.shape[1] - x0.shape[1] // 2], x_zeros,
-                           axis=1)
+        x_freq = np.insert(x_freq, [x0.shape[1] - x0.shape[1] // 2], x_zeros, axis=1)
 
         x0 = fftp.ifft(x_freq) * (1 + num_harmonics * 2) / x0.shape[1]
         x0 = np.real(x0)
@@ -586,8 +584,7 @@ def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
                 params['cur_time'] = time_e[i]
                 # Note that everything in params can be accessed within
                 # `function`.
-                vel_from_deriv[:, i] =\
-                    params['function'](x[:, i], params)[:, 0]
+                vel_from_deriv[:, i] = params['function'](x[:, i], params)[:, 0]
 
             e = (vel_from_deriv - vel)  # /np.max(np.abs(vel))
 
@@ -794,9 +791,7 @@ def time_history(t, x, num_time_points=200, realify=True):
 def condense_fft(X_full, num_harmonics):
     """Create equivalent amplitude reduced-size FFT from longer FFT."""
 
-    X_red = (np.hstack((X_full[:, 0:(num_harmonics + 1)],
-                        X_full[:, -1:-(num_harmonics + 1):-1]))
-             * (2 * num_harmonics + 1) / X_full[0, :].size)
+    X_red = (np.hstack((X_full[:, 0:(num_harmonics + 1)], X_full[:, -1:-(num_harmonics + 1):-1])) * (2 * num_harmonics + 1) / X_full[0, :].size)
     return X_red
 
 
@@ -804,8 +799,7 @@ def condense_rfft(X_full, num_harmonics):
     """Return real fft with fewer harmonics."""
 
     X_len = X_full.shape[1]
-    X_red = X_full[:, :(num_harmonics) * 2 + 1] / \
-        X_len * (1 + 2 * num_harmonics)
+    X_red = X_full[:, :(num_harmonics) * 2 + 1] / X_len * (1 + 2 * num_harmonics)
     return X_red
 
 
@@ -814,11 +808,7 @@ def expand_rfft(X, num_harmonics):
 
     X_len = X.shape[1]
     cur_num_harmonics = (X_len - 1) / 2
-    X_expanded = np.hstack((X / X_len * (1 + 2 * num_harmonics),
-                            np.zeros((X.shape[0],
-                                      int(2 * (num_harmonics
-                                               - cur_num_harmonics))))
-                            ))
+    X_expanded = np.hstack((X / X_len * (1 + 2 * num_harmonics), np.zeros((X.shape[0], int(2 * (num_harmonics - cur_num_harmonics))))))
     return X_expanded
 
 
@@ -1070,12 +1060,10 @@ def mousai_to_odeint(sdfunc, params):
 
     if len(call_parameters) == 2:
         sdfunc = old_mousai_to_new_mousai(sdfunc)
-        print("""Warning. The two-argument form of Mousai derivative ⁠⁠\
-                 functions is deprecated.""")
+        print("""Warning. The two-argument form of Mousai derivative ⁠⁠functions is deprecated.""")
 
     if 'sdfunc_params' not in globals():
-        print("Define your parameters in the user created `sdfunc_params`",
-              "dictionary.")
+        print("Define your parameters in the user created `sdfunc_params`", "dictionary.")
         sdfunc_params = {}
 
     def odeint_function(y, t):
