@@ -22,7 +22,7 @@ from scipy.optimize import newton_krylov, anderson, broyden1, broyden2, \
 
 
 def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
-            num_variables=None, eqform='second_order', params={}, realify=True,
+            num_variables=None, eqform='second_order', params=None, realify=True,
             **kwargs):
     r"""Harmonic balance solver for first and second order ODEs.
 
@@ -311,7 +311,7 @@ def hb_time(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
 
 def hb_freq(sdfunc, x0=None, omega=1, method='newton_krylov', num_harmonics=1,
             num_variables=None, mask_constant=True, eqform='second_order',
-            params={}, realify=True, num_time_steps=51, **kwargs):
+            params=None, realify=True, num_time_steps=51, **kwargs):
     r"""Harmonic balance solver for first and second order ODEs.
 
     Obtains the solution of a first-order and second-order differential
@@ -786,6 +786,8 @@ def time_history(t, x, num_time_points=200, realify=True):
     """
     dt = t[1]
     t_length = t.size
+    if num_time_points<10*t.size:
+        num_time_points = 10*t.size
     t = np.linspace(0, t_length * dt, num_time_points, endpoint=False)
     x_freq = fftp.fft(x)
     x_zeros = np.zeros((x.shape[0], t.size - x.shape[1]))
